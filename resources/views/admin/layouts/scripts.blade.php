@@ -19,3 +19,5 @@
   <!-- BEGIN PAGE LEVEL JS-->
   <script src="{{  asset('/public/app-assets/js/scripts/pages/dashboard-sales.js')}}" type="text/javascript"></script>
   <!-- END PAGE LEVEL JS-->
+
+  @yield('scripts')

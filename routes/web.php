@@ -13,12 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// roles
+// 1. 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.pages.dashboard.index');
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('admin')->namespace('Admin')->group(function () {
+
+    Route::get('/dashboard', 'DashboardController@index')->name('admin.dashboard');
+    
 });
 
 Auth::routes();

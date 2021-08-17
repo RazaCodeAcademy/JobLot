@@ -13,7 +13,7 @@
         <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
             <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                 <div class="d-flex align-items-center flex-wrap mr-2">
-                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Financial</h5>
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{__('Financial')}}</h5>
                 </div>
             </div>
         </div>
@@ -24,10 +24,10 @@
 
         @if($user->id == 1)
             <div class="form-group row">
-                <label class="col-form-label text-right col-lg-4 col-sm-12">Filter by country</label>
+                <label class="col-form-label text-right col-lg-4 col-sm-12">{{__('Filter by country')}}</label>
                 <div class="col-lg-4 col-md-9 col-sm-12">
                     <select class="form-control selectpicker" name="country" id="country" data-size="7" data-live-search="true">
-                        <option value="0">All</option>
+                        <option value="0">{{__('All')}}</option>
                         <option data-divider="true" label="Label"></option>
                         @foreach($countries as $country)
                             <option value="{{$country->id}}">{{$country->name}}</option>
@@ -59,7 +59,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block" id="live-jobs">@if(isset($total_packages)) {{$total_packages}} @else 0 @endif</span>
-                                <span class="font-weight-bold text-muted font-size-sm">Total Package(s) Sold</span>
+                                <span class="font-weight-bold text-muted font-size-sm">{{__('Total Package(s) Sold')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -82,7 +82,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="total-jobs">0</span>
-                                <span class="font-weight-bold text-white font-size-sm">Total Amount in Dollars</span>
+                                <span class="font-weight-bold text-white font-size-sm">{{__('Total Amount in Dollars')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -107,7 +107,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="total-candidate-jobs">0</span>
-                                <span class="font-weight-bold text-white font-size-sm">Total Advertising Profits + No. of Ads done</span>
+                                <span class="font-weight-bold text-white font-size-sm">{{__('Total Advertising Profits + No. of Ads done')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -134,7 +134,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="total-candidates">N/A</span>
-                                <span class="font-weight-bold text-white font-size-sm">Top selling country</span>
+                                <span class="font-weight-bold text-white font-size-sm">{{__('Top selling country')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -157,7 +157,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 text-hover-primary d-block" id="total-employers">N/A</span>
-                                <span class="font-weight-bold text-white font-size-sm">Top Purchasing employer</span>
+                                <span class="font-weight-bold text-white font-size-sm">{{__('Top Purchasing employer')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -177,7 +177,7 @@
 {{--                <div class="card card-custom gutter-b">--}}
 {{--                    <div class="card-header">--}}
 {{--                        <div class="card-title">--}}
-{{--                            <h3 class="card-label">Pie Chart 1</h3>--}}
+{{--                            <h3 class="card-label">{{__('Pie Chart 1')}}</h3>--}}
 {{--                        </div>--}}
 {{--                    </div>--}}
 {{--                    <div class="card-body">--}}
@@ -192,13 +192,13 @@
                     <div class="card card-custom gutter-b">
                         <div class="card-header">
                             <div class="card-title">
-                                <h3 class="card-label">Sales Chart</h3>
+                                <h3 class="card-label">{{__('Sales Chart')}}</h3>
                             </div>
 
-                            <h3 class="card-label">Filter By:</h3>
-                            <h3 class="card-label">Day</h3>
-                            <h3 class="card-label" style="text-underline-color: #ee2200">Week</h3>
-                            <h3 class="card-label">Year</h3>
+                            <h3 class="card-label">{{__('Filter By:')}}</h3>
+                            <h3 class="card-label">{{__('Day')}}</h3>
+                            <h3 class="card-label" style="text-underline-color: #ee2200">{{__('Week')}}</h3>
+                            <h3 class="card-label">{{__('Year')}}</h3>
                         </div>
                         <div class="card-body" id="chartdiv">
 {{--                            <div id="kt_flotcharts_8" style="height: 300px;"></div>--}}
@@ -213,7 +213,7 @@
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
-                        <h3 class="card-label">List of Packages
+                        <h3 class="card-label">{{__('List of Packages')}}
                             <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
                 </div>
@@ -221,12 +221,12 @@
                     <table class="table table-separate table-head-custom table-checkable" id="myCustomTable">
                         <thead>
                         <tr>
-                            <th style="text-align:center;">Sr No.</th>
-                            <th style="text-align:center;">Package Type</th>
-                            <th style="text-align:center;">Amount Paid</th>
-                            <th style="text-align:center;">Customer Name</th>
-                            <th style="text-align:center;">Customer Email</th>
-{{--                            <th style="text-align:center;">No. of applied candidate</th>--}}
+                            <th style="text-align:center;">{{__('Sr No.')}}</th>
+                            <th style="text-align:center;">{{__('Package Type')}}</th>
+                            <th style="text-align:center;">{{__('Amount Paid')}}</th>
+                            <th style="text-align:center;">{{__('Customer Name')}}</th>
+                            <th style="text-align:center;">{{__('Customer Email')}}</th>
+{{--                            <th style="text-align:center;">{{__('No. of applied candidate')}}</th>--}}
                         </tr>
                         </thead>
                         <tbody>

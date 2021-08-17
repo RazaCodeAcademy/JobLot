@@ -14,10 +14,10 @@
 			<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 				<div class="d-flex align-items-center flex-wrap mr-1">
 					<div class="d-flex align-items-baseline flex-wrap mr-5">
-						<h5 class="text-dark font-weight-bold my-1 mr-5">Job Qualifications</h5>
+						<h5 class="text-dark font-weight-bold my-1 mr-5">{{__('Job Qualifications')}}</h5>
 						<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
 							<li class="breadcrumb-item">
-								<a href="{{route('listQualifications')}}" class="text-muted">List Job Qualifications</a>
+								<a href="{{route('listQualifications')}}" class="text-muted">{{__('List Job Qualifications')}}</a>
 							</li>
 						</ul>
 					</div>
@@ -30,20 +30,20 @@
 				<div class="card card-custom gutter-b">
 					<div class="card-header flex-wrap border-0 pt-6 pb-0">
 						<div class="card-title">
-							<h3 class="card-label">Job Qualifications Table
+							<h3 class="card-label">{{__('Job Qualifications Table')}}
 							<span class="d-block text-muted pt-2 font-size-sm"></span></h3>
 						</div>
 						<div class="card-toolbar">
-							<a href="{{route('createQualification')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> Add Job Qualification</a>
+							<a href="{{route('createQualification')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> {{__('Add Job Qualification')}}</a>
 						</div>
 					</div>
 					<div class="card-body">
 						<table class="table table-separate table-head-custom table-checkable" id="myCustomTable">
 							<thead>
 								<tr>
-									<th>ID</th>
-									<th>Name</th>
-									<th>Actions</th>
+									<th>{{__('ID')}}</th>
+									<th>{{__('Name')}}</th>
+									<th>{{__('Actions')}}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -52,8 +52,10 @@
 										<td>{{$qualification->id}}</td>
 										<td>{{$qualification->name}}</td>
 										<td>
-											<a href="{{route('editQualification', $qualification->id)}}"><i class="la la-pencil-alt text-success mr-5"></i></a>
-											<a style="cursor: pointer" onclick="deleteFunction('{{$qualification->id}}') "><i class="la la-trash text-danger mr-5"></i></a>
+											@if($qualification->id != 1)
+												<a href="{{route('editQualification', $qualification->id)}}"><i class="la la-pencil-alt text-success mr-5"></i></a>
+												<a style="cursor: pointer" onclick="deleteFunction('{{$qualification->id}}') "><i class="la la-trash text-danger mr-5"></i></a>
+											@endif
 										</td>
 									</tr>
 								@endforeach

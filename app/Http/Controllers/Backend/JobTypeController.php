@@ -11,7 +11,7 @@ class JobTypeController extends Controller
 {
     public function listJobTypes()
     {
-        $types = DB::table('job_types_tables')->get();
+        $types = DB::table('job_types_tables')->orderBy('id', 'desc')->get();
 
         return view('backend.pages.jobType.list', compact('types'));
     }
@@ -25,6 +25,7 @@ class JobTypeController extends Controller
     {
         $rules = [
             'name' => 'required|string|max:255|unique:job_types_tables,name',
+            'name_ar' => 'required|string|max:255|unique:job_types_tables,name_ar',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -35,7 +36,8 @@ class JobTypeController extends Controller
         }
 
         DB::table('job_types_tables')->insert([
-            'name' => $request->name
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
         ]);
 
         return redirect()->route('listJobTypes')->with('success', 'Record Added Successfully.');
@@ -64,6 +66,7 @@ class JobTypeController extends Controller
 
         $rules = [
             'name' => 'required|string|max:255|unique:job_types_tables,name,'.$type->id,
+            'name_ar' => 'required|string|max:255|unique:job_types_tables,name_ar,'.$type->id,
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -73,7 +76,8 @@ class JobTypeController extends Controller
         }
 
         DB::table('job_types_tables')->where('id', $request->id)->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
         ]);
 
         return redirect()->route('listJobTypes')->with('success','Record Successfully Updated');

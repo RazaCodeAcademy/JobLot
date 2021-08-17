@@ -11,7 +11,7 @@ class NationalityController extends Controller
 {
     public function listNationalities()
     {
-        $nationalities = DB::table('nationalities')->get();
+        $nationalities = DB::table('nationalities')->orderBy('id', 'desc')->get();
 
         return view('backend.pages.nationality.list', compact('nationalities'));
     }
@@ -25,6 +25,7 @@ class NationalityController extends Controller
     {
         $rules = [
             'name' => 'required|string|max:255|unique:nationalities,name',
+            'name_ar' => 'required|string|max:255|unique:nationalities,name_ar',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -35,7 +36,8 @@ class NationalityController extends Controller
         }
 
         DB::table('nationalities')->insert([
-            'name' => $request->name
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
         ]);
 
         return redirect()->route('listNationalities')->with('success', 'Record Added Successfully.');
@@ -64,6 +66,7 @@ class NationalityController extends Controller
 
         $rules = [
             'name' => 'required|string|max:255|unique:nationalities,name,'.$nationality->id,
+            'name_ar' => 'required|string|max:255|unique:nationalities,name_ar,'.$nationality->id,
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -73,7 +76,8 @@ class NationalityController extends Controller
         }
 
         DB::table('nationalities')->where('id', $request->id)->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
         ]);
 
         return redirect()->route('listNationalities')->with('success','Record Successfully Updated');

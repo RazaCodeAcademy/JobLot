@@ -14,10 +14,10 @@
 			<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 				<div class="d-flex align-items-center flex-wrap mr-1">
 					<div class="d-flex align-items-baseline flex-wrap mr-5">
-						<h5 class="text-dark font-weight-bold my-1 mr-5">Users</h5>
+						<h5 class="text-dark font-weight-bold my-1 mr-5">{{__('Users')}}</h5>
 						<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
 							<li class="breadcrumb-item">
-								<a href="{{route('listUsers')}}" class="text-muted">List Users</a>
+								<a href="{{route('listUsers')}}" class="text-muted">{{__('List Users')}}</a>
 							</li>
 						</ul>
 					</div>
@@ -30,7 +30,7 @@
 				<div class="card card-custom gutter-b">
 					<div class="card-header flex-wrap border-0 pt-6 pb-0">
 						<div class="card-title">
-							<h3 class="card-label">Users Table
+							<h3 class="card-label">{{__('Users Table')}}
 							<span class="d-block text-muted pt-2 font-size-sm"></span></h3>
 						</div>
 						<div class="card-toolbar">
@@ -40,9 +40,9 @@
                             @endphp
 
                             @if($userRole->id == 1)
-								<a href="{{route('createUser')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> Add User</a>
+								<a href="{{route('createUser')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> {{__('Add User')}}</a>
                             @elseif($userRole->id == 4)
-								<a href="{{route('subAdminCreateUser')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> Add User</a>
+								<a href="{{route('subAdminCreateUser')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> {{__('Add User')}}</a>
                             @endif
 						</div>
 					</div>
@@ -50,11 +50,11 @@
 						<table class="table table-separate table-head-custom table-checkable" id="myCustomTable">
 							<thead>
 								<tr>
-									<th>ID</th>
-									<th>Name</th>
-									<th>Email</th>
-									<th>Role</th>
-									<th>Actions</th>
+									<th>{{__('ID')}}</th>
+									<th>{{__('Name')}}</th>
+									<th>{{__('Email')}}</th>
+									<th>{{__('Role')}}</th>
+									<th>{{__('Actions')}}</th>
 								</tr>
 							</thead>
 							<tbody>

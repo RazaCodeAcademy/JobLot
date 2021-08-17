@@ -14,10 +14,10 @@
 			<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 				<div class="d-flex align-items-center flex-wrap mr-1">
 					<div class="d-flex align-items-baseline flex-wrap mr-5">
-						<h5 class="text-dark font-weight-bold my-1 mr-5">Users</h5>
+						<h5 class="text-dark font-weight-bold my-1 mr-5">{{__('Users')}}</h5>
 						<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
 							<li class="breadcrumb-item">
-								<a href="{{route('viewUser', $user->id)}}" class="text-muted">View User</a>
+								<a href="{{route('viewUser', $user->id)}}" class="text-muted">{{__('View User')}}</a>
 							</li>
 						</ul>
 					</div>
@@ -60,24 +60,24 @@
 									</div>
 									<div class="py-9">
 										<div class="d-flex align-items-center justify-content-between mb-2">
-											<span class="font-weight-bold mr-2">Email:</span>
+											<span class="font-weight-bold mr-2">{{__('Email:')}}</span>
 											<a href="mailto:{{$user->email}}" class="text-muted text-hover-primary">{{$user->email}}</a>
 										</div>
 										@if($user->phoneNo != null)
 											<div class="d-flex align-items-center justify-content-between mb-2">
-												<span class="font-weight-bold mr-2">Phone 1:</span>
+												<span class="font-weight-bold mr-2">{{__('Phone 1:')}}</span>
 												<span class="text-muted">{{$user->phoneNo}}</span>
 											</div>
 										@endif
 										@if($user->phoneNo2 != null)
 											<div class="d-flex align-items-center justify-content-between mb-2">
-												<span class="font-weight-bold mr-2">Phone 2:</span>
+												<span class="font-weight-bold mr-2">{{__('Phone 2:')}}</span>
 												<span class="text-muted">{{$user->phoneNo2}}</span>
 											</div>
 										@endif
 										@if($user->companyPhoneNo != null)
 											<div class="d-flex align-items-center justify-content-between mb-2">
-												<span class="font-weight-bold mr-2">Phone 3:</span>
+												<span class="font-weight-bold mr-2">{{__('Phone 3:')}}</span>
 												<span class="text-muted">{{$user->companyPhoneNo}}</span>
 											</div>
 										@endif
@@ -86,7 +86,7 @@
 												$country = DB::Table('countries')->select('name')->where('id',$user->country_name)->first();
 											@endphp
 											<div class="d-flex align-items-center justify-content-between">
-												<span class="font-weight-bold mr-2">Location:</span>
+												<span class="font-weight-bold mr-2">{{__('Location:')}}</span>
 												<span class="text-muted">{{$country->name}}</span>
 											</div>
 										@endif
@@ -99,11 +99,11 @@
 							<div class="card card-custom card-stretch">
 								<div class="card-header py-3">
 									<div class="card-title align-items-start flex-column">
-										<h3 class="card-label font-weight-bolder text-dark">Personal Information</h3>
-										<span class="text-muted font-weight-bold font-size-sm mt-1">Update Informaiton</span>
+										<h3 class="card-label font-weight-bolder text-dark">{{__('Personal Information')}}</h3>
+										<span class="text-muted font-weight-bold font-size-sm mt-1">{{__('Update Informaiton')}}</span>
 									</div>
 									<div class="card-toolbar">
-										<button type="button" id="submitButton" class="btn btn-success mr-2">Save Changes</button>
+										<button type="button" id="submitButton" class="btn btn-success mr-2">{{__('Save Changes')}}</button>
 									</div>
 								</div>
 								<form method="POST" action="{{$routeUrl}}" class="form" id="submitForm" enctype="multipart/form-data">
@@ -113,11 +113,11 @@
 										<div class="row">
 											<label class="col-xl-3"></label>
 											<div class="col-lg-9 col-xl-6">
-												<h5 class="font-weight-bold mb-6">Customer Info</h5>
+												<h5 class="font-weight-bold mb-6">{{__('Customer Info')}}</h5>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">Avatar</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Avatar')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url({{asset('public/backend/dist/assets/media/users/blank.png')}})">
 													<div class="image-input-wrapper" @if($user->avatar != null) style="background-image: url({{ asset('images/'.$user->avatar) }})" @endif></div>
@@ -134,13 +134,13 @@
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">Name</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Name')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<input class="form-control form-control-lg form-control-solid" name="Username" type="text" value="{{$user->name}}" required/>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">Email</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Email')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<input disabled class="form-control form-control-lg form-control-solid" name="userEmail" type="email" value="{{$user->email}}" />
 											</div>
@@ -148,7 +148,7 @@
 
 										@if($myRole->id == 1)
 											<div class="form-group row">
-												<label class="col-xl-3 col-lg-3 col-form-label">No. of free jobs</label>
+												<label class="col-xl-3 col-lg-3 col-form-label">{{__('No. of free jobs')}}</label>
 												<div class="col-lg-9 col-xl-6">
 													<input class="form-control form-control-lg form-control-solid" name="free_jobs" type="number" min="0" step="1" value="{{$user->free_jobs}}" />
 													@error('free_jobs')
@@ -161,11 +161,11 @@
 										<div class="row">
 											<label class="col-xl-3"></label>
 											<div class="col-lg-9 col-xl-6">
-												<h5 class="font-weight-bold mt-10 mb-6">Contact Info</h5>
+												<h5 class="font-weight-bold mt-10 mb-6">{{__('Contact Info')}}</h5>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">Phone 1</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Phone 1')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="input-group input-group-lg input-group-solid">
 													<div class="input-group-prepend">
@@ -178,7 +178,7 @@
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">Phone 2</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Phone 2')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="input-group input-group-lg input-group-solid">
 													<div class="input-group-prepend">
@@ -191,7 +191,7 @@
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">Phone 3</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Phone 3')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="input-group input-group-lg input-group-solid">
 													<div class="input-group-prepend">
@@ -235,24 +235,24 @@
 									</div>
 									<div class="py-9">
 										<div class="d-flex align-items-center justify-content-between mb-2">
-											<span class="font-weight-bold mr-2">Email:</span>
+											<span class="font-weight-bold mr-2">{{__('Email:')}}</span>
 											<a href="mailto:{{$user->email}}" class="text-muted text-hover-primary">{{$user->email}}</a>
 										</div>
 										@if($user->phoneNo != null)
 											<div class="d-flex align-items-center justify-content-between mb-2">
-												<span class="font-weight-bold mr-2">Phone 1:</span>
+												<span class="font-weight-bold mr-2">{{__('Phone 1:')}}</span>
 												<span class="text-muted">{{$user->phoneNo}}</span>
 											</div>
 										@endif
 										@if($user->phoneNo2 != null)
 											<div class="d-flex align-items-center justify-content-between mb-2">
-												<span class="font-weight-bold mr-2">Phone 2:</span>
+												<span class="font-weight-bold mr-2">{{__('Phone 2:')}}</span>
 												<span class="text-muted">{{$user->phoneNo2}}</span>
 											</div>
 										@endif
 										@if($user->companyPhoneNo != null)
 											<div class="d-flex align-items-center justify-content-between mb-2">
-												<span class="font-weight-bold mr-2">Phone 3:</span>
+												<span class="font-weight-bold mr-2">{{__('Phone 3:')}}</span>
 												<span class="text-muted">{{$user->companyPhoneNo}}</span>
 											</div>
 										@endif
@@ -261,7 +261,7 @@
 												$country = DB::Table('countries')->select('name')->where('id',$user->country_name)->first();
 											@endphp
 											<div class="d-flex align-items-center justify-content-between">
-												<span class="font-weight-bold mr-2">Location:</span>
+												<span class="font-weight-bold mr-2">{{__('Location:')}}</span>
 												<span class="text-muted">{{$country->name}}</span>
 											</div>
 										@endif
@@ -274,11 +274,11 @@
 							<div class="card card-custom card-stretch">
 								<div class="card-header py-3">
 									<div class="card-title align-items-start flex-column">
-										<h3 class="card-label font-weight-bolder text-dark">Personal Information</h3>
-										<span class="text-muted font-weight-bold font-size-sm mt-1">Update Informaiton</span>
+										<h3 class="card-label font-weight-bolder text-dark">{{__('Personal Information')}}</h3>
+										<span class="text-muted font-weight-bold font-size-sm mt-1">{{__('Update Informaiton')}}</span>
 									</div>
 									<div class="card-toolbar">
-										<button type="button" id="submitButton" class="btn btn-success mr-2">Save Changes</button>
+										<button type="button" id="submitButton" class="btn btn-success mr-2">{{__('Save Changes')}}</button>
 									</div>
 								</div>
 								<form method="POST" action="{{$routeUrl}}" class="form" id="submitForm" enctype="multipart/form-data">
@@ -288,11 +288,11 @@
 										<div class="row">
 											<label class="col-xl-3"></label>
 											<div class="col-lg-9 col-xl-6">
-												<h5 class="font-weight-bold mb-6">Customer Info</h5>
+												<h5 class="font-weight-bold mb-6">{{__('Customer Info')}}</h5>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">Avatar</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Avatar')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url({{asset('public/backend/dist/assets/media/users/blank.png')}})">
 													<div class="image-input-wrapper" @if($user->avatar != null) style="background-image: url({{ asset('images/'.$user->avatar) }})" @endif></div>
@@ -305,17 +305,17 @@
 														<i class="ki ki-bold-close icon-xs text-muted"></i>
 													</span>
 												</div>
-												<span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span>
+												<span class="form-text text-muted">{{__('Allowed file types: png, jpg, jpeg.')}}</span>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">Name</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Name')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<input class="form-control form-control-lg form-control-solid" name="Username" type="text" value="{{$user->name}}" required/>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">Email</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Email')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<input disabled class="form-control form-control-lg form-control-solid" name="userEmail" type="email" value="{{$user->email}}" />
 											</div>
@@ -323,11 +323,11 @@
 										<div class="row">
 											<label class="col-xl-3"></label>
 											<div class="col-lg-9 col-xl-6">
-												<h5 class="font-weight-bold mt-10 mb-6">Contact Info</h5>
+												<h5 class="font-weight-bold mt-10 mb-6">{{__('Contact Info')}}</h5>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">Phone 1</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Phone 1')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="input-group input-group-lg input-group-solid">
 													<div class="input-group-prepend">
@@ -340,7 +340,7 @@
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">Phone 2</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Phone 2')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="input-group input-group-lg input-group-solid">
 													<div class="input-group-prepend">
@@ -353,7 +353,7 @@
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">Phone 3</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Phone 3')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="input-group input-group-lg input-group-solid">
 													<div class="input-group-prepend">
@@ -381,9 +381,9 @@
                         <div class="form-group">
                             <label>Account Type <span class="text-danger">*</span></label>
                             <select name="accountTypeUser" disabled class="form-control" required>
-                                @if($user->role_id == 4)    <option selected="selected" disabled="disabled">Admin</option>
-                                @elseif($user->role_id == 2) <option selected="selected" disabled="disabled">Employer</option>
-                                @elseif($user->role_id == 3) <option selected="selected" disabled="disabled">Candidate</option>
+                                @if($user->role_id == 4)    <option selected="selected" disabled="disabled">{{__('Admin')}}</option>
+                                @elseif($user->role_id == 2) <option selected="selected" disabled="disabled">{{__('Employer')}}</option>
+                                @elseif($user->role_id == 3) <option selected="selected" disabled="disabled">{{__('Candidate')}}</option>
                                 @endif
                             </select>
                         </div>
@@ -391,7 +391,7 @@
 
                     <div class="col-6">
                         <div class="form-group">
-                            <label>Country <span class="text-danger">*</span></label>
+                            <label>{{__('Country')}} <span class="text-danger">*</span></label>
                             @php
 								$country = DB::Table('countries')->select('name')->where('id',$user->country_name)->first();
                             @endphp
@@ -403,14 +403,14 @@
 
                     <div class="col-6">
                         <div class="form-group">
-                            <label>Name <span class="text-danger">*</span></label>
+                            <label>{{__('Name')}} <span class="text-danger">*</span></label>
                             <input type="text" class="form-control"  placeholder="Enter Name" disabled name="Username" value="{{$user->name}}" required />
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-group">
-                            <label>Email <span class="text-danger">*</span></label>
+                            <label>{{__('Email')}} <span class="text-danger">*</span></label>
                             <input type="email" disabled class="form-control"  placeholder="Enter Email" name="UserEmail" value="{{$user->email}}" required />
                         </div>
                     </div>

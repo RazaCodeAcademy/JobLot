@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'subAdmin' => \App\Http\Middleware\SubAdmin::class,
         'candidate' => \App\Http\Middleware\Candidate::class,
         'employer' => \App\Http\Middleware\Employer::class,
+        'frontend' => \App\Http\Middleware\Frontend::class,
     ];
 }

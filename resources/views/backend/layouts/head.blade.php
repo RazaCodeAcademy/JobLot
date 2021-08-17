@@ -30,7 +30,7 @@
     <link href="{{asset('public/backend/dist/assets/css/themes/layout/aside/dark.css')}}" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
 
-    <link rel="shortcut icon" href="{{asset('/public/asset/images/joblot-blue-logo.png')}}" />
+    <link rel="shortcut icon" href="{{asset('asset/images/logo.png')}}" />
 
     <link href="{{asset('public/toast/toastr1.css')}}" rel="stylesheet">
     <link href="{{asset('public/toast/toastr2.css')}}" rel="stylesheet">
@@ -46,10 +46,6 @@
         }
         .required{
             color: red !important;
-        }
-        .logo-size{
-            width: auto;
-            height: 50px;
         }
     </style>
 

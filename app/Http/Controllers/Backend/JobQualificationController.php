@@ -11,7 +11,7 @@ class JobQualificationController extends Controller
 {
     public function listQualifications()
     {
-        $qualifications = DB::table('job_qualifications')->get();
+        $qualifications = DB::table('job_qualifications')->orderBy('id', 'desc')->get();
 
         return view('backend.pages.qualification.list', compact('qualifications'));
     }
@@ -25,6 +25,7 @@ class JobQualificationController extends Controller
     {
         $rules = [
             'name' => 'required|string|max:255|unique:job_qualifications,name',
+            'name_ar' => 'required|string|max:255|unique:job_qualifications,name_ar',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -35,7 +36,8 @@ class JobQualificationController extends Controller
         }
 
         DB::table('job_qualifications')->insert([
-            'name' => $request->name
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
         ]);
 
         return redirect()->route('listQualifications')->with('success', 'Record Added Successfully.');
@@ -64,6 +66,7 @@ class JobQualificationController extends Controller
 
         $rules = [
             'name' => 'required|string|max:255|unique:job_qualifications,name,'.$qualification->id,
+            'name_ar' => 'required|string|max:255|unique:job_qualifications,name_ar,'.$qualification->id,
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -73,7 +76,8 @@ class JobQualificationController extends Controller
         }
 
         DB::table('job_qualifications')->where('id', $request->id)->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
         ]);
 
         return redirect()->route('listQualifications')->with('success','Record Successfully Updated');

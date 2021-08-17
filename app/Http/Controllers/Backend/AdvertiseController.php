@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use App\Advertisement;
+use App\Models\Advertisement;
 
 class AdvertiseController extends Controller
 {
@@ -72,7 +72,7 @@ class AdvertiseController extends Controller
 
     public function list()
     {
-        $advertisements = Advertisement::get();
+        $advertisements = Advertisement::orderBy('id', 'desc')->get();
 
         return view('backend.pages.advertise.list',compact('advertisements'));
     }

@@ -11,7 +11,7 @@ class SkillController extends Controller
 {
     public function listJobSkills()
     {
-        $skills = DB::table('skills')->get();
+        $skills = DB::table('skills')->orderBy('id', 'desc')->get();
 
         return view('backend.pages.jobSkill.list', compact('skills'));
     }
@@ -25,6 +25,7 @@ class SkillController extends Controller
     {
         $rules = [
             'name' => 'required|string|max:255|unique:skills,name',
+            'name_ar' => 'required|string|max:255|unique:skills,name_ar',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -35,7 +36,8 @@ class SkillController extends Controller
         }
 
         DB::table('skills')->insert([
-            'name' => $request->name
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
         ]);
 
         return redirect()->route('listJobSkills')->with('success', 'Record Added Successfully.');
@@ -64,6 +66,7 @@ class SkillController extends Controller
 
         $rules = [
             'name' => 'required|string|max:255|unique:skills,name,'.$skill->id,
+            'name_ar' => 'required|string|max:255|unique:skills,name_ar,'.$skill->id,
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -73,7 +76,8 @@ class SkillController extends Controller
         }
 
         DB::table('skills')->where('id', $request->id)->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
         ]);
 
         return redirect()->route('listJobSkills')->with('success','Record Successfully Updated');

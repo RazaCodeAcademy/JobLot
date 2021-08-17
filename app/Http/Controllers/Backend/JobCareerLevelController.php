@@ -11,7 +11,7 @@ class JobCareerLevelController extends Controller
 {
     public function listCareerLevels()
     {
-        $levels = DB::table('job_career_levels')->get();
+        $levels = DB::table('job_career_levels')->orderBy('id', 'desc')->get();
 
         return view('backend.pages.careerLevel.list', compact('levels'));
     }
@@ -25,6 +25,7 @@ class JobCareerLevelController extends Controller
     {
         $rules = [
             'name' => 'required|string|max:255|unique:job_career_levels,name',
+            'name_ar' => 'required|string|max:255|unique:job_career_levels,name_ar',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -35,7 +36,8 @@ class JobCareerLevelController extends Controller
         }
 
         DB::table('job_career_levels')->insert([
-            'name' => $request->name
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
         ]);
 
         return redirect()->route('listCareerLevels')->with('success', 'Record Added Successfully.');
@@ -64,6 +66,7 @@ class JobCareerLevelController extends Controller
 
         $rules = [
             'name' => 'required|string|max:255|unique:job_career_levels,name,'.$level->id,
+            'name_ar' => 'required|string|max:255|unique:job_career_levels,name_ar,'.$level->id,
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -73,7 +76,8 @@ class JobCareerLevelController extends Controller
         }
 
         DB::table('job_career_levels')->where('id', $request->id)->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
         ]);
 
         return redirect()->route('listCareerLevels')->with('success','Record Successfully Updated');

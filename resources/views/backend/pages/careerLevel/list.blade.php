@@ -14,10 +14,10 @@
 			<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 				<div class="d-flex align-items-center flex-wrap mr-1">
 					<div class="d-flex align-items-baseline flex-wrap mr-5">
-						<h5 class="text-dark font-weight-bold my-1 mr-5">Career Levels</h5>
+						<h5 class="text-dark font-weight-bold my-1 mr-5">{{__('Career Levels')}}</h5>
 						<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
 							<li class="breadcrumb-item">
-								<a href="{{route('listCareerLevels')}}" class="text-muted">List Career Levels</a>
+								<a href="{{route('listCareerLevels')}}" class="text-muted">{{__('List Career Levels')}}</a>
 							</li>
 						</ul>
 					</div>
@@ -30,20 +30,20 @@
 				<div class="card card-custom gutter-b">
 					<div class="card-header flex-wrap border-0 pt-6 pb-0">
 						<div class="card-title">
-							<h3 class="card-label">Career Levels Table
+							<h3 class="card-label">{{__('Career Levels Table')}}
 							<span class="d-block text-muted pt-2 font-size-sm"></span></h3>
 						</div>
 						<div class="card-toolbar">
-							<a href="{{route('createCareerLevel')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> Add Career level</a>
+							<a href="{{route('createCareerLevel')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> {{__('Add Career level')}}</a>
 						</div>
 					</div>
 					<div class="card-body">
 						<table class="table table-separate table-head-custom table-checkable" id="myCustomTable">
 							<thead>
 								<tr>
-									<th>ID</th>
-									<th>Name</th>
-									<th>Actions</th>
+									<th>{{__('ID')}}</th>
+									<th>{{__('Name')}}</th>
+									<th>{{__('Actions')}}</th>
 								</tr>
 							</thead>
 							<tbody>

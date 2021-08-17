@@ -12,7 +12,7 @@ class JobApprovalController extends Controller
 {
     public function list()
     {
-        $jobs = DB::table('jobs')->where('approval_status','=',0)->get();
+        $jobs = DB::table('jobs')->where('approval_status','=',0)->orderBy('id', 'desc')->get();
 
         return view('backend.pages.jobApproval.list', compact('jobs'));
     }

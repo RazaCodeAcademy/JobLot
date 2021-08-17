@@ -11,7 +11,7 @@ class JobSalaryRangeController extends Controller
 {
     public function listSalaryRanges()
     {
-        $ranges = DB::table('job_salary_ranges')->get();
+        $ranges = DB::table('job_salary_ranges')->orderBy('id', 'desc')->get();
 
         return view('backend.pages.salaryRange.list', compact('ranges'));
     }

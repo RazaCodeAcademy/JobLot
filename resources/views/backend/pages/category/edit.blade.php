@@ -14,10 +14,10 @@
 			<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 				<div class="d-flex align-items-center flex-wrap mr-1">
 					<div class="d-flex align-items-baseline flex-wrap mr-5">
-						<h5 class="text-dark font-weight-bold my-1 mr-5">Employee Business Categories</h5>
+						<h5 class="text-dark font-weight-bold my-1 mr-5">>{{__('Employee Business Categories')}}</h5>
 						<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
 							<li class="breadcrumb-item">
-								<a href="{{route('editCategory', $category->id)}}" class="text-muted">Edit Employee Business Category</a>
+								<a href="{{route('editCategory', $category->id)}}" class="text-muted">{{__('Edit Employee Business Category')}}</a>
 							</li>
 						</ul>
 					</div>
@@ -29,7 +29,7 @@
 			<div class="container">
 				<div class="card card-custom">
 					<div class="card-header">
-						<h3 class="card-title">Edit Employee Business Category</h3>
+						<h3 class="card-title">{{__('Edit Employee Business Category')}}</h3>
 						<div class="card-toolbar">
 							<div class="example-tools justify-content-center">
 								<span class="example-toggle" data-toggle="tooltip" title="View code"></span>
@@ -42,11 +42,23 @@
 						@csrf
 						<div class="card-body">
 							<div class="row">
-								<div class="col-12">
+								<div class="col-6">
 									<div class="form-group">
-										<label>Category <span class="text-danger">*</span></label>
+										<label>{{__('Category')}} {{__('in English')}}<span class="text-danger">*</span></label>
 										<input type="text" class="form-control"  placeholder="Enter Category Name" name="category" value="{{$category->category}}" required />
 										@error('category')
+											<span class="invalid-feedback" role="alert">
+												{{ $message }}
+											</span>
+										@enderror
+									</div>
+								</div>
+
+								<div class="col-6">
+									<div class="form-group">
+										<label>{{__('Category')}} {{__('in Arabic')}}<span class="text-danger">*</span></label>
+										<input type="text" class="form-control"  placeholder="Enter Category Name" name="category_ar" value="{{$category->category_ar}}" required />
+										@error('category_ar')
 											<span class="invalid-feedback" role="alert">
 												{{ $message }}
 											</span>
@@ -57,8 +69,8 @@
 						</div>
 						<div class="card-footer" style="text-align: end">
 							<input type="hidden" name="id" value="{{$category->id}}"/>
-							<button type="submit" class="btn btn-primary mr-2">Submit</button>
-							<button type="reset" class="btn btn-secondary">Cancel</button>
+							<button type="submit" class="btn btn-primary mr-2">{{__('Submit')}}</button>
+							<button type="reset" class="btn btn-secondary">{{__('Cancel')}}</button>
 						</div>
 					</form>
 				</div>

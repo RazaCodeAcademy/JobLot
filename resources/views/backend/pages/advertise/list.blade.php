@@ -13,7 +13,7 @@
         <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
             <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                 <div class="d-flex align-items-center flex-wrap mr-2">
-                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">List of Advertisements</h5>
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{__('List of Advertisements')}}</h5>
                 </div>
             </div>
         </div>
@@ -26,14 +26,14 @@
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
-                        <h3 class="card-label">List of Advertisements
+                        <h3 class="card-label">{{__('List of Advertisements')}}
                             <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
                     <div class="card-toolbar">
                         @if ($user->id == 1)
-                            <a href="{{route('createAdvertise')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> Add Advertise</a>
+                            <a href="{{route('createAdvertise')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> {{__('Add Advertise')}}</a>
                         @elseif($user->id  == 4)
-                            <a href="{{route('subAdminCreateAdvertise')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> Add Advertise</a>
+                            <a href="{{route('subAdminCreateAdvertise')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> {{__('Add Advertise')}}</a>
                         @endif
                     </div>
                 </div>
@@ -42,16 +42,16 @@
                     <table class="table table-separate table-head-custom table-checkable" id="myCustomTable">
                         <thead>
                         <tr>
-                            <th style="text-align:center;">Name</th>
-                            <th style="text-align:center;">Country</th>
-                            <th style="text-align:center;">Employer</th>
+                            <th style="text-align:center;">{{__('Name')}}</th>
+                            <th style="text-align:center;">{{__('Country')}}</th>
+                            <th style="text-align:center;">{{__('Employer')}}</th>
                             {{--  <th style="text-align:center;">Image(s)</th>  --}}
-                            <th style="text-align:center;">Total Views</th>
-                            <th style="text-align:center;">Total Clicks</th>
-                            <th style="text-align:center;">Status</th>
-                            <th style="text-align:center;">Start Date</th>
-                            <th style="text-align:center;">End Date</th>
-                            <th>Actions</th>
+                            <th style="text-align:center;">{{__('Total Views')}}</th>
+                            <th style="text-align:center;">{{__('Total Clicks')}}</th>
+                            <th style="text-align:center;">{{__('Status')}}</th>
+                            <th style="text-align:center;">{{__('Start Date')}}</th>
+                            <th style="text-align:center;">{{__('End Date')}}</th>
+                            <th>{{__('Actions')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -76,13 +76,13 @@
                                 <td style="text-align:center;">
                                     @if ($user->id == 1)
                                         <select name="status" id="status" data-class="{{$advertisement->id}}" class="form-control status" required>
-                                            <option @if($advertisement->status == 1) selected @endif value = 1>Active</option>
-                                            <option @if($advertisement->status == 0) selected @endif value = 0>In-Active</option>
+                                            <option @if($advertisement->status == 1) selected @endif value = 1>{{__('Active')}}</option>
+                                            <option @if($advertisement->status == 0) selected @endif value = 0>{{__('In-Active')}}</option>
                                         </select>
                                     @elseif($user->id == 4)
                                         <select name="status" id="statusSubAdmin" data-class="{{$advertisement->id}}" class="form-control statusSubAdmin" required>
-                                            <option @if($advertisement->status == 1) selected @endif value = 1>Active</option>
-                                            <option @if($advertisement->status == 0) selected @endif value = 0>In-Active</option>
+                                            <option @if($advertisement->status == 1) selected @endif value = 1>{{__('Active')}}</option>
+                                            <option @if($advertisement->status == 0) selected @endif value = 0>{{__('In-Active')}}</option>
                                         </select>
                                     @endif
                                 </td>

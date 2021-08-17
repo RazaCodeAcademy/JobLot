@@ -19,13 +19,13 @@
             <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                 <div class="d-flex align-items-center flex-wrap mr-1">
                     <div class="d-flex align-items-baseline flex-wrap mr-5">
-                        <h5 class="text-dark font-weight-bold my-1 mr-5">Advertise</h5>
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">{{__('Advertise')}}</h5>
                         <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
                             <li class="breadcrumb-item">
                                 @if ($user->id == 1)
-                                    <a href="javascript: void(0);" class="text-muted">Edit Advertise</a>
+                                    <a href="javascript: void(0);" class="text-muted">{{__('Edit Advertise')}}</a>
                                 @elseif($user->id  == 4)
-                                    <a href="javascript: void(0);" class="text-muted">Edit Advertise</a>
+                                    <a href="javascript: void(0);" class="text-muted">{{__('Edit Advertise')}}</a>
                                 @endif
                             </li>
                         </ul>
@@ -38,7 +38,7 @@
             <div class="container">
                 <div class="card card-custom">
                     <div class="card-header">
-                        <h3 class="card-title">Edit Advertise</h3>
+                        <h3 class="card-title">{{__('Edit Advertise')}}</h3>
                         <div class="card-toolbar">
                             <div class="example-tools justify-content-center">
                                 <span class="example-toggle" data-toggle="tooltip" title="View code"></span>
@@ -46,9 +46,9 @@
                             </div>
                             <div class="card-toolbar">
                                 @if ($user->id == 1)
-                                    <a href="{{route('listAdvertise')}}" class="btn btn-primary font-weight-bolder"><i class="la la-eye"></i> View Advertise</a>
+                                    <a href="{{route('listAdvertise')}}" class="btn btn-primary font-weight-bolder"><i class="la la-eye"></i> {{__('View Advertise')}}</a>
                                 @elseif($user->id  == 4)
-                                    <a href="{{route('subAdminListAdvertise')}}" class="btn btn-primary font-weight-bolder"><i class="la la-eye"></i> View Advertise</a>
+                                    <a href="{{route('subAdminListAdvertise')}}" class="btn btn-primary font-weight-bolder"><i class="la la-eye"></i>{{__('View Advertise')}}</a>
                                 @endif
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label>Title <span class="text-danger">*</span></label>
+                                        <label>{{__('Title')}} <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control"  placeholder="Enter Title" name="title" value="{{$advertisements->title}}" required/>
                                         @error('title')
                                         <span class="invalid-feedback" role="alert">
@@ -77,7 +77,7 @@
                                 @if ($user->id == 1)
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label>Country <span class="text-danger">*</span></label>
+                                            <label>{{__('Country')}} <span class="text-danger">*</span></label>
                                             @php
                                                 $advertisementsCountries = explode(',' , $advertisements->countries);
                                             @endphp
@@ -97,7 +97,7 @@
 
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label>Employer <span class="text-danger">*</span></label>
+                                        <label>{{__('Employer')}} <span class="text-danger">*</span></label>
                                         <select name="employer" class="form-control" required>
                                             <option selected disabled value="">Select</option>
                                             @foreach($employers as $employer)
@@ -119,7 +119,7 @@
 
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label>Start Date <span class="text-danger">*</span></label>
+                                        <label>{{__('Start Date')}}<span class="text-danger">*</span></label>
                                         <input class="form-control datepickerk disableKey" type="text" name="start_date" value="{{$advertisements->start_date}}" required/>
                                         @error('start_date')
                                         <span class="invalid-feedback" role="alert">
@@ -131,7 +131,7 @@
 
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label>End Date <span class="text-danger">*</span></label>
+                                        <label>{{__('End Date')}}<span class="text-danger">*</span></label>
                                         <input class="form-control datepickerk disableKey" type="text" name="end_date" value="{{$advertisements->end_date}}" required/>
                                         @error('end_date')
                                         <span class="invalid-feedback" role="alert">
@@ -147,7 +147,7 @@
                                 <div class="col-12">
                                     @php $advertisement_images =  DB::table('advertisements_images')->where('ad_id',$advertisements->id)->get(); @endphp
                                     <div class="form-group">
-                                        <label> Upload Files: <span class="text-danger">*</span></label>
+                                        <label> {{__('Upload Files:')}} <span class="text-danger">*</span></label>
                                         <input type="file" id="image" name="images[]" class="form-control" accept="image/*" multiple>
                                         @foreach($advertisement_images as $image)
                                             <img style="cursor: context-menu" src="{{asset('images/'.$image->image)}}" id="image" width="90" height="90" class="thumbnail-image-50" />
@@ -166,7 +166,7 @@
 
                         </div>
                         <div class="card-footer" style="text-align: end">
-                            <button type="submit" class="btn btn-primary mr-2">Update</button>
+                            <button type="submit" class="btn btn-primary mr-2">{{__('Submit')}}</button>
                         </div>
                     </form>
                 </div>

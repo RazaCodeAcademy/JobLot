@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
@@ -50,6 +50,7 @@ class SubAdminController extends Controller
             ->select('users.id','users.name','model_has_roles.role_id','users.email','users.created_at','users.updated_at')
             ->whereIn('model_has_roles.role_id', ['2','3'])
             ->where('users.country_name', Auth::user()->country_name)
+            ->orderBy('users.id', 'desc')
             ->get();
 
         return view('backend.pages.user.list', compact('users'));
@@ -254,6 +255,7 @@ class SubAdminController extends Controller
             ->select('users.name','users.country_name','model_has_roles.model_id')
             ->where('model_has_roles.role_id', '=', 3)
             ->where('users.country_name', Auth::user()->country_name)
+            ->orderBy('users.id', 'desc')
             ->get();
         $date = \Carbon\Carbon::today()->subDays(5);
         $activeUsers = DB::table('active_users')->where('date','>=',$date)->count();
@@ -263,7 +265,7 @@ class SubAdminController extends Controller
 
     public function jobApprovalList()
     {
-        $jobs = DB::table('jobs')->where('job_location', Auth::user()->country_name)->where('approval_status','=',0)->get();
+        $jobs = DB::table('jobs')->where('job_location', Auth::user()->country_name)->where('approval_status','=',0)->orderBy('id', 'desc')->get();
 
         return view('backend.pages.jobApproval.list', compact('jobs'));
     }
@@ -312,7 +314,7 @@ class SubAdminController extends Controller
 
     public function financialList()
     {
-        $packages = DB::table('employee_packages')->where('country_name', Auth::user()->country_name)->get();
+        $packages = DB::table('employee_packages')->where('country_name', Auth::user()->country_name)->orderBy('id', 'desc')->get();
 
         return view('backend.pages.financial.list',compact('packages'));
     }
@@ -347,7 +349,7 @@ class SubAdminController extends Controller
 
     public function advertiseList()
     {
-        $advertisements = DB::table('advertisements')->where('admin_id', Auth::user()->id)->get();
+        $advertisements = DB::table('advertisements')->where('admin_id', Auth::user()->id)->orderBy('id', 'desc')->get();
 
         return view('backend.pages.advertise.list',compact('advertisements'));
     }

@@ -1,36 +1,38 @@
 <?php
+Auth::routes();
+Route::get('/clear', function(){
+    Artisan::call('config:cache');
+    Artisan::call('cache:clear');
+    return "Cache is cleared";
+});
 
-use Illuminate\Support\Facades\Route;
+/////////////////////// Frontend ////////////////////////
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+/////////////////////////////////////////////////////////
 
-// roles
-// 1. 
+Route::middleware(['frontend'])->group(function () {
+    Route::get('/', 'Frontend\IndexController@index')->name('welcome');
+    Route::post('/loginUser', 'Frontend\AuthenticationController@login')->name('userLogin');
+    Route::get('/job-details/{slug}', 'Frontend\IndexController@job_details')->name('jobDetails');
+    Route::get('/job-search', 'Frontend\IndexController@job_search')->name('job_search');
+    Route::get('/country-jobs/{id}', 'Frontend\IndexController@countryJobs')->name('countryJobs');
+    Route::get('/category-jobs/{id}', 'Frontend\IndexController@categoryJobs')->name('categoryJobs');
+    Route::get('add-language', 'Frontend\IndexController@addLanguage')->name('addLanguage');
+    Route::get('remove-language', 'Frontend\IndexController@removeLanguage')->name('removeLanguage');
+    Route::get('/candidate-registeration', 'Register\CandidateRegistrationController@registerView')->name('candidate-register');
+    Route::get('/employer-registeration', 'Register\EmployerRegistrationController@registerView')->name('employer-register');
+});
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+/////////////////////// Super Admin //////////////////////
 
-/*
-|--------------------------------------------------------------------------
-| Admin Routes
-|--------------------------------------------------------------------------
-*/
+/////////////////////////////////////////////////////////
 
 Route::prefix('admin')->group(function (){
     Route::get('/', 'Backend\AuthController@login')->name('adminLogin');
     Route::post('/admin-login', 'Backend\AuthController@loginPost')->name('adminLoginPost');
 
     Route::middleware(['admin'])->group(function () {
+
         Route::get('dashboard', 'Backend\DashboardController@dashboard')->name('adminDashboard');
         Route::post('filterCountry', 'Backend\DashboardController@filterCountry')->name('filterCountryDashboard');
         Route::post('profile-update', 'Backend\AuthController@adminUpdateProfile')->name('adminUpdateProfile');
@@ -183,18 +185,16 @@ Route::prefix('admin')->group(function (){
 
         Route::group(['prefix' => 'financial'], function () {
             Route::get('/list', 'Backend\FinancialController@list')->name('listFinancial');
-        //  Route::post('/job/status', 'Backend\FinancialController@status')->name('jobStatus');
+            // Route::post('/job/status', 'Backend\FinancialController@status')->name('jobStatus');
             Route::post('filterCountry', 'Backend\FinancialController@filterCountry')->name('filterCountryFinancial');
         });
 
     });
 });
 
-/*
-|--------------------------------------------------------------------------
-| SubAdmin Routes
-|--------------------------------------------------------------------------
-*/
+/////////////////////// Sub Admin ///////////////////////
+
+/////////////////////////////////////////////////////////
 
 Route::prefix('sub-admin')->group(function (){
 
@@ -224,12 +224,12 @@ Route::prefix('sub-admin')->group(function (){
 
         Route::group(['prefix' => 'financial'], function () {
             Route::get('/list', 'Backend\SubAdminController@financialList')->name('subAdminListFinancial');
-//            Route::post('/job/status', 'Backend\SubAdminController@financialStatus')->name('subAdminJobStatus');
+            // Route::post('/job/status', 'Backend\SubAdminController@financialStatus')->name('subAdminJobStatus');
         });
 
         Route::group(['prefix' => 'statistics'], function () {
             Route::get('/', 'Backend\SubAdminController@statisticsList')->name('subAdminListStatistics');
-//            Route::post('filterCountry', 'Backend\SubAdminController@filterCountry')->name('filterCountry');
+            // Route::post('filterCountry', 'Backend\SubAdminController@filterCountry')->name('filterCountry');
         });
 
         Route::group(['prefix' => 'manage-advertisement'], function () {
@@ -248,7 +248,72 @@ Route::prefix('sub-admin')->group(function (){
 
 });
 
+/////////////////////// Employer ////////////////////////
 
-Auth::routes(['login'=>true]);
+/////////////////////////////////////////////////////////
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::prefix('employer')->group(function (){
+    Route::post('/register', 'Register\EmployerRegistrationController@register')->name('employerRegister');
+    Route::post('/company-check', 'Register\EmployerRegistrationController@companyCheck')->name('employerCompanyCheck');
+    Route::post('/employer-data', 'Register\EmployerRegistrationController@employerData')->name('employerData');
+    Route::post('/register-post', 'Register\EmployerRegistrationController@store')->name('employerRegisteration');
+    Route::post('/employer-login', 'Employer\AuthController@loginPost')->name('employerLoginPost');
+
+    Route::middleware(['employer'])->group(function () {
+        Route::get('dashboard', 'Employer\DashboardController@dashboard')->name('employerDashboard');
+        Route::get('profile', 'Employer\ProfileController@profile')->name('employerProfile');
+        Route::post('profile', 'Employer\ProfileController@saveProfile');
+        Route::post('profile-update', 'Employer\AuthController@employerUpdateProfile')->name('employerUpdateProfile');  // profile updated from right-side bar
+        Route::get('manage-job', 'Employer\JobController@manageJob')->name('manageJobs');
+        Route::get('manage-candidate/{id}', 'Employer\JobController@manageCandidate')->name('manageCandidates');
+        Route::get('manage-match-candidate/{id}', 'Employer\JobController@manageMatchedCandidates')->name('manageMatchedCandidates');
+        Route::post('popup-note-update', 'Employer\JobController@employerUpdateNoteCandidate')->name('employerUpdateNoteCandidate');
+        Route::post('job-feedback', 'Employer\JobController@jobFeedback')->name('jobFeedback');
+        Route::post('job-get-cities', 'Employer\JobController@getcountryCities')->name('getcountryCities');
+        Route::get('candidate-cv/{id}', 'Employer\JobController@CV')->name('candidateCV');
+        Route::get('create-job', 'Employer\JobController@create')->name('createJob');
+        Route::post('create-job', 'Employer\JobController@saveJob');
+        Route::get('update-job/{id}', 'Employer\JobController@edit')->name('editJob');
+        Route::post('update-job/{id}', 'Employer\JobController@update');
+        Route::get('view-job/{id}', 'Employer\JobController@viewJob')->name('viewJob');
+        Route::post('delete-job', 'Employer\JobController@delete')->name('deleteJob');
+        Route::get('purchase', 'Employer\JobController@purchase')->name('purchase');
+        Route::get('package-detail/{id}', 'Employer\JobController@packageDetail')->name('packageDetail');
+        Route::get('purchase-history', 'Employer\JobController@purchaseHistory')->name('purchaseHistory');
+        Route::get('payment-history', 'Employer\JobController@paymentHistory')->name('paymentHistory');
+        Route::get('invoice/{id}', 'Employer\JobController@invoice')->name('invoice');
+        Route::post('payment/{id}', 'Employer\JobController@payment')->name('payment');
+        Route::get('/payment-success', 'Employer\JobController@paymentSuccess')->name('paymentSuccessful');
+        Route::post('job-status', 'Employer\JobController@jobStatus')->name('employerJobStatus');
+        Route::get('/saveCvPdf/{id}', 'Employer\JobController@saveCvPdf')->name('saveCvPdf');
+    });
+});
+
+/////////////////////// Candidate ///////////////////////
+
+/////////////////////////////////////////////////////////
+
+Route::prefix('candidate')->group(function (){
+    Route::post('/register', 'Register\CandidateRegistrationController@register')->name('candidateRegister');
+    Route::post('/candidate-data', 'Register\CandidateRegistrationController@candidateData')->name('candidateData');
+    Route::post('/register-post', 'Register\CandidateRegistrationController@store')->name('candidateRegisteration');
+    Route::post('/candidate-login', 'Candidate\AuthController@loginPost')->name('candidateLoginPost');
+    Route::post('/candidate-register', 'Candidate\AuthController@registerPost')->name('candidateRegisterPost');
+
+    Route::middleware(['candidate'])->group(function () {
+        Route::get('dashboard', 'Candidate\DashboardController@dashboard')->name('candidateDashboard');
+        Route::get('profile', 'Candidate\ProfileController@profile')->name('candidateProfile');
+        Route::post('profile', 'Candidate\ProfileController@saveProfile');
+        Route::post('profile-update', 'Candidate\AuthController@candidateUpdateProfile')->name('candidateUpdateProfile');  // profile updated from right-side bar
+        Route::get('resume', 'Candidate\ResumeController@create')->name('resume');
+        Route::post('resume', 'Candidate\ResumeController@store');
+        Route::get('search-jobs', 'Candidate\SearchController@search')->name('searchJobs');
+        Route::get('jobs', 'Candidate\SearchController@jobs')->name('jobs');
+        Route::get('timeline', 'Candidate\TimelineController@timeline')->name('timeline');
+        Route::get('apply-job/{id}/{user_id}', 'Candidate\TimelineController@applyjob')->name('jobApply');
+        Route::post('unapply-job', 'Candidate\TimelineController@unapplyJob')->name('unapplyJob');
+        Route::get('job-detail/{slug}', 'Candidate\TimelineController@job_details')->name('jobDetail');
+        Route::get('employer-profile/{id}', 'Candidate\TimelineController@employer_profile')->name('employerProfileView');
+    });
+
+});

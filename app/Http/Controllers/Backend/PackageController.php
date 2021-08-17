@@ -38,7 +38,7 @@ class PackageController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $countries = implode(', ', $request->countries);
+        $countries = implode(',', $request->countries);
 
         $package = DB::table('packages')->insertGetId([
            'user_id' => Auth::user()->id,
@@ -179,7 +179,7 @@ class PackageController extends Controller
 
     public function list()
     {
-        $packages = DB::table('package_details')->get();
+        $packages = DB::table('package_details')->orderBy('id', 'desc')->get();
 
         return view('backend.pages.package.list',compact('packages'));
     }

@@ -3,7 +3,7 @@
     <!--begin::Brand-->
     <div class="brand flex-column-auto" id="kt_brand">
         <a href="{{route('adminDashboard')}}" class="brand-logo">
-            <img alt="Logo" src="{{asset('/public/asset/images/joblot-blue-logo.png')}}" class="logo-size" />
+            <img alt="Logo" src="{{asset('asset/images/logo.png')}}" />
         </a>
 
         <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
@@ -43,11 +43,11 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Dashboard</span>
+                        <span class="menu-text">{{__('Dashboard')}}</span>
                     </a>
                 </li>
                 <li class="menu-section">
-                    <h4 class="menu-text">Menu</h4>
+                    <h4 class="menu-text">{{__('Menu')}}</h4>
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
 
@@ -62,7 +62,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Users</span>
+                        <span class="menu-text">{{__('Manage Users')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -70,7 +70,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Users</span>
+                                    <span class="menu-text"{{__('>Manage Users')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createUser' || Route::currentRouteName() == 'subAdminCreateUser') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -82,7 +82,7 @@
                                         <i class="menu-bullet menu-bullet-dot">
                                             <span></span>
                                         </i>
-                                        <span class="menu-text">Create</span>
+                                        <span class="menu-text">{{__('Create')}}</span>
                                     </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listUsers' || Route::currentRouteName() == 'editUser' || Route::currentRouteName() == 'viewUser' || Route::currentRouteName() == 'subAdminListUsers'  || Route::currentRouteName() == 'subAdminEditUser' || Route::currentRouteName() == 'subAdminViewUser') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -94,7 +94,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Users</span>
+                                    <span class="menu-text">{{__('List Users')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -112,7 +112,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Candidates</span>
+                        <span class="menu-text">{{__('Candidates')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -120,7 +120,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Candidates</span>
+                                    <span class="menu-text">{{__('Candidates')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listCandidate' || Route::currentRouteName() == 'subAdminListCandidate' ) ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -133,7 +133,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Candidates</span>
+                                    <span class="menu-text">{{__('List Candidates')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -151,7 +151,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Job Approvals</span>
+                        <span class="menu-text">{{__('Job Approvals')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -159,7 +159,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Job Approvals</span>
+                                    <span class="menu-text">{{__('Job Approvals')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listJobApproval' || Route::currentRouteName() == 'subAdminListJobApproval' ) ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -171,7 +171,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Job Approvals</span>
+                                    <span class="menu-text">{{__('List Job Approvals')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -189,7 +189,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Financial</span>
+                        <span class="menu-text">{{__('Financial')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -197,7 +197,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">List Financial</span>
+                                    <span class="menu-text">{{__('List Financial')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listFinancial' || Route::currentRouteName() == 'subAdminListFinancial' ) ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -209,7 +209,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Financial</span>
+                                    <span class="menu-text">{{__('List Financial')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -227,7 +227,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Statistics</span>
+                        <span class="menu-text">{{__('Statistics')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -235,7 +235,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Statistics</span>
+                                    <span class="menu-text">{{__('Statistics')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listStatistics' || Route::currentRouteName() == 'subAdminListStatistics' ) ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -247,7 +247,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Statistics</span>
+                                    <span class="menu-text">{{__('List Statistics')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -269,7 +269,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Packages</span>
+                        <span class="menu-text">{{__('Manage Packages')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -277,7 +277,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Packages</span>
+                                    <span class="menu-text">{{__('Manage Packages')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createPackage') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -285,7 +285,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listPackages' || Route::currentRouteName() == 'editPackage' || Route::currentRouteName() == 'viewPackage') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -293,7 +293,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Packages</span>
+                                    <span class="menu-text">{{__('List Packages')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -311,7 +311,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Countries</span>
+                        <span class="menu-text">{{__('Manage Countries')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -319,7 +319,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Countries</span>
+                                    <span class="menu-text">{{__('Manage Countries')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createCountry') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -327,7 +327,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listCountries' || Route::currentRouteName() == 'editCountry') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -335,7 +335,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Countries</span>
+                                    <span class="menu-text">{{__('List Countries')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -353,7 +353,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Cities</span>
+                        <span class="menu-text">{{__('Manage Cities')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -361,7 +361,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Cities</span>
+                                    <span class="menu-text">{{__('Manage Cities')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createCity') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -369,7 +369,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listCities' || Route::currentRouteName() == 'editCity') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -377,7 +377,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Countries</span>
+                                    <span class="menu-text">{{__('List Cities')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -395,7 +395,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Business Categories</span>
+                        <span class="menu-text">{{__('Manage Business Categories')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -403,7 +403,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Business Categories</span>
+                                    <span class="menu-text">{{__('Manage Business Categories')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createCategory') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -411,7 +411,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listCategories' || Route::currentRouteName() == 'editCategory') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -419,7 +419,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Business Categories</span>
+                                    <span class="menu-text">{{__('List Business Categories')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -437,7 +437,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Job Locations</span>
+                        <span class="menu-text">{{__('Manage Job Locations')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -445,7 +445,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Job Locations</span>
+                                    <span class="menu-text">{{__('Manage Job Locations')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createLocation') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -453,7 +453,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listLocations' || Route::currentRouteName() == 'editLocation') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -461,7 +461,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Job Locations</span>
+                                    <span class="menu-text">{{__('List Job Locations')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -479,7 +479,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Career Levels</span>
+                        <span class="menu-text">{{__('Manage Career Levels')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -487,7 +487,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Career Levels</span>
+                                    <span class="menu-text">{{__('Manage Career Levels')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createCareerLevel') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -495,7 +495,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listCareerLevels' || Route::currentRouteName() == 'editCareerLevel') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -503,7 +503,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Career Levels</span>
+                                    <span class="menu-text">{{__('List Career Levels')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -521,7 +521,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Job Qualifications</span>
+                        <span class="menu-text">{{__('Manage Job Qualifications')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -529,7 +529,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Job Qualifications</span>
+                                    <span class="menu-text">{{__('Manage Job Qualifications')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createQualification') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -537,7 +537,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listQualifications' || Route::currentRouteName() == 'editQualification') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -545,7 +545,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Job Qualifications</span>
+                                    <span class="menu-text">{{__('List Job Qualifications')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -563,7 +563,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Salary Ranges</span>
+                        <span class="menu-text">{{__('Manage Salary Ranges')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -571,7 +571,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Salary Ranges</span>
+                                    <span class="menu-text">{{__('Manage Salary Ranges')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createSalaryRange') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -579,7 +579,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listSalaryRanges' || Route::currentRouteName() == 'editSalaryRange') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -587,7 +587,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Salary Ranges</span>
+                                    <span class="menu-text">{{__('List Salary Ranges')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -605,7 +605,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Job Types</span>
+                        <span class="menu-text">{{__('Manage Job Types')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -613,7 +613,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Job Types</span>
+                                    <span class="menu-text">{{__('Manage Job Types')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createJobType') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -621,7 +621,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listJobTypes' || Route::currentRouteName() == 'editJobType') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -629,7 +629,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Job Types</span>
+                                    <span class="menu-text">{{__('List Job Types')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -647,7 +647,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Languages</span>
+                        <span class="menu-text">{{__('Manage Languages')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -655,7 +655,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Languages</span>
+                                    <span class="menu-text">{{__('Manage Languages')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createLanguage') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -663,7 +663,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listLanguages' || Route::currentRouteName() == 'editLanguage') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -671,7 +671,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Languages</span>
+                                    <span class="menu-text">{{__('List Languages')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -689,7 +689,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Nationalities</span>
+                        <span class="menu-text">{{__('Manage Nationalities')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -697,7 +697,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Nationalities</span>
+                                    <span class="menu-text">{{__('Manage Nationalities')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createNationality') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -705,7 +705,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listNationalities' || Route::currentRouteName() == 'editNationality') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -713,7 +713,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Nationalities</span>
+                                    <span class="menu-text">{{__('List Nationalities')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -731,7 +731,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Job Skills</span>
+                        <span class="menu-text">{{__('Manage Job Skills')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -739,7 +739,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Job Skills</span>
+                                    <span class="menu-text">{{__('Manage Job Skills')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createJobSkill') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -747,7 +747,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listJobSkills' || Route::currentRouteName() == 'editJobSkill') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -755,7 +755,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Job Skills</span>
+                                    <span class="menu-text">{{__('List Job Skills')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -777,7 +777,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Manage Advertises</span>
+                        <span class="menu-text">{{__('Manage Advertises')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -785,7 +785,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">Manage Advertises</span>
+                                    <span class="menu-text">{{__('Manage Advertises')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createAdvertise' || Route::currentRouteName() == 'subAdminCreateAdvertise') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -797,7 +797,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">Create</span>
+                                    <span class="menu-text">{{__('Create')}}</span>
                                 </a>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listAdvertise' || Route::currentRouteName() == 'editAdvertise' || Route::currentRouteName() == 'subAdminListAdvertise' || Route::currentRouteName() == 'subAdminEditAdvertise') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -809,7 +809,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">List Advertises</span>
+                                    <span class="menu-text">{{__('List Advertises')}}</span>
                                 </a>
                             </li>
                         </ul>

@@ -11,7 +11,7 @@ class JobCandidateLocationController extends Controller
 {
     public function listLocations()
     {
-        $locations = DB::table('job_candidate_locations')->get();
+        $locations = DB::table('job_candidate_locations')->orderBy('id', 'desc')->get();
 
         return view('backend.pages.location.list', compact('locations'));
     }
@@ -25,6 +25,7 @@ class JobCandidateLocationController extends Controller
     {
         $rules = [
             'location' => 'required|string|max:255|unique:job_candidate_locations,location',
+            'location_ar' => 'required|string|max:255|unique:job_candidate_locations,location_ar',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -36,6 +37,7 @@ class JobCandidateLocationController extends Controller
 
         DB::table('job_candidate_locations')->insert([
             'location' => $request->location,
+            'location_ar' => $request->location_ar,
         ]);
 
         return redirect()->route('listLocations')->with('success', 'Record Added Successfully.');
@@ -64,6 +66,7 @@ class JobCandidateLocationController extends Controller
 
         $rules = [
             'location' => 'required|string|max:255|unique:job_candidate_locations,location,'.$location->id,
+            'location_ar' => 'required|string|max:255|unique:job_candidate_locations,location_ar,'.$location->id,
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -73,7 +76,8 @@ class JobCandidateLocationController extends Controller
         }
 
         DB::table('job_candidate_locations')->where('id', $request->id)->update([
-            'location' => $request->location
+            'location' => $request->location,
+            'location_ar' => $request->location_ar,
         ]);
 
         return redirect()->route('listLocations')->with('success','Record Successfully Updated');

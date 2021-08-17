@@ -28,7 +28,7 @@
 		<link href="{{asset('public/backend/dist/assets/css/themes/layout/brand/dark.css?v=7.1.5')}}" rel="stylesheet" type="text/css" />
 		<link href="{{asset('public/backend/dist/assets/css/themes/layout/aside/dark.css?v=7.1.5')}}" rel="stylesheet" type="text/css" />
 		<!--end::Layout Themes-->
-		<link rel="shortcut icon" href="{{asset('/public/asset/images/joblot-blue-logo.png')}}" />
+		<link rel="shortcut icon" href="{{asset('asset/images/logo.png')}}" />
 		<!-- Hotjar Tracking Code for keenthemes.com -->
 		<script>(function(h,o,t,j,a,r){ h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)}; h._hjSettings={hjid:1070954,hjsv:6}; a=o.getElementsByTagName('head')[0]; r=o.createElement('script');r.async=1; r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv; a.appendChild(r); })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');</script>
 	</head>

@@ -11,7 +11,7 @@ class LanguageController extends Controller
 {
     public function listLanguages()
     {
-        $languages = DB::table('languages')->get();
+        $languages = DB::table('languages')->orderBy('id', 'desc')->get();
 
         return view('backend.pages.language.list', compact('languages'));
     }
@@ -25,6 +25,7 @@ class LanguageController extends Controller
     {
         $rules = [
             'name' => 'required|string|max:255|unique:languages,name',
+            'name_ar' => 'required|string|max:255|unique:languages,name_ar',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -35,7 +36,8 @@ class LanguageController extends Controller
         }
 
         DB::table('languages')->insert([
-            'name' => $request->name
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
         ]);
 
         return redirect()->route('listLanguages')->with('success', 'Record Added Successfully.');
@@ -64,6 +66,7 @@ class LanguageController extends Controller
 
         $rules = [
             'name' => 'required|string|max:255|unique:languages,name,'.$language->id,
+            'name_ar' => 'required|string|max:255|unique:languages,name_ar,'.$language->id,
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -73,7 +76,8 @@ class LanguageController extends Controller
         }
 
         DB::table('languages')->where('id', $request->id)->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'name_ar' => $request->name_ar,
         ]);
 
         return redirect()->route('listLanguages')->with('success','Record Successfully Updated');

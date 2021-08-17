@@ -23,7 +23,7 @@
                     <!--begin::Page Heading-->
                     <div class="d-flex align-items-baseline flex-wrap mr-5">
                         <!--begin::Page Title-->
-                        <h5 class="text-dark font-weight-bold my-1 mr-5">Job Post Details</h5>
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">{{__('Job Post Details')}}</h5>
                         <!--end::Page Title-->
                     </div>
                     <!--end::Page Heading-->
@@ -45,13 +45,13 @@
                             <!--begin::Header-->
                             <div class="card-header py-3">
                                 <div class="card-title align-items-start flex-column">
-                                    <h3 class="card-label font-weight-bolder text-dark">Job Information</h3>
+                                    <h3 class="card-label font-weight-bolder text-dark">{{__('Job Information')}}</h3>
                                 </div>
                                 @php $employer = DB::table('users')->where('id', $job->user_id)->first(); @endphp
                                 <div class="card-toolbar">
                                     @php $appliedJobs = DB::table('candidate_applied_jobs')->where('job_id', $job->id)->where('user_id', Auth::user()->id)->first(); @endphp
 {{--                                    <a @if(isset($appliedJobs)) class="btn btn-danger mr-2" style="cursor: no-drop" @else href="{{route('jobApply', $job->id)}}" class="btn btn-success mr-2" @endif >@if(isset($appliedJobs)) Applied @else Apply @endif</a>--}}
-                                    <a href="{{url()->previous()}}" class="btn btn-secondary">Back</a>
+                                    <a href="{{url()->previous()}}" class="btn btn-secondary">{{__('Back')}}</a>
                                 </div>
                             </div>
                             <!--end::Header-->
@@ -123,20 +123,20 @@
                                                         <div class="d-flex flex-wrap align-items-center py-2">
                                                             <div class="d-flex align-items-center mr-10">
                                                                 <div class="mr-6">
-                                                                    <div class="font-weight-bold mb-2">Start Date</div>
+                                                                    <div class="font-weight-bold mb-2">{{__('Start Date')}}</div>
                                                                     <span class="btn btn-sm btn-text btn-light-primary text-uppercase font-weight-bold">{{\Carbon\Carbon::parse($job->date)->format('d M Y')}}</span>
                                                                 </div>
                                                                 <div class="">
-                                                                    <div class="font-weight-bold mb-2">Due Date</div>
-                                                                    <span class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">{{\Carbon\Carbon::parse($job->expireDate)->format('d M Y')}}</span>
+                                                                    <div class="font-weight-bold mb-2">{{__('Due Date')}}</div>
+                                                                    <span class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">{{\Carbon\Carbon::parse($job->endingDate)->format('d M Y')}}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="flex-grow-1 flex-shrink-0 w-150px w-xl-300px mt-4 mt-sm-0">
-                                                                {{--                                                                <span class="font-weight-bold">Progress</span>--}}
-                                                                {{--                                                                <div class="progress progress-xs mt-2 mb-2">--}}
-                                                                {{--                                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 63%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>--}}
-                                                                {{--                                                                </div>--}}
-                                                                {{--                                                                <span class="font-weight-bolder text-dark">78%</span>--}}
+                                                                {{--<span class="font-weight-bold">{{__('Progress')}}</span>--}}
+                                                                {{--<div class="progress progress-xs mt-2 mb-2">--}}
+                                                                {{--<div class="progress-bar bg-success" role="progressbar" style="width: 63%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>--}}
+                                                                {{--</div>--}}
+                                                                {{--  <span class="font-weight-bolder text-dark">78%</span>--}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -153,7 +153,7 @@
 													<i class="flaticon-analytics display-4 text-muted font-weight-bold"></i>
 												</span>
                                                     <div class="d-flex flex-column text-dark-75">
-                                                        <span class="font-weight-bolder font-size-sm">Experience</span>
+                                                        <span class="font-weight-bolder font-size-sm">{{__('Experience')}}</span>
                                                         <span class="font-weight-bolder font-size-h5">
                                                           <span class="text-dark-50 font-weight-bold"></span>
                                                             @if ($job->experience == 2)
@@ -182,7 +182,7 @@
 												</span>
                                                     <div class="d-flex flex-column text-dark-75">
                                                         @php $field = DB::table('employee_bussiness_categories')->where('id', $job->category)->first(); @endphp
-                                                        <span class="font-weight-bolder font-size-sm">Field Of expertise</span>
+                                                        <span class="font-weight-bolder font-size-sm">{{__('Field Of expertise')}}</span>
                                                         <span class="font-weight-bolder font-size-h5">
                                                             {{$field->category}}
                                                         </span>
@@ -195,7 +195,7 @@
 													<i class="flaticon-pie-chart icon-2x text-muted font-weight-bold"></i>
 												</span>
                                                     <div class="d-flex flex-column text-dark-75">
-                                                        <span class="font-weight-bolder font-size-sm">Salary Range</span>
+                                                        <span class="font-weight-bolder font-size-sm">{{__('Salary Range')}}</span>
                                                         <span class="font-weight-bolder font-size-h5">
                                                             @php $salary = DB::table('job_salary_ranges')->where('id', $job->salary)->first(); @endphp
 													<span class="text-dark-50 font-weight-bold">$</span>{{$salary->range}}</span>
@@ -208,7 +208,7 @@
 													<i class="flaticon-book icon-2x text-muted font-weight-bold"></i>
 												</span>
                                                     <div class="d-flex flex-column text-dark-75">
-                                                        <span class="font-weight-bolder font-size-sm">Degree</span>
+                                                        <span class="font-weight-bolder font-size-sm">{{__('Degree')}}</span>
                                                         <span class="font-weight-bolder font-size-h5">
                                                             @php $degree = DB::table('job_qualifications')->where('id', $job->qualification)->first(); @endphp
                                                             {{$degree->name}}</span>
@@ -221,7 +221,7 @@
 													<i class="flaticon-statistics icon-2x text-muted font-weight-bold"></i>
 												</span>
                                                     <div class="d-flex flex-column text-dark-75">
-                                                        <span class="font-weight-bolder font-size-sm">Career Level</span>
+                                                        <span class="font-weight-bolder font-size-sm">{{__('Career Level')}}</span>
                                                         <span class="font-weight-bolder font-size-h5">
                                                             @php $career = DB::table('job_career_levels')->where('id', $job->career_level)->first(); @endphp
                                                             {{$career->name}}</span>
@@ -234,7 +234,7 @@
 													<i class="flaticon-folder icon-2x text-muted font-weight-bold"></i>
 												</span>
                                                     <div class="d-flex flex-column text-dark-75">
-                                                        <span class="font-weight-bolder font-size-sm">Job Type</span>
+                                                        <span class="font-weight-bolder font-size-sm">{{__('Job Type')}}</span>
                                                         <span class="font-weight-bolder font-size-h5">
 													          @if($job->type == 1) Full time @elseif($job->type == 2) Part time @else N/A @endif
                                                         </span>
@@ -247,7 +247,7 @@
 													<i class="flaticon-user icon-2x text-muted font-weight-bold"></i>
 												</span>
                                                     <div class="d-flex flex-column text-dark-75">
-                                                        <span class="font-weight-bolder font-size-sm">Gender</span>
+                                                        <span class="font-weight-bolder font-size-sm">{{__('Gender')}}</span>
                                                         <span class="font-weight-bolder font-size-h5">
                                                             {{$job->gender}}</span>
                                                     </div>
@@ -264,7 +264,7 @@
                                                         <i class="flaticon-list display-4 text-muted font-weight-bold"></i>
                                                     </span>
                                                         <div class="d-flex flex-column text-dark-75">
-                                                            <span class="font-weight-bolder font-size-sm">Responsibilities:</span>
+                                                            <span class="font-weight-bolder font-size-sm">{{__('Responsibilities:')}}</span>
                                                         </div>
                                                     </div>
                                                 </div>

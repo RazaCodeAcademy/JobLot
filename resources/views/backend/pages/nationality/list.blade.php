@@ -14,10 +14,10 @@
 			<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 				<div class="d-flex align-items-center flex-wrap mr-1">
 					<div class="d-flex align-items-baseline flex-wrap mr-5">
-						<h5 class="text-dark font-weight-bold my-1 mr-5">Nationalities</h5>
+						<h5 class="text-dark font-weight-bold my-1 mr-5">{{__('Nationalities')}}</h5>
 						<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
 							<li class="breadcrumb-item">
-								<a href="{{route('listNationalities')}}" class="text-muted">List Nationalities</a>
+								<a href="{{route('listNationalities')}}" class="text-muted">{{__('List Nationalities')}}</a>
 							</li>
 						</ul>
 					</div>
@@ -30,20 +30,20 @@
 				<div class="card card-custom gutter-b">
 					<div class="card-header flex-wrap border-0 pt-6 pb-0">
 						<div class="card-title">
-							<h3 class="card-label">Nationalities Table
+							<h3 class="card-label">{{__('Nationalities Table')}}
 							<span class="d-block text-muted pt-2 font-size-sm"></span></h3>
 						</div>
 						<div class="card-toolbar">
-							<a href="{{route('createNationality')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> Add Nationality</a>
+							<a href="{{route('createNationality')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> {{__('Add Nationality')}}</a>
 						</div>
 					</div>
 					<div class="card-body">
 						<table class="table table-separate table-head-custom table-checkable" id="myCustomTable">
 							<thead>
 								<tr>
-									<th style="text-align: center">Sr No.</th>
-									<th style="text-align: center">Name</th>
-									<th style="text-align: center">Actions</th>
+									<th style="text-align: center">{{__('Sr No.')}}</th>
+									<th style="text-align: center">{{__('Name')}}</th>
+									<th style="text-align: center">{{__('Actions')}}</th>
 								</tr>
 							</thead>
 							<tbody>

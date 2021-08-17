@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\Console\Input\Input;
-use App\User;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -104,7 +104,6 @@ class AuthController extends Controller
                 {
                     return redirect()->route('subAdminDashboard');
                 }
-                dd(Auth::user()->hasRole('Sub Admin'));
             }
             else
             {

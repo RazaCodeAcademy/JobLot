@@ -14,10 +14,10 @@
             <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                 <div class="d-flex align-items-center flex-wrap mr-1">
                     <div class="d-flex align-items-baseline flex-wrap mr-5">
-                        <h5 class="text-dark font-weight-bold my-1 mr-5">Packages</h5>
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">{{__('Packages')}}</h5>
                         <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
                             <li class="breadcrumb-item">
-                                <a href="{{route('listPackages')}}" class="text-muted">List Packages</a>
+                                <a href="{{route('listPackages')}}" class="text-muted">{{__('List Packages')}}</a>
                             </li>
                         </ul>
                     </div>
@@ -30,21 +30,21 @@
                 <div class="card card-custom gutter-b">
                     <div class="card-header flex-wrap border-0 pt-6 pb-0">
                         <div class="card-title">
-                            <h3 class="card-label">Packages Table
+                            <h3 class="card-label">{{__('Packages Table')}}
                                 <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                         </div>
                         <div class="card-toolbar">
-                            <a href="{{route('createPackage')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i> Add Package</a>
+                            <a href="{{route('createPackage')}}" class="btn btn-primary font-weight-bolder"><i class="la la-plus"></i>{{__('Add Package')}}</a>
                         </div>
                     </div>
                     <div class="card-body">
                         <table class="table table-separate table-head-custom table-checkable" id="myCustomTable">
                             <thead>
                             <tr>
-                                <th style="text-align: center">ID</th>
-                                <th style="text-align: center">Package Name</th>
-                                <th style="text-align: center">Package for Country</th>
-                                <th style="text-align: center">Actions</th>
+                                <th style="text-align: center">{{__('ID')}}</th>
+                                <th style="text-align: center">{{__('Package Name')}}</th>
+                                <th style="text-align: center">{{__('Package for Country')}}</th>
+                                <th style="text-align: center">{{__('Actions')}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -53,7 +53,7 @@
                                     <td style="text-align: center">{{$package->id}}</td>
                                     @php
                                         $packageName = \Illuminate\Support\Facades\DB::table('packages')->where('id', $package->package_id)->first();
-                                        $country_id = explode(', ', $packageName->countries);
+                                        $country_id = explode(',', $packageName->countries);
                                         $countries = DB::table('countries')->select('name')->whereIn('id', $country_id)->get();
                                     @endphp
                                     <td style="text-align: center">{{$packageName->package_name}}</td>

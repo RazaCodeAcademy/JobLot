@@ -8,6 +8,7 @@ var KTAddUser = function () {
 	var _wizard;
 	var _avatar;
 	var _validations = [];
+	var experienceValid = 1;
 
 	// Private Functions
 	var _initWizard = function () {
@@ -23,11 +24,36 @@ var KTAddUser = function () {
 			_wizard.stop();
 
 			let degree = $('#myDegree').val();
-
 			let checker = 0;
+
+			let experienceChecker = 0;
+
+			if($('#no_experience').is(':checked')){
+				experienceChecker = 1;
+			}
+			else{
+				experienceChecker = 0;
+			}
 
 			if(wizard.getStep() == 3 && degree == 1){
 				checker++;
+			}
+
+			var experiencePresent = 0;
+			var educationPresent = 0;
+
+			if($('#experience_present').is(':checked')){
+				experiencePresent = 1;
+			}
+			else{
+				experiencePresent = 0;
+			}
+
+			if($('#education_present').is(':checked')){
+				educationPresent = 1;
+			}
+			else{
+				educationPresent = 0;
 			}
 
 			if(checker == 0){
@@ -35,6 +61,110 @@ var KTAddUser = function () {
 				var validator = _validations[wizard.getStep() - 1]; // get validator for currnt step
 				validator.validate().then(function (status) {
 					if (status == 'Valid') {
+						if((wizard.getStep() == 3 || wizard.getStep() == 4) && degree != 1){
+							if(educationPresent == 0){
+								if($('#educationeEndingDate').val() == ''){
+									$('#educationeEndingDate').removeClass('is-valid').addClass('is-invalid');
+									document.querySelector('#educationeEndingDate').nextSibling.innerHTML = '';
+									document.querySelector('#educationeEndingDate').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+								}
+								else{
+									$('#educationeEndingDate').removeClass('is-invalid').addClass('is-valid');
+									document.querySelector('#educationeEndingDate').nextSibling.innerHTML = '';
+								}
+							}
+							else{
+								$('#educationeEndingDate').removeClass('is-invalid').addClass('is-valid');
+								document.querySelector('#educationeEndingDate').nextSibling.innerHTML = '';
+							}
+						}
+
+						if((wizard.getStep() == 3 || wizard.getStep() == 4) && experienceChecker == 0){
+
+							if($('#experience_description').val() == ''){
+								$('#experience_description').removeClass('is-valid').addClass('is-invalid');
+								document.querySelector('#experience_description').nextSibling.innerHTML = '';
+								document.querySelector('#experience_description').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+								experienceValid = 0;
+							}
+							else{
+								$('#experience_description').removeClass('is-invalid').addClass('is-valid');
+								document.querySelector('#experience_description').nextSibling.innerHTML = '';
+								experienceValid = 1;
+							}
+					
+							if($('#position').val() == ''){
+								$('#position').removeClass('is-valid').addClass('is-invalid');
+								document.querySelector('#position').nextSibling.innerHTML = '';
+								document.querySelector('#position').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+								experienceValid = 0;
+							}
+							else{
+								$('#position').removeClass('is-invalid').addClass('is-valid');
+								document.querySelector('#position').nextSibling.innerHTML = '';
+								experienceValid = 1;
+							}
+					
+					
+							if($('#company_location').val() == ''){
+								$('#company_location').removeClass('is-valid').addClass('is-invalid');
+								document.querySelector('#company_location').nextSibling.innerHTML = '';
+								document.querySelector('#company_location').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+								experienceValid = 0;
+							}
+							else{
+								$('#company_location').removeClass('is-invalid').addClass('is-valid');
+								document.querySelector('#company_location').nextSibling.innerHTML = '';
+								experienceValid = 1;
+							}
+					
+							if($('#company').val() == ''){
+								$('#company').removeClass('is-valid').addClass('is-invalid');
+								document.querySelector('#company').nextSibling.innerHTML = '';
+								document.querySelector('#company').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+								experienceValid = 0;
+							}
+							else{
+								$('#company').removeClass('is-invalid').addClass('is-valid');
+								document.querySelector('#company').nextSibling.innerHTML = '';
+								experienceValid = 1;
+							}
+					
+							if($('#experienceStartingDate').val() == ''){
+								$('#experienceStartingDate').removeClass('is-valid').addClass('is-invalid');
+								document.querySelector('#experienceStartingDate').nextSibling.innerHTML = '';
+								document.querySelector('#experienceStartingDate').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+								experienceValid = 0;
+							}
+							else{
+								$('#experienceStartingDate').removeClass('is-invalid').addClass('is-valid');
+								document.querySelector('#experienceStartingDate').nextSibling.innerHTML = '';
+								experienceValid = 1;
+							}
+					
+							if(experiencePresent == 0){
+								if($('#experienceEndingDate').val() == ''){
+									$('#experienceEndingDate').removeClass('is-valid').addClass('is-invalid');
+									document.querySelector('#experienceEndingDate').nextSibling.innerHTML = '';
+									document.querySelector('#experienceEndingDate').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+									experienceValid = 0;
+								}
+								else{
+									$('#experienceEndingDate').removeClass('is-invalid').addClass('is-valid');
+									document.querySelector('#experienceEndingDate').nextSibling.innerHTML = '';
+									experienceValid = 1;
+								}
+							}
+							else{
+								$('#experienceEndingDate').removeClass('is-invalid').addClass('is-valid');
+								document.querySelector('#experienceEndingDate').nextSibling.innerHTML = '';
+								// experienceValid = 1;
+							}
+					
+							if(experienceValid == 0){
+								return;
+							}
+						}
 
 						$.ajax({
 							method: "POST",
@@ -64,7 +194,9 @@ var KTAddUser = function () {
 								experience_description: _formEl.querySelector('[name="experience_description"]').value,
 								experience_starting_date: _formEl.querySelector('[name="experience_starting_date"]').value,
 								experience_ending_date: _formEl.querySelector('[name="experience_ending_date"]').value,
-
+								experience_present: experiencePresent,
+								education_present: educationPresent,
+								no_experience: experienceChecker,
 							},
 
 							success: function (response) {
@@ -75,6 +207,7 @@ var KTAddUser = function () {
 									KTUtil.scrollTop();
 								}
 								else if(response.status === 0){
+									$('#educationeEndingDate').removeClass('is-valid').addClass('is-invalid');
 									Swal.fire({
 										text: "'ENDING DATE' field should be greater than 'STARTING DATE' field, in Education part.",
 										icon: "error",
@@ -115,7 +248,6 @@ var KTAddUser = function () {
 								}
 							}
 						});
-
 					} 
 					else {
 						Swal.fire({
@@ -133,6 +265,93 @@ var KTAddUser = function () {
 				});
 			}
 			else{
+				if((wizard.getStep() == 3 || wizard.getStep() == 4) && experienceChecker == 0){
+
+					if($('#experience_description').val() == ''){
+						$('#experience_description').removeClass('is-valid').addClass('is-invalid');
+						document.querySelector('#experience_description').nextSibling.innerHTML = '';
+						document.querySelector('#experience_description').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+						experienceValid = 0;
+					}
+					else{
+						$('#experience_description').removeClass('is-invalid').addClass('is-valid');
+						document.querySelector('#experience_description').nextSibling.innerHTML = '';
+						experienceValid = 1;
+					}
+			
+					if($('#position').val() == ''){
+						$('#position').removeClass('is-valid').addClass('is-invalid');
+						document.querySelector('#position').nextSibling.innerHTML = '';
+						document.querySelector('#position').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+						experienceValid = 0;
+					}
+					else{
+						$('#position').removeClass('is-invalid').addClass('is-valid');
+						document.querySelector('#position').nextSibling.innerHTML = '';
+						experienceValid = 1;
+					}
+			
+			
+					if($('#company_location').val() == ''){
+						$('#company_location').removeClass('is-valid').addClass('is-invalid');
+						document.querySelector('#company_location').nextSibling.innerHTML = '';
+						document.querySelector('#company_location').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+						experienceValid = 0;
+					}
+					else{
+						$('#company_location').removeClass('is-invalid').addClass('is-valid');
+						document.querySelector('#company_location').nextSibling.innerHTML = '';
+						experienceValid = 1;
+					}
+			
+					if($('#company').val() == ''){
+						$('#company').removeClass('is-valid').addClass('is-invalid');
+						document.querySelector('#company').nextSibling.innerHTML = '';
+						document.querySelector('#company').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+						experienceValid = 0;
+					}
+					else{
+						$('#company').removeClass('is-invalid').addClass('is-valid');
+						document.querySelector('#company').nextSibling.innerHTML = '';
+						experienceValid = 1;
+					}
+			
+					if($('#experienceStartingDate').val() == ''){
+						$('#experienceStartingDate').removeClass('is-valid').addClass('is-invalid');
+						document.querySelector('#experienceStartingDate').nextSibling.innerHTML = '';
+						document.querySelector('#experienceStartingDate').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+						experienceValid = 0;
+					}
+					else{
+						$('#experienceStartingDate').removeClass('is-invalid').addClass('is-valid');
+						document.querySelector('#experienceStartingDate').nextSibling.innerHTML = '';
+						experienceValid = 1;
+					}
+			
+					if(experiencePresent == 0){
+						if($('#experienceEndingDate').val() == ''){
+							$('#experienceEndingDate').removeClass('is-valid').addClass('is-invalid');
+							document.querySelector('#experienceEndingDate').nextSibling.innerHTML = '';
+							document.querySelector('#experienceEndingDate').insertAdjacentHTML('afterend', '<div class="fv-plugins-message-container"><div data-field="ending_date" data-validator="notEmpty" class="fv-help-block">Ending date is required</div></div>');
+							experienceValid = 0;
+						}
+						else{
+							$('#experienceEndingDate').removeClass('is-invalid').addClass('is-valid');
+							document.querySelector('#experienceEndingDate').nextSibling.innerHTML = '';
+							experienceValid = 1;
+						}
+					}
+					else{
+						$('#experienceEndingDate').removeClass('is-invalid').addClass('is-valid');
+						document.querySelector('#experienceEndingDate').nextSibling.innerHTML = '';
+						// experienceValid = 1;
+					}
+			
+					if(experienceValid == 0){
+						return;
+					}
+				}
+
 				$.ajax({
 					method: "POST",
 					url: candidateData,
@@ -161,7 +380,9 @@ var KTAddUser = function () {
 						experience_description: _formEl.querySelector('[name="experience_description"]').value,
 						experience_starting_date: _formEl.querySelector('[name="experience_starting_date"]').value,
 						experience_ending_date: _formEl.querySelector('[name="experience_ending_date"]').value,
-
+						experience_present: experiencePresent,
+						education_present: educationPresent,
+						no_experience: experienceChecker,
 					},
 
 					success: function (response) {
@@ -214,12 +435,6 @@ var KTAddUser = function () {
 				});
 			}
 		});
-
-		// _wizard.on('submit', function (wizard) {
-		// 	// Don't go to the next step yet
-		// 	_wizard.alert('hi');
-		// });
-
 
 		// Change Event
 		_wizard.on('change', function (wizard) {
@@ -303,7 +518,6 @@ var KTAddUser = function () {
 			_formEl,
 			{
 				fields: {
-					// Step 2
                     firstName: {
 						validators: {
                             notEmpty: {
@@ -385,7 +599,7 @@ var KTAddUser = function () {
                     field_of_study: {
 						validators: {
 							notEmpty: {
-                                    message: 'Field is required'
+                                message: 'Field is required'
 							}
 						}
 					},
@@ -410,13 +624,13 @@ var KTAddUser = function () {
 							}
 						}
 					},
-                    ending_date: {
-						validators: {
-							notEmpty: {
-								message: 'Ending date is required'
-							}
-						}
-					},
+                    // ending_date: {
+					// 	validators: {
+					// 		notEmpty: {
+					// 			message: 'Ending date is required'
+					// 		}
+					// 	}
+					// },
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
@@ -455,4 +669,3 @@ jQuery(document).ready(function () {
             allowClear: true
         });
 });
-

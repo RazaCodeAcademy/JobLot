@@ -18,7 +18,7 @@ class FinancialController extends Controller
 //        dd($exchangeRates->currencies());
 
         $countries = DB::table('countries')->get();
-        $packages = DB::table('employee_packages')->get();
+        $packages = DB::table('employee_packages')->orderBy('id', 'desc')->get();
 
         return view('backend.pages.financial.list',compact('total_packages','countries','packages'));
     }

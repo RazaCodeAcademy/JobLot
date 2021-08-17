@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\User;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -18,6 +18,7 @@ class UserController extends Controller
         ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
         ->select('users.id','users.name','model_has_roles.role_id','users.email','users.created_at','users.updated_at')
         ->whereIn('model_has_roles.role_id', ['2','3','4'])
+        ->orderBy('users.id', 'desc')
         ->get();
 
         return view('backend.pages.user.list', compact('users'));
@@ -57,19 +58,27 @@ class UserController extends Controller
 
         if($request->accountTypeUser == 'Employer')
         {
-            $data1=array('role_id'=>'2',"model_type"=>'App\User',"model_id"=>$userid->id);
+            $data1=array('role_id'=>'2',"model_type"=>'App\Models\User',"model_id"=>$userid->id);
             DB::table('model_has_roles')->insert($data1);
         }
 
         elseif($request->accountTypeUser == 'Candidate')
         {
-            $data1=array('role_id'=>'3',"model_type"=>'App\User',"model_id"=>$userid->id);
+            $data1=array('role_id'=>'3',"model_type"=>'App\Models\User',"model_id"=>$userid->id);
             DB::table('model_has_roles')->insert($data1);
+
+            DB::table('candidate_abouts')->insert([
+                'user_id' => $userid->id
+            ]);
+
+            DB::table('candidate_personal_informations')->insert([
+                'user_id' => $userid->id
+            ]);
         }
 
         elseif($request->accountTypeUser == 'Admin')
         {
-            $data1 = array('role_id'=>'4',"model_type"=>'App\User',"model_id"=>$userid->id);
+            $data1 = array('role_id'=>'4',"model_type"=>'App\Models\User',"model_id"=>$userid->id);
             DB::table('model_has_roles')->insert($data1);
         }
 
@@ -80,7 +89,7 @@ class UserController extends Controller
     {
         $user = DB::table('users')->where('users.id', $id)
         ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-        ->select('users.id','users.name','model_has_roles.role_id','users.email','users.country_name','users.created_at','users.updated_at')
+        ->select('users.id','users.name', 'users.free_jobs', 'model_has_roles.role_id','users.email','users.country_name','users.created_at','users.updated_at')
         ->whereIn('model_has_roles.role_id', ['2','3','4'])
         ->first();
 
@@ -105,8 +114,7 @@ class UserController extends Controller
 
         $user_type = DB::table('model_has_roles')->where('model_id',$user->id)->first();
 
-       if ($user_type->role_id == 2)
-        {
+        if ($user_type->role_id == 2){
 
             $user_role_id = DB::table('model_has_roles')->where('model_id', auth()->user()->id)->first();
 			$myRole = DB::table('roles')->where('id', $user_role_id->role_id)->first();
@@ -158,8 +166,7 @@ class UserController extends Controller
             return redirect()->route('listUsers')->with('success','Record Successfully Updated');
         }
 
-        elseif ($user_type->role_id == 3)
-        {
+        elseif ($user_type->role_id == 3){
             $rules = [
                 'Username' => 'required|string|max:255'
             ];
@@ -193,8 +200,7 @@ class UserController extends Controller
             return redirect()->route('listUsers')->with('success','Record Successfully Updated');
         }
 
-        elseif ($user_type->role_id == 4)
-        {
+        elseif ($user_type->role_id == 4){
             $rules = [
                 'country_name' => 'required',
                 'Username' => 'required|string|max:255'

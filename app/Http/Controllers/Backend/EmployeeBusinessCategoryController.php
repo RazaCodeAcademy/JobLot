@@ -11,7 +11,7 @@ class EmployeeBusinessCategoryController extends Controller
 {
     public function listCategories()
     {
-        $categories = DB::table('employee_bussiness_categories')->get();
+        $categories = DB::table('employee_bussiness_categories')->orderBy('id', 'desc')->get();
 
         return view('backend.pages.category.list', compact('categories'));
     }
@@ -25,6 +25,7 @@ class EmployeeBusinessCategoryController extends Controller
     {
         $rules = [
             'category' => 'required|string|max:255|unique:employee_bussiness_categories,category',
+            'category_ar' => 'required|string|max:255|unique:employee_bussiness_categories,category_ar',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -36,6 +37,7 @@ class EmployeeBusinessCategoryController extends Controller
 
         DB::table('employee_bussiness_categories')->insert([
             'category' => $request->category,
+            'category_ar' => $request->category_ar,
             'icon' => 'cateogry'
         ]);
 
@@ -65,6 +67,7 @@ class EmployeeBusinessCategoryController extends Controller
 
         $rules = [
             'category' => 'required|string|max:255|unique:employee_bussiness_categories,category,'.$category->id,
+            'category_ar' => 'required|string|max:255|unique:employee_bussiness_categories,category_ar,'.$category->id,
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -74,7 +77,8 @@ class EmployeeBusinessCategoryController extends Controller
         }
 
         DB::table('employee_bussiness_categories')->where('id', $request->id)->update([
-            'category' => $request->category
+            'category' => $request->category,
+            'category_ar' => $request->category_ar,
         ]);
 
         return redirect()->route('listCategories')->with('success','Record Successfully Updated');

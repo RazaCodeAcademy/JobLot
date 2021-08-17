@@ -14,7 +14,7 @@
             <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                 <div class="d-flex align-items-center flex-wrap mr-1">
                     <div class="d-flex align-items-baseline flex-wrap mr-5">
-                        <h5 class="text-dark font-weight-bold my-1 mr-5">Job Approvals</h5>
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">{{__('Job Approvals')}}</h5>
                         <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
                             <li class="breadcrumb-item">
                                 @php 
@@ -23,9 +23,9 @@
                                 @endphp
 
                                 @if($user->id == 1)
-                                    <a href="{{route('listJobApproval')}}" class="text-muted">List Job Approvals</a>
+                                    <a href="{{route('listJobApproval')}}" class="text-muted">{{__('List Job Approvals')}}</a>
                                 @elseif($user->id == 4)
-                                    <a href="{{route('subAdminListJobApproval')}}" class="text-muted">List Job Approvals</a>
+                                    <a href="{{route('subAdminListJobApproval')}}" class="text-muted">{{__('List Job Approvals')}}</a>
                                 @endif
                             </li>
                         </ul>
@@ -39,7 +39,7 @@
                 <div class="card card-custom gutter-b">
                     <div class="card-header flex-wrap border-0 pt-6 pb-0">
                         <div class="card-title">
-                            <h3 class="card-label">Job Approvals Table
+                            <h3 class="card-label">{{__('Job Approvals Table')}}
                                 <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                         </div>
                     </div>
@@ -47,11 +47,11 @@
                         <table class="table table-separate table-head-custom table-checkable" id="myCustomTable">
                             <thead>
                             <tr>
-                                <th style="text-align: center">Sr No.</th>
-                                <th style="text-align: center">Job title</th>
-                                <th style="text-align: center">Job category</th>
-                                <th style="text-align: center">Job location</th>
-                                <th style="text-align: center">Actions</th>
+                                <th style="text-align: center">{{__('Sr No.')}}</th>
+                                <th style="text-align: center">{{__('Job title')}}</th>
+                                <th style="text-align: center">{{__('Job category')}}</th>
+                                <th style="text-align: center">{{__('Job location')}}</th>
+                                <th style="text-align: center">{{__('Actions')}}</th>
                             </tr>
                             </thead>
                             <tbody>

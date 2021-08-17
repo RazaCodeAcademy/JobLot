@@ -13,7 +13,7 @@
 		<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
 			<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 				<div class="d-flex align-items-center flex-wrap mr-2">
-					<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Dashboard</h5>
+					<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{__('Dashboard')}}</h5>
 				</div>
 			</div>
 		</div>
@@ -24,10 +24,10 @@
 
         @if ($user->id == 1)
             <div class="form-group row">
-                <label class="col-form-label text-right col-lg-4 col-sm-12">Filter by country</label>
+                <label class="col-form-label text-right col-lg-4 col-sm-12">{{__('Filter by country')}}</label>
                 <div class="col-lg-4 col-md-9 col-sm-12">
                     <select class="form-control selectpicker" name="country" id="country" data-size="7" data-live-search="true">
-                        <option value="0">All</option>
+                        <option value="0">{{__('All')}}</option>
                         <option data-divider="true" label="Label"></option>
                         @foreach($countries as $country)
                         <option value="{{$country->id}}">{{$country->name}}</option>
@@ -60,7 +60,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block" id="live-jobs">{{$liveJobs}}</span>
-                                <span class="font-weight-bold text-muted font-size-sm">Total Live Job(s)</span>
+                                <span class="font-weight-bold text-muted font-size-sm">{{__('Total Live Job(s)')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -83,7 +83,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="live-candidate-applied-jobs">{{$liveAppliedCandidateJobs}}</span>
-                                <span class="font-weight-bold text-white font-size-sm">Total candidates applied to live jobs</span>
+                                <span class="font-weight-bold text-white font-size-sm">{{__('Total candidates applied to live jobs')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -108,7 +108,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="total-candidates">{{count($candidates)}}</span>
-                                <span class="font-weight-bold text-white font-size-sm">Total Candidate(s)</span>
+                                <span class="font-weight-bold text-white font-size-sm">{{__('Total Candidate(s)')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -131,7 +131,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 text-hover-primary d-block" id="total-employers">{{count($employers)}}</span>
-                                <span class="font-weight-bold text-white font-size-sm">Total Employer(s)</span>
+                                <span class="font-weight-bold text-white font-size-sm">{{__('Total Employer(s)')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -148,7 +148,7 @@
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
-                        <h3 class="card-label">List of new job post(s)
+                        <h3 class="card-label">{{__('List of new job post(s)')}}
                             <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
                 </div>
@@ -156,9 +156,9 @@
                     <table class="table table-separate table-head-custom table-checkable" id="myCustomTable">
                         <thead>
                         <tr>
-                            <th style="text-align:center;">Name</th>
-                            <th style="text-align:center;">Business Category</th>
-                            <th style="text-align:center;">Job Location</th>
+                            <th style="text-align:center;">{{__('Name')}}</th>
+                            <th style="text-align:center;">{{__('Business Category')}}</th>
+                            <th style="text-align:center;">{{__('Job Location')}}</th>
                         </tr>
                         </thead>
                         <tbody>

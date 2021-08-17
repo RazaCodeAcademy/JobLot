@@ -11,7 +11,7 @@ class CountryController extends Controller
 {
     public function listCountries()
     {
-        $countries = DB::table('countries')->get();
+        $countries = DB::table('countries')->orderBy('id', 'desc')->get();
 
         return view('backend.pages.country.list', compact('countries'));
     }
@@ -25,6 +25,7 @@ class CountryController extends Controller
     {
         $rules = [
             'name' => 'required|string|max:255|unique:countries,name',
+            'name_ar' => 'required|string|max:255|unique:countries,name_ar',
             'currency' => 'required',
         ];
 
@@ -37,6 +38,7 @@ class CountryController extends Controller
 
         DB::table('countries')->insert([
             'name' => $request->name,
+            'name_ar' => $request->name_ar,
             'currency' => $request->currency
         ]);
 
@@ -66,6 +68,7 @@ class CountryController extends Controller
 
         $rules = [
             'name' => 'required|string|max:255|unique:countries,name,'.$country->id,
+            'name_ar' => 'required|string|max:255|unique:countries,name_ar,'.$country->id,
             'currency' => 'required',
         ];
 
@@ -77,6 +80,7 @@ class CountryController extends Controller
 
         DB::table('countries')->where('id', $request->id)->update([
             'name' => $request->name,
+            'name_ar' => $request->name_ar,
             'currency' => $request->currency
         ]);
 

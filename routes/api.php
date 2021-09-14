@@ -14,16 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-Route::post('login', 'API\UserController@login');
-Route::post('sign-up-employer', 'API\UserController@register');
-Route::post('business-categories', 'API\EmployerController@businessCategories');
-Route::post('states', 'API\EmployerController@states');
+// public api routes
+Route::namespace('API')->group(function () {
+    Route::post('login', 'UserController@login');
+    Route::post('sign-up-employer', 'UserController@registerEmployer');
+    Route::post('business-categories', 'EmployerController@businessCategories');
+    Route::post('states', 'EmployerController@states');
+});
 
 Route::group(['middleware' => 'auth:api'], function(){
+    Route::post('upload-employer-profile-image', 'API\UserController@uploadProfileImage');
     Route::post('logout', 'API\UserController@logout');
     Route::post('candidate_personal_detail', 'API\CandidateController@candidate_personal_detail');
     Route::post('/candidate_education_insert', 'API\CandidateController@candidate_education_insert')->name('candidate_education_insert');

@@ -1,7 +1,7 @@
 @extends('candidates.layouts.master')
 
 @section('title')
-    Path | Timeline
+    Timeline
 @endsection
 
 @section('css')

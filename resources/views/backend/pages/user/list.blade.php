@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-	Path | List Users
+	List Users
 @endsection
 
 @section('css')
@@ -65,7 +65,7 @@
 										<td>{{$SrNo}}</td>
 										<td>{{$user->name}}</td>
 										<td>{{$user->email}}</td>
-										<td>@if($user->role_id == 2) Employer @elseif($user->role_id == 3) Candidate @elseif($userRole->id == 1 && $user->role_id == 4) Sub Admin  @endif</td>
+										<td>@if($user->role_id == 2) Employer @elseif($user->role_id == 3) Employee @elseif($userRole->id == 1 && $user->role_id == 4) Sub Admin  @endif</td>
 										<td>
                                             @if($userRole->id == 1)
                                                 <a href="{{route('viewUser', $user->id)}}"><i class="la la-eye text-success mr-5"></i></a>

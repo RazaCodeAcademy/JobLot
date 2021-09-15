@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')	
-	Path | List Salary Ranges
+	List Salary Ranges
 @endsection
 
 @section('css')

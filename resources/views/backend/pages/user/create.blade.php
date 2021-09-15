@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-	Path | Create Users
+	Create Users
 @endsection
 
 @section('css')

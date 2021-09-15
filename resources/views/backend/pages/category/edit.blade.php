@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')	
-	Path | List Employee Business Categories
+	List Employee Business Categories
 @endsection
 
 @section('css')

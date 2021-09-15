@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')	
-	Path | List Languages
+	List Languages
 @endsection
 
 @section('css')

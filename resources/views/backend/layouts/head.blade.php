@@ -3,7 +3,7 @@
     <base href="">
     <meta charset="utf-8" />
     <title>
-        @yield('title')
+        JobLot | @yield('title')
     </title>
     <meta name="description" content="Metronic admin dashboard live demo. Check out all the features of the admin panel. A large number of settings, additional services and widgets." />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -30,7 +30,7 @@
     <link href="{{asset('public/backend/dist/assets/css/themes/layout/aside/dark.css')}}" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
 
-    <link rel="shortcut icon" href="{{asset('asset/images/logo.png')}}" />
+    <link rel="shortcut icon" href="{{asset('public/asset/images/joblot-blue-logo.png')}}" />
 
     <link href="{{asset('public/toast/toastr1.css')}}" rel="stylesheet">
     <link href="{{asset('public/toast/toastr2.css')}}" rel="stylesheet">
@@ -46,6 +46,9 @@
         }
         .required{
             color: red !important;
+        }
+        .logo-size{
+            height: 40px;
         }
     </style>
 

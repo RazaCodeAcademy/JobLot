@@ -1,7 +1,7 @@
 @extends('employer.layouts.master')
 
 @section('title')
-    Path | Candidate's CV
+    Candidate's CV
 @endsection
 
 @section('css')

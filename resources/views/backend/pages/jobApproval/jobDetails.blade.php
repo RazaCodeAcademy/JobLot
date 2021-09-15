@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-    Path | Posted Job Details
+    Posted Job Details
 @endsection
 
 @section('css')

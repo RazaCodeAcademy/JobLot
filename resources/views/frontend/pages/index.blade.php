@@ -227,7 +227,7 @@
                                         <h4><a style="height: 60px">{{__('No company name')}}</a></h4>
                                     @endif
                                     @php
-                                        $country = DB::table('countries')->find($user->country_name);
+                                        // $country = DB::table('countries')->find($user->country_name);
                                     @endphp
                                     @if (isset($country))
                                         <span>{{(session()->has('language')) ? $country->name_ar : $country->name}}</span>

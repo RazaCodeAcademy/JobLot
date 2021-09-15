@@ -1,8 +1,7 @@
 <?php
 Auth::routes();
 Route::get('/clear', function(){
-    Artisan::call('config:cache');
-    Artisan::call('cache:clear');
+    Artisan::call('optimize');
     return "Cache is cleared";
 });
 

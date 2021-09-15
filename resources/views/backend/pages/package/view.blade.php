@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-    Path | View Package
+    View Package
 @endsection
 
 @section('css')

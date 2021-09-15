@@ -1,7 +1,7 @@
 @extends('employer.layouts.master')
 
 @section('title')
-    Path | Update Job
+    Update Job
 @endsection
 
 @section('css')

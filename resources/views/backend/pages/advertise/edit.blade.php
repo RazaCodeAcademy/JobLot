@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-    Path | Edit Advertise
+    Edit Advertise
 @endsection
 
 @section('css')

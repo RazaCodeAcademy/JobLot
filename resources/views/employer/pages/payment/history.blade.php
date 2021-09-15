@@ -1,7 +1,7 @@
 @extends('employer.layouts.master')
 
 @section('title')
-    Path | Payment History
+    Payment History
 @endsection
 
 @section('css')

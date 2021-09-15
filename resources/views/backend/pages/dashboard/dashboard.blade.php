@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-	Path | Dashboard
+	Dashboard
 @endsection
 
 @section('css')

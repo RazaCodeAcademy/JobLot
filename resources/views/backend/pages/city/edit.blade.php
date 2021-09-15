@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')	
-	Path | List Cities
+	List Cities
 @endsection
 
 @section('css')

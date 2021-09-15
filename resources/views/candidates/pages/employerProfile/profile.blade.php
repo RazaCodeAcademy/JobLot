@@ -1,7 +1,7 @@
 @extends('candidates.layouts.master')
 
 @section('title')
-    Path | Employer Profile
+    Employer Profile
 @endsection
 
 @section('css')

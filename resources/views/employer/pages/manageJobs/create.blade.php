@@ -1,7 +1,7 @@
 @extends('employer.layouts.master')
 
 @section('title')
-    Path | New Job
+    New Job
 @endsection
 
 @section('css')

@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-	Path | Update User
+	Update User
 @endsection
 
 @section('css')

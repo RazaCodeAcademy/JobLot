@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-	Path | View User
+	View User
 @endsection
 
 @section('css')
@@ -262,7 +262,7 @@
 											@endphp
 											<div class="d-flex align-items-center justify-content-between">
 												<span class="font-weight-bold mr-2">{{__('Location:')}}</span>
-												<span class="text-muted">{{$country->name}}</span>
+												<span class="text-muted">{{$country->name ?? ''}}</span>
 											</div>
 										@endif
 									</div>

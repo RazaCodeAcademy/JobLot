@@ -270,6 +270,8 @@ class UserController extends Controller
                 ->first();
         }
 
+        // return $user;
+
         if($user == null)
         {
             return redirect()->route('listUsers')->with('error', 'No Record Found.');

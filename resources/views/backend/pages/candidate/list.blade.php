@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-    Path | List Candidates
+    List Candidates
 @endsection
 
 @section('css')
@@ -94,12 +94,12 @@
                                                                         ->where('user_id', $candidate->model_id)
                                                                         ->where('application_status','=','Hired')
                                                                         ->latest('created_at')
-                                                                        ->first();
-                                            $fieldOfInterest = explode(',', $candidateAbout->field_of_expertise);
+                                                                        ->first() ?? '';
+                                            $fieldOfInterest = explode(',', $candidateAbout->field_of_expertise ?? '');
                                             $interestedFields = DB::table('employee_bussiness_categories')->wherein('id', $fieldOfInterest)->get();
                                             if (!empty($candidate_applied_jobs)){
                                             $job_id = DB::table('jobs')->select('user_id')->where('id',$candidate_applied_jobs->job_id)->first();
-                                            $employeeName = DB::table('users')->select('name')->where('id', $job_id->user_id)->first();
+                                            $employeeName = DB::table('users')->select('name')->where('id', $job_id->user_id)->first() ?? '';
                                             }
                                     @endphp
                                     <tr>

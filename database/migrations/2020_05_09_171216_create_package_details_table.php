@@ -26,7 +26,6 @@ class CreatePackageDetailsTable extends Migration
             $table->integer('cv_limit_yearly');
             $table->string('max_users')->nullable();
 
-            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
             $table->timestamps();
         });
     }

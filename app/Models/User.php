@@ -19,7 +19,23 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'agreement','country_name'
+        'first_name', 
+        'last_name', 
+        'street_address', 
+        'city_name', 
+        'state_id', 
+        'zip_code', 
+        'terms_and_conditions', 
+        'email', 
+        'password', 
+        'phone_number',
+        'comp_name',
+        'comp_location',
+        'salary_schedual',
+        'job_schedual_from',
+        'job_schedual_to',
+        'latitude',
+        'longitude',
     ];
 
     /**
@@ -39,4 +55,45 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function get_name(){
+        if(!empty($this->first_name) && !empty($this->last_name)){
+            return $this->first_name.' '.$this->last_name;
+        }else{
+            return "Guest User";
+        }
+    }
+
+    public function get_image(){
+        if(!empty($this->profile_image)){
+            return asset('images/'.$this->profile_image);
+        }else{
+            return asset('images/12432424.jpg');
+        }
+    }
+
+    public function saved_jobs()
+    {
+        return $this->belongsToMany(Job::class, 'saved_jobs', 'user_id', 'job_id');
+    }
+
+    public function get_jobs()
+    {
+        return $this->hasMany(Job::class, 'employer_id', 'id');
+    }
+
+    public function get_experiences()
+    {
+        return $this->hasMany(EmployeeExperience::class, 'user_id', 'id');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
+    }
+
+    public function get_notification()
+    {
+        return $this->hasMany(Notification::class, 'notifiable_id', 'id')->where('read_at', null);
+    }
 }

@@ -14,36 +14,23 @@ class CreateJobsTable extends Migration
     public function up()
     {
         Schema::create('jobs', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->string('title')->nullable();
-            $table->text('slug')->nullable();
-            $table->string('category')->nullable();
-            $table->string('job_location')->nullable();
-            $table->string('type')->nullable();
-            $table->string('experience')->nullable();
-            $table->string('salary')->nullable();
-            $table->string('qualification')->nullable();
-            $table->string('gender')->nullable();
-            $table->string('vacancy')->nullable();
-            $table->date('date')->nullable();
-            $table->string('description')->nullable();
-            $table->longText('responsibilities')->nullable();
-            $table->string('education')->nullable();
-            $table->string('benefits')->nullable();
-            $table->string('country')->nullable();
-            $table->string('city')->nullable();
-            $table->mediumInteger('zip_code')->nullable();
-            $table->string('your_location')->nullable();
-            $table->string('pin_location')->nullable();
-            $table->string('companyName')->nullable();
-            $table->string('webAddress')->nullable();
-            $table->string('companyProfile')->nullable();
-            $table->string('selectPackage')->nullable();
-            $table->integer('agreement')->nullable();
-            $table->integer('count')->default(0);
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->id();
+            $table->string('business_cat_id')->comment('employer business category');
+            $table->string('employer_id')->comment('employer_id foriegn key from user');
+            $table->string('title')->comment('common title or new title for job');
+            $table->string('salary');
+            $table->string('job_type')->comment('1: for full time 2: for part time');
+            $table->string('job_qualification')->comment('number of years of qulification');
+            $table->string('state_authorized')->comment('1: for required 2: for prefer');
+            $table->text('description')->nullable();
+            $table->boolean('status')->default(0)->comment('0: for inactive 1: for active');
+            $table->boolean('job_approval')->default(0)->comment('0: for disapproved 1: for approved');
+            $table->timestamp('expired')->nullable();
+            $table->string('comp_name')->nullable();
+            $table->string('comp_location')->nullable();
+            $table->string('salary_schedual')->nullable();
+            $table->timestamp('job_schedual_from')->nullable();
+            $table->timestamp('job_schedual_to')->nullable();
             $table->timestamps();
         });
     }

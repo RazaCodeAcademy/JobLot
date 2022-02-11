@@ -5,6 +5,23 @@ Route::get('/clear', function(){
     return "Cache is cleared";
 });
 
+
+Route::get('/conversation', function(){
+    return view('frontend.pages.conversation.index');
+});
+
+Route::middleware(['middleware' => 'auth:web'])
+    ->group(function () {
+         // conversation routes here.
+        Route::namespace('API')->prefix('conversation')->name('api.')->group(function () {
+            Route::post('/search-user', 'ConversationController@searchUser')->name('searchUser');
+            Route::post('/send-message', 'ConversationController@sendMessage')->name('sendMessage');
+            Route::get('/list', 'ConversationController@getConversationList')->name('getConversationList');
+            Route::get('/get-chat', 'ConversationController@getConversationChat')->name('getConversationChat');
+        }); 
+    });
+
+
 /////////////////////// Frontend ////////////////////////
 
 /////////////////////////////////////////////////////////

@@ -58,12 +58,10 @@
 								</tr>
 							</thead>
 							<tbody>
-                            @php $SrNo = 0; @endphp
 								@foreach ($users as $user)
-                                    @php $SrNo++; @endphp
 									<tr>
-										<td>{{$SrNo}}</td>
-										<td>{{$user->name}}</td>
+										<td>{{$loop->iteration}}</td>
+										<td>{{$user->first_name.' '.$user->last_name}}</td>
 										<td>{{$user->email}}</td>
 										<td>@if($user->role_id == 2) Employer @elseif($user->role_id == 3) Employee @elseif($userRole->id == 1 && $user->role_id == 4) Sub Admin  @endif</td>
 										<td>

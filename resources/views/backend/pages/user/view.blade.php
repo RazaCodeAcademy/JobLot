@@ -51,11 +51,11 @@
 									<!--begin::User-->
 									<div class="d-flex align-items-center">
 										<div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
-											<div class="symbol-label" @if($user->avatar != null) style="background-image:url({{ asset('images/'.$user->avatar) }})" @endif></div>
+											<div class="symbol-label" @if(!empty($user->avatar)) style="background-image:url({{ asset('images/'.$user->avatar) }})" @endif></div>
 											<i class="symbol-badge bg-success"></i>
 										</div>
 										<div>
-											<a href="{{route('viewUser', $user->id)}}" class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary">{{$user->name}}</a>
+											<a href="{{route('viewUser', $user->id)}}" class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary">{{$user->first_name}}</a>
 										</div>
 									</div>
 									<div class="py-9">
@@ -63,25 +63,25 @@
 											<span class="font-weight-bold mr-2">{{__('Email:')}}</span>
 											<a href="mailto:{{$user->email}}" class="text-muted text-hover-primary">{{$user->email}}</a>
 										</div>
-										@if($user->phoneNo != null)
+										@if(!empty($user->phoneNo))
 											<div class="d-flex align-items-center justify-content-between mb-2">
 												<span class="font-weight-bold mr-2">{{__('Phone 1:')}}</span>
 												<span class="text-muted">{{$user->phoneNo}}</span>
 											</div>
 										@endif
-										@if($user->phoneNo2 != null)
+										@if(!empty($user->phoneNo2 ))
 											<div class="d-flex align-items-center justify-content-between mb-2">
 												<span class="font-weight-bold mr-2">{{__('Phone 2:')}}</span>
 												<span class="text-muted">{{$user->phoneNo2}}</span>
 											</div>
 										@endif
-										@if($user->companyPhoneNo != null)
+										@if(!empty($user->companyPhoneNo))
 											<div class="d-flex align-items-center justify-content-between mb-2">
 												<span class="font-weight-bold mr-2">{{__('Phone 3:')}}</span>
 												<span class="text-muted">{{$user->companyPhoneNo}}</span>
 											</div>
 										@endif
-										@if($user->country_name != null)
+										@if(!empty($user->country_name))
 											@php
 												$country = DB::Table('countries')->select('name')->where('id',$user->country_name)->first();
 											@endphp
@@ -120,7 +120,7 @@
 											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Avatar')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url({{asset('public/backend/dist/assets/media/users/blank.png')}})">
-													<div class="image-input-wrapper" @if($user->avatar != null) style="background-image: url({{ asset('images/'.$user->avatar) }})" @endif></div>
+													<div class="image-input-wrapper" @if(!empty($user->avatar)) style="background-image: url({{ asset('images/'.$user->avatar) }})" @endif></div>
 													<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
 														<i class="fa fa-pen icon-sm text-muted"></i>
 														<input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg" required/>
@@ -136,7 +136,7 @@
 										<div class="form-group row">
 											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Name')}}</label>
 											<div class="col-lg-9 col-xl-6">
-												<input class="form-control form-control-lg form-control-solid" name="Username" type="text" value="{{$user->name}}" required/>
+												<input class="form-control form-control-lg form-control-solid" name="Username" type="text" value="{{$user->first_name}}" required/>
 											</div>
 										</div>
 										<div class="form-group row">
@@ -150,7 +150,7 @@
 											<div class="form-group row">
 												<label class="col-xl-3 col-lg-3 col-form-label">{{__('No. of free jobs')}}</label>
 												<div class="col-lg-9 col-xl-6">
-													<input class="form-control form-control-lg form-control-solid" name="free_jobs" type="number" min="0" step="1" value="{{$user->free_jobs}}" />
+													<input class="form-control form-control-lg form-control-solid" name="free_jobs" type="number" min="0" step="1" value="" />
 													@error('free_jobs')
 														<span class="" style="color: red">{{$message}}</span>
 													@enderror
@@ -173,7 +173,7 @@
 															<i class="la la-phone"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control form-control-lg form-control-solid" value="{{$user->phoneNo}}" placeholder="Phone 1" name="phoneNo" />
+													<input type="text" class="form-control form-control-lg form-control-solid" value="" placeholder="Phone 1" name="phoneNo" />
 												</div>
 											</div>
 										</div>
@@ -186,7 +186,7 @@
 															<i class="la la-phone"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control form-control-lg form-control-solid" value="{{$user->phoneNo2}}" placeholder="Phone 2" name="phoneNo2" />
+													<input type="text" class="form-control form-control-lg form-control-solid" value="" placeholder="Phone 2" name="phoneNo2" />
 												</div>
 											</div>
 										</div>
@@ -199,7 +199,7 @@
 															<i class="la la-phone"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control form-control-lg form-control-solid" value="{{$user->companyPhoneNo}}" placeholder="Phone 3" name="companyPhoneNo" />
+													<input type="text" class="form-control form-control-lg form-control-solid" value="" placeholder="Phone 3" name="companyPhoneNo" />
 												</div>
 											</div>
 										</div>

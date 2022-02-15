@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Auth;
 
 // send notifications
 if (!function_exists("notifications")) {
-    function notifications($parent_id, $parent_type){
+    function notifications($parent_id, $parent_type, $message){
         $data = [
             'parent_id'     => $parent_id,
             'parent_type'   => $parent_type,
-            'message'       => "<b>".user()->get_name()."</b> has posted somthing at : (". date('d-M-y') .")",
+            'message'       => $message,
             'route'         => current_url(),
             'image'         => user()->get_image(),
         ];

@@ -57,7 +57,7 @@ class LoginController extends Controller
             return redirect()->route('edit_profile', $user->id);
 
         }
-        elseif ($user->hsRole('Sub Admin'))
+        elseif ($user->hasRole('Sub Admin'))
         {
             return redirect()->route('subAdminDashboard');
         }

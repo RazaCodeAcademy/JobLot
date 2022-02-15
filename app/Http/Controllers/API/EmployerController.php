@@ -180,7 +180,11 @@ class EmployerController extends Controller
         $shortListedApplicants->status = '1';
         $shortListedApplicants->save();
 
-        notifications($shortListedApplicants->id, EmployeeShortListed::class);
+        notifications(
+            $shortListedApplicants->id, 
+            EmployeeShortListed::class, 
+            user()->get_name()." shortlisted to you at: (". date('d-M-y') .")"
+        );
 
         return response()->json([
             'shortListedApplicants' => $shortListedApplicants,
@@ -195,7 +199,11 @@ class EmployerController extends Controller
         $savedListedApplicants->status = '1';
         $savedListedApplicants->save();
 
-        notifications($savedListedApplicants->id, EmployeeSavedListed::class);
+        notifications(
+            $savedListedApplicants->id, 
+            EmployeeSavedListed::class, 
+            user()->get_name()." saved to you at: (". date('d-M-y') .")"
+        );
 
         return response()->json([
             'savedListedApplicants' => $savedListedApplicants,

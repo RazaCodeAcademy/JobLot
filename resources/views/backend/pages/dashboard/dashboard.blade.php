@@ -82,7 +82,7 @@
                                     </svg>
                                     <!--end::Svg Icon-->
                                 </span>
-                                <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="live-candidate-applied-jobs">{{$liveAppliedCandidateJobs}}</span>
+                                <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="live-candidate-applied-jobs">{{$liveAppliedEmployeeJobs}}</span>
                                 <span class="font-weight-bold text-white font-size-sm">{{__('Total candidates applied to live jobs')}}</span>
                             </div>
                             <!--end::Body-->
@@ -107,8 +107,8 @@
                                     </svg>
                                     <!--end::Svg Icon-->
                                 </span>
-                                <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="total-candidates">{{count($candidates)}}</span>
-                                <span class="font-weight-bold text-white font-size-sm">{{__('Total Candidate(s)')}}</span>
+                                <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="total-candidates">{{count($employees)}}</span>
+                                <span class="font-weight-bold text-white font-size-sm">{{__('Total Employee(s)')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>

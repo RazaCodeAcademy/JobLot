@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         $users= DB::table('users')
         ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-        ->select('users.id','users.name','model_has_roles.role_id','users.email','users.created_at','users.updated_at')
+        ->select('users.id','users.first_name','users.last_name','model_has_roles.role_id','users.email','users.created_at','users.updated_at')
         ->whereIn('model_has_roles.role_id', ['2','3','4'])
         ->orderBy('users.id', 'desc')
         ->get();
@@ -89,7 +89,7 @@ class UserController extends Controller
     {
         $user = DB::table('users')->where('users.id', $id)
         ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-        ->select('users.id','users.name', 'users.free_jobs', 'model_has_roles.role_id','users.email','users.country_name','users.created_at','users.updated_at')
+        ->select('users.id','users.name', 'model_has_roles.role_id','users.email','users.created_at','users.updated_at')
         ->whereIn('model_has_roles.role_id', ['2','3','4'])
         ->first();
 
@@ -240,14 +240,14 @@ class UserController extends Controller
     {
         $userRole= DB::table('users')->where('users.id', $id)
         ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-        ->select('users.id','users.name','model_has_roles.role_id','users.email','users.created_at','users.updated_at')
+        ->select('users.id','users.first_name','users.last_name','model_has_roles.role_id','users.email','users.created_at','users.updated_at')
         ->whereIn('model_has_roles.role_id', ['2','3','4'])
         ->first();
 
         if($userRole->role_id == 2){
             $user= DB::table('users')->where('users.id', $id)
             ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->select('users.id','users.name','model_has_roles.role_id','users.email','users.avatar', 'users.phoneNo','users.phoneNo2','users.companyPhoneNo' ,'users.created_at','users.updated_at', 'users.country_name', 'users.free_jobs')
+            ->select('users.id','users.first_name','users.last_name','model_has_roles.role_id','users.email' ,'users.created_at','users.updated_at')
             ->whereIn('model_has_roles.role_id', ['2','3'])
             ->first();
         }
@@ -257,7 +257,7 @@ class UserController extends Controller
             ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('candidate_profiles', 'users.id', '=', 'candidate_profiles.user_id')
             ->join('candidate_abouts', 'users.id', '=', 'candidate_abouts.user_id')
-            ->select('users.id','users.name','model_has_roles.role_id','users.email','users.created_at','users.updated_at','users.avatar','users.phoneNo','users.phoneNo2','users.companyPhoneNo','candidate_abouts.location','users.country_name')
+            ->select('users.id','users.first_name','users.last_name','model_has_roles.role_id','users.email','users.created_at','users.updated_at','candidate_abouts.location')
             ->whereIn('model_has_roles.role_id', ['2','3'])
             ->first();
         }
@@ -265,7 +265,7 @@ class UserController extends Controller
         if($userRole->role_id == 4){
             $user= DB::table('users')->where('users.id', $id)
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->select('users.id','users.name','model_has_roles.role_id','users.email','users.country_name','users.created_at','users.updated_at')
+                ->select('users.id','users.first_name','users.last_name','model_has_roles.role_id','users.email','users.created_at','users.updated_at')
                 ->whereIn('model_has_roles.role_id', ['4'])
                 ->first();
         }

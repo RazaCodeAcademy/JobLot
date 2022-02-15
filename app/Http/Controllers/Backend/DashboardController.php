@@ -6,20 +6,25 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+// use models
+use App\Models\Job;
+use App\Models\User;
+use App\Models\EmployeeAppliedJob;
+
 class DashboardController extends Controller
 {
     public function dashboard()
     {
-        $liveJobs = DB::table('jobs')->where('status','=',1)->where('approval_status','=',1)->count();
-        $liveAppliedCandidateJobs = DB::table('candidate_applied_jobs')->count();
+        $liveJobs = Job::where('status','=', 1)->count();
+        $liveAppliedEmployeeJobs = EmployeeAppliedJob::all()->count();
         $employers = DB::table('model_has_roles')->select('model_id')->where('role_id','=','2')->get();
-        $candidates = DB::table('model_has_roles')->select('model_id')->where('role_id','=','3')->get();
+        $employees = DB::table('model_has_roles')->select('model_id')->where('role_id','=','3')->get();
 
         $date = \Carbon\Carbon::today()->subDays(5);
-        $jobs = DB::table('jobs')->where('created_at','>=',$date)->get();
+        $jobs = Job::where('created_at','>=',$date)->get();
         $countries = DB::table('countries')->get();
 
-        return view('backend.pages.dashboard.dashboard',compact('liveJobs','liveAppliedCandidateJobs','employers','candidates','jobs','countries'));
+        return view('backend.pages.dashboard.dashboard',compact('liveJobs','liveAppliedEmployeeJobs','employers','employees','jobs','countries'));
     }
 
     public function filterCountry(Request $request)

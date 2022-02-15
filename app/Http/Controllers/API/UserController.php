@@ -2,8 +2,11 @@
 namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Otp;
 use App\Models\User;
 use App\Models\Job;
+use App\Models\EmailOtp;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Exception;
@@ -161,6 +164,12 @@ class UserController extends Controller
 
     public function getUserInfo(Request $request){
         $user = Auth::user();
+
+        if($request->user_id){
+            $user = User::find($request->user_id);
+        }
+
+        
         if($user){
             return response()->json([
                 'user' => $user,
@@ -288,5 +297,76 @@ class UserController extends Controller
             'success' => true,
             'message' => 'Notification read successfuly!',
         ], 200);
+    }
+
+    public function sendOTP(Request $request)
+    {
+        $email = User::select('email')->where('email', $request->email)->first();
+        if (!empty($email)) {
+            $otpCode = rand(1000, 9999);
+            $otp = EmailOtp::updateOrCreate(
+                ['email' => $request->email],
+                ['otp' => $otpCode],
+            );
+            if($otp){
+                Mail::to($request->email)->send(new Otp($otpCode));
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Otp sent to your email please verify with your otp!',
+                ], 200);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong with the email please try again!',
+            ], 400);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Email does not exist in our record!',
+            ], 400);
+        }
+    }
+
+    public function verifyOTP(Request $request)
+    {
+        $otpCode = EmailOtp::where([
+            ['email', $request->email],
+            ['otp', $request->otp],
+        ])->first();
+        if($otpCode){
+            EmailOtp::where('email', $request->email)->first()->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Otp matched successfuly!',
+            ], 200);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Otp does not matched successfuly!',
+        ], 400);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        if (!empty($user)) {
+            if($request->password == $request->confirm_password){
+                $user->password = bcrypt($request->password);
+                $user->update();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Password reset successfuly!',
+                ], 200);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'Password does not match with confirmation please try again!',
+            ], 400);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Email does not exist in our record!',
+            ], 400);
+        }
     }
 }

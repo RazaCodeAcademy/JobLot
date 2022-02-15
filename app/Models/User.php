@@ -36,6 +36,7 @@ class User extends Authenticatable
         'job_schedual_to',
         'latitude',
         'longitude',
+        'profile_image'
     ];
 
     /**
@@ -66,7 +67,7 @@ class User extends Authenticatable
 
     public function get_image(){
         if(!empty($this->profile_image)){
-            return asset('images/'.$this->profile_image);
+            return asset('storage/app/'.$this->profile_image);
         }else{
             return asset('images/12432424.jpg');
         }

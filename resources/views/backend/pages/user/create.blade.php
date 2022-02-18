@@ -70,7 +70,7 @@
                                                 <option @if(old('accountTypeUser') == 'Admin') selected @endif value='Admin'>{{__('Admin')}}</option>
                                             @endif
 											<option @if(old('accountTypeUser') == 'Employer') selected @endif value='Employer'>{{__('Employer')}}</option>
-											<option @if(old('accountTypeUser') == 'Candidate') selected @endif value='Candidate'>{{__('Candidate')}}</option>
+											<option @if(old('accountTypeUser') == 'Employee') selected @endif value='Employee'>{{__('Employee')}}</option>
 										</select>
 										@error('accountTypeUser')
 											<span class="invalid-feedback" role="alert">
@@ -83,14 +83,10 @@
                                 @if ($user->id ==1)
                                     <div class="col-6">
                                     <div class="form-group">
-                                        <label>{{__('Country')}} <span class="text-danger">*</span></label>
-                                        <select name="country_name"  class="form-control" required>
-                                            <option selected="selected" disabled="disabled" value="">{{__('Select Country')}}</option>
-                                            @foreach($countries as $country)
-                                            <option @if(old('country') == $country->id) selected @endif value='{{$country->id}}'>{{$country->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('country')
+                                        <label>{{__('First_name')}} <span class="text-danger">*</span></label>
+                                        <input type="text" name="first_name"  class="form-control" required>
+                                          
+                                        @error('first_name')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}
                                         </span>
@@ -101,9 +97,64 @@
 
 								<div class="col-6">
 									<div class="form-group">
-										<label>{{__('Name')}} <span class="text-danger">*</span></label>
-										<input type="text" class="form-control"  placeholder="Enter Name" name="Username" value="{{old('Username')}}" required />
-										@error('Username')
+										<label>{{__('Last_Name')}} <span class="text-danger">*</span></label>
+										<input type="text" class="form-control"  placeholder="Enter last Name" name="last_name" value="{{old('Username')}}" required />
+										@error('last_name')
+											<span class="invalid-feedback" role="alert">
+												{{ $message }}
+											</span>
+										@enderror
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										<label>{{__('Street Address')}} <span class="text-danger">*</span></label>
+										<input type="text" class="form-control"  placeholder="Enter Name" name="street_address" value="{{old('Username')}}" required />
+										@error('street_address')
+											<span class="invalid-feedback" role="alert">
+												{{ $message }}
+											</span>
+										@enderror
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										<label>{{__('State')}} <span class="text-danger">*</span></label>
+										<select name="state_id"  class="form-control" required>
+                                            <option selected="selected" disabled="disabled" value="">{{__('Select State')}}</option>
+                                            @foreach($countries as $country)
+                                            <option @if(old('country') == $country->id) selected @endif value='{{$country->id}}'>{{$country->name}}</option>
+                                            @endforeach
+                                        </select>
+										@error('State')
+											<span class="invalid-feedback" role="alert">
+												{{ $message }}
+											</span>
+										@enderror
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										<label>{{__('City Name')}} <span class="text-danger">*</span></label>
+										<select name="city_name"  class="form-control" required>
+                                            <option selected="selected" disabled="disabled" value="">{{__('Select City')}}</option>
+                                            @foreach($cities as $city)
+                                            <option  value='{{$city->id}}'>{{$city->name}}</option>
+                                            @endforeach
+                                        </select>
+										@error('last_name')
+											<span class="invalid-feedback" role="alert">
+												{{ $message }}
+											</span>
+										@enderror
+									</div>
+								</div>
+							
+								<div class="col-6">
+									<div class="form-group">
+										<label>{{__('Zip Code')}} <span class="text-danger">*</span></label>
+										<input type="number" class="form-control"  placeholder="Enter Name" name="zip_code" value="{{old('Username')}}" required />
+										@error('State')
 											<span class="invalid-feedback" role="alert">
 												{{ $message }}
 											</span>
@@ -122,7 +173,17 @@
 										@enderror
 									</div>
 								</div>
-
+								<div class="col-6">
+									<div class="form-group">
+										<label>{{__('Phone Number')}} <span class="text-danger">*</span></label>
+										<input type="number" class="form-control"  placeholder="Enter Name" name="phone_number" value="{{old('Username')}}" required />
+										@error('State')
+											<span class="invalid-feedback" role="alert">
+												{{ $message }}
+											</span>
+										@enderror
+									</div>
+								</div>
 								<div class="col-6">
 									<div class="form-group">
 										<label>{{__('Password')}}<span class="text-danger">*</span></label>

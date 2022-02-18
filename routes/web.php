@@ -58,8 +58,8 @@ Route::prefix('admin')->group(function (){
             Route::get('/create', 'Backend\CountryController@createCountry')->name('createCountry');
             Route::post('/store', 'Backend\CountryController@storeCountry')->name('storeCountry');
             Route::get('/edit/{id}', 'Backend\CountryController@editCountry')->name('editCountry');
-            Route::post('/update', 'Backend\CountryController@updateCountry')->name('updateCountry');
-            Route::post('/delete', 'Backend\CountryController@deleteCountry')->name('deleteCountry');
+            Route::post('/update/{id}', 'Backend\CountryController@updateCountry')->name('updateCountry');
+            Route::post('/delete/{id}', 'Backend\CountryController@deleteCountry')->name('deleteCountry');
         });
 
         Route::group(['prefix' => 'cities'], function () {
@@ -67,12 +67,12 @@ Route::prefix('admin')->group(function (){
             Route::get('/create', 'Backend\CityController@createCity')->name('createCity');
             Route::post('/store', 'Backend\CityController@storeCity')->name('storeCity');
             Route::get('/edit/{id}', 'Backend\CityController@editCity')->name('editCity');
-            Route::post('/update', 'Backend\CityController@updateCity')->name('updateCity');
-            Route::post('/delete', 'Backend\CityController@deleteCity')->name('deleteCity');
+            Route::post('/update/{id}', 'Backend\CityController@updateCity')->name('updateCity');
+            Route::post('/delete/{id}', 'Backend\CityController@deleteCity')->name('deleteCity');
         });
 
-        Route::group(['prefix' => 'candidates'], function () {
-            Route::get('/', 'Backend\CandidateController@list')->name('listCandidate');
+        Route::group(['prefix' => 'employee'], function () {
+            Route::get('/', 'Backend\EmployeeController@list')->name('listCandidate');
         });
 
         Route::group(['prefix' => 'statistics'], function () {
@@ -85,8 +85,8 @@ Route::prefix('admin')->group(function (){
             Route::get('/create', 'Backend\EmployeeBusinessCategoryController@createCategory')->name('createCategory');
             Route::post('/store', 'Backend\EmployeeBusinessCategoryController@storeCategory')->name('storeCategory');
             Route::get('/edit/{id}', 'Backend\EmployeeBusinessCategoryController@editCategory')->name('editCategory');
-            Route::post('/update', 'Backend\EmployeeBusinessCategoryController@updateCategory')->name('updateCategory');
-            Route::post('/delete', 'Backend\EmployeeBusinessCategoryController@deleteCategory')->name('deleteCategory');
+            Route::post('/update/{id}', 'Backend\EmployeeBusinessCategoryController@updateCategory')->name('updateCategory');
+            Route::post('/delete/{id}', 'Backend\EmployeeBusinessCategoryController@deleteCategory')->name('deleteCategory');
         });
 
         Route::group(['prefix' => 'candidate-job-locations'], function () {
@@ -103,8 +103,8 @@ Route::prefix('admin')->group(function (){
             Route::get('/create', 'Backend\JobCareerLevelController@createCareerLevel')->name('createCareerLevel');
             Route::post('/store', 'Backend\JobCareerLevelController@storeCareerLevel')->name('storeCareerLevel');
             Route::get('/edit/{id}', 'Backend\JobCareerLevelController@editCareerLevel')->name('editCareerLevel');
-            Route::post('/update', 'Backend\JobCareerLevelController@updateCareerLevel')->name('updateCareerLevel');
-            Route::post('/delete', 'Backend\JobCareerLevelController@deleteCareerLevel')->name('deleteCareerLevel');
+            Route::post('/update/{id}', 'Backend\JobCareerLevelController@updateCareerLevel')->name('updateCareerLevel');
+            Route::post('/delete/{id}', 'Backend\JobCareerLevelController@deleteCareerLevel')->name('deleteCareerLevel');
         });
 
         Route::group(['prefix' => 'job-qualifications'], function () {
@@ -112,8 +112,8 @@ Route::prefix('admin')->group(function (){
             Route::get('/create', 'Backend\JobQualificationController@createQualification')->name('createQualification');
             Route::post('/store', 'Backend\JobQualificationController@storeQualification')->name('storeQualification');
             Route::get('/edit/{id}', 'Backend\JobQualificationController@editQualification')->name('editQualification');
-            Route::post('/update', 'Backend\JobQualificationController@updateQualification')->name('updateQualification');
-            Route::post('/delete', 'Backend\JobQualificationController@deleteQualification')->name('deleteQualification');
+            Route::post('/update/{id}', 'Backend\JobQualificationController@updateQualification')->name('updateQualification');
+            Route::post('/delete/{id}', 'Backend\JobQualificationController@deleteQualification')->name('deleteQualification');
         });
 
         Route::group(['prefix' => 'job-salary-ranges'], function () {
@@ -121,8 +121,8 @@ Route::prefix('admin')->group(function (){
             Route::get('/create', 'Backend\JobSalaryRangeController@createSalaryRange')->name('createSalaryRange');
             Route::post('/store', 'Backend\JobSalaryRangeController@storeSalaryRange')->name('storeSalaryRange');
             Route::get('/edit/{id}', 'Backend\JobSalaryRangeController@editSalaryRange')->name('editSalaryRange');
-            Route::post('/update', 'Backend\JobSalaryRangeController@updateSalaryRange')->name('updateSalaryRange');
-            Route::post('/delete', 'Backend\JobSalaryRangeController@deleteSalaryRange')->name('deleteSalaryRange');
+            Route::post('/update/{id}', 'Backend\JobSalaryRangeController@updateSalaryRange')->name('updateSalaryRange');
+            Route::post('/delete/{id}', 'Backend\JobSalaryRangeController@deleteSalaryRange')->name('deleteSalaryRange');
         });
 
         Route::group(['prefix' => 'job-types'], function () {
@@ -167,7 +167,7 @@ Route::prefix('admin')->group(function (){
             Route::post('/store', 'Backend\UserController@storeUser')->name('storeUser');
             Route::get('/edit/{id}', 'Backend\UserController@editUser')->name('editUser');
             Route::get('/view/{id}', 'Backend\UserController@viewUser')->name('viewUser');
-            Route::post('/update', 'Backend\UserController@updateUser')->name('updateUser');
+            Route::post('/update/{id}', 'Backend\UserController@updateUser')->name('updateUser');
             Route::post('/delete', 'Backend\UserController@deleteUser')->name('deleteUser');
         });
 
@@ -195,7 +195,7 @@ Route::prefix('admin')->group(function (){
 
         Route::group(['prefix' => 'manage-job-approval'], function () {
             Route::get('/list', 'Backend\JobApprovalController@list')->name('listJobApproval');
-            Route::post('/job/status', 'Backend\JobApprovalController@status')->name('jobStatus');
+            Route::post('/job/status/{id}', 'Backend\JobApprovalController@status')->name('jobStatus');
             Route::get('/job-detail/{id}', 'Backend\JobApprovalController@job_details')->name('employerJobDetail');
         });
 

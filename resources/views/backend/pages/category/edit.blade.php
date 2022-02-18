@@ -38,7 +38,7 @@
 						</div>
 					</div>
 
-					<form method="POST" action="{{route('updateCategory')}}" enctype="multipart/form-data">
+					<form method="POST" action="{{route('updateCategory',$category->id)}}" enctype="multipart/form-data">
 						@csrf
 						<div class="card-body">
 							<div class="row">

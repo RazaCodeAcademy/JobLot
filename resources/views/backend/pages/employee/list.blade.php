@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-    List Candidates
+    List Employee
 @endsection
 
 @section('css')
@@ -13,7 +13,7 @@
         <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
             <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                 <div class="d-flex align-items-center flex-wrap mr-2">
-                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{__('List of candidates')}}</h5>
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{__('List of Employee')}}</h5>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
-                        <h3 class="card-label">{{__('List of Candidates')}}
+                        <h3 class="card-label">{{__('List of Employee')}}
                             <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
                 </div>
@@ -67,52 +67,44 @@
                         <tr>
                             <th style="text-align:center;">{{__('Name')}}</th>
                             <th style="text-align:center;">{{__('Current Country')}}</th>
-                            <th style="text-align:center;">{{__('Nationality')}}</th>
-                            <th style="text-align:center;">{{__('Age')}}</th>
-                            <th style="text-align:center;">{{__('Field of interest')}}</th>
-                            <th style="text-align:center;">{{__('Last employer name')}}</th>
-                            <th style="text-align:center;">{{__('Degree')}}</th>
+                            <th style="text-align:center;">{{__('City_name')}}</th>
+                            {{--  <th style="text-align:center;">{{__('Age')}}</th>  --}}
+                            <th style="text-align:center;">{{__('Phone_no')}}</th>
+                            <th style="text-align:center;">{{__(' employee Last name')}}</th>
+                            {{--  <th style="text-align:center;">{{__('Degree')}}</th>  --}}
                         </tr>
                         </thead>
                         <tbody>
-                            @php 
-                                $user_role_id = DB::table('model_has_roles')->where('model_id', Auth::user()->id)->first();
-                                $user = DB::table('roles')->where('id', $user_role_id->role_id)->first();
-                            @endphp
-                            @if($user->id == 1)
-                                @foreach ($candidates as $candidate)
-                                    @php
-                                            $candidateAbout = DB::table('candidate_abouts')->where('user_id', $candidate->model_id)->first();
-                                            if($candidateAbout != null){
-                                                $country = DB::table('countries')->select('name')->where('id', $candidateAbout->location)->first();
-                                            }
-                                            $candidate_personal_informations = DB::table('candidate_personal_informations')->where('user_id', $candidate->model_id)->first();
-                                            $nationality = DB::table('countries')->where('id', $candidate_personal_informations->nationality)->first();
-                                            $candidate_educations = DB::table('candidate_educations')->where('user_id', $candidate->model_id)->max('degree');
-                                            $degree = DB::table('job_qualifications')->where('id', $candidate_educations)->first();
-                                            $candidate_applied_jobs = DB::table('candidate_applied_jobs')
+                           
+                            
+                                @foreach ($employees as $employee)
+                                    {{--  @php
+                                           
+                                            
+                                            $candidate_personal_informations = DB::table('employee_personal_information')->where('user_id', $candidate->model_id)->first();
+                                           
+                                            $candidate_applied_jobs = DB::table('employee_applied_jobs')
                                                                         ->where('user_id', $candidate->model_id)
-                                                                        ->where('application_status','=','Hired')
+                                                                        ->where('status','=','Hired')
                                                                         ->latest('created_at')
                                                                         ->first() ?? '';
-                                            $fieldOfInterest = explode(',', $candidateAbout->field_of_expertise ?? '');
-                                            $interestedFields = DB::table('employee_bussiness_categories')->wherein('id', $fieldOfInterest)->get();
+                                           
                                             if (!empty($candidate_applied_jobs)){
-                                            $job_id = DB::table('jobs')->select('user_id')->where('id',$candidate_applied_jobs->job_id)->first();
+                                            $job_id = DB::table('jobs')->select('user_id')->where('id',$employee_applied_jobs->job_id)->first();
                                             $employeeName = DB::table('users')->select('name')->where('id', $job_id->user_id)->first() ?? '';
                                             }
-                                    @endphp
+                                    @endphp  --}}
                                     <tr>
-                                        <td style="text-align:center;">{{$candidate->name}}</td>
-                                        <td style="text-align:center;">@if($country != null ) {{$country->name}} @endif</td>
-                                        <td style="text-align:center;">@if(isset($nationality)){{$nationality->name}} @else N/A @endif</td>
-                                        <td style="text-align:center;">@if(isset($candidate_personal_informations->age)){{$candidate_personal_informations->age}}@endif</td>
-                                        <td style="text-align:center;">@foreach($interestedFields as $fields) {{$fields->category}} @if($loop->last) {{''}} @else {{"|"}} @endif  @endforeach</td>
-                                        <td style="text-align:center;">@if(isset($employeeName)) {{$employeeName->name}} @else N/A @endif</td>
-                                        <td style="text-align:center;">@if(isset($degree)){{$degree->name}}@endif</td>
+                                        <td style="text-align:center;">{{$employee->first_name}}</td>
+                                        <td style="text-align:center;">{{ $employee->country->name ?? 'N/A' }}</td>
+                                        <td style="text-align:center;">{{ $employee->city->name ?? 'N/A' }}</td>
+                                        {{--  <td style="text-align:center;">@if(isset($employee_personal_informations->age)){{$employee_personal_informations->age}}@endif</td>  --}}
+                                        <td style="text-align:center;">{{ $employee->phone_number }}</td>
+                                        <td style="text-align:center;">{{ $employee->last_name }}</td>
+                                        {{--  <td style="text-align:center;">@if(isset($degree)){{$degree->name}}@endif</td>  --}}
                                     </tr>
                                 @endforeach
-                            @endif
+                          
                         </tbody>
                     </table>
                 </div>

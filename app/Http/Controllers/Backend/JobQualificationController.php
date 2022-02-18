@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use App\Models\JobQualifcation;
 
 class JobQualificationController extends Controller
 {
     public function listQualifications()
     {
-        $qualifications = DB::table('job_qualifications')->orderBy('id', 'desc')->get();
+        $qualifications = JobQualifcation::orderBy('id', 'desc')->get();
 
         return view('backend.pages.qualification.list', compact('qualifications'));
     }
@@ -35,7 +36,7 @@ class JobQualificationController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        DB::table('job_qualifications')->insert([
+        JobQualifcation::create([
             'name' => $request->name,
             'name_ar' => $request->name_ar,
         ]);
@@ -45,7 +46,7 @@ class JobQualificationController extends Controller
 
     public function editQualification($id)
     {
-        $qualification = DB::table('job_qualifications')->where('id', $id)->first();
+        $qualification = JobQualifcation::find($id);
 
         if($qualification == null)
         {
@@ -55,9 +56,9 @@ class JobQualificationController extends Controller
         return view('backend.pages.qualification.edit', compact('qualification'));
     }
 
-    public function updateQualification(Request $request)
+    public function updateQualification(Request $request,$id)
     {
-        $qualification = DB::table('job_qualifications')->where('id', $request->id)->first();
+        $qualification = JobQualifcation::find($id);
 
         if($qualification == null)
         {
@@ -75,7 +76,7 @@ class JobQualificationController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        DB::table('job_qualifications')->where('id', $request->id)->update([
+        JobQualifcation::find($id)->update([
             'name' => $request->name,
             'name_ar' => $request->name_ar,
         ]);
@@ -84,14 +85,14 @@ class JobQualificationController extends Controller
 
     }
 
-    public function deleteQualification(Request $request){
-        $qualification = DB::table('job_qualifications')->where('id',$request->id)->first();
+    public function deleteQualification(Request $request,$id){
+        $qualification = JobQualifcation::find($id);
 
         if(empty($qualification)) {
             return response()->json(['status' => 0]);
         }
 
-        DB::table('job_qualifications')->where('id',$request->id)->delete();
+        $qualification->delete();
 
         return response()->json(['status' => 1]);
     }

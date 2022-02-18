@@ -53,12 +53,8 @@
 										<td>{{$city->id}}</td>
 										<td>{{ (session()->has('language')) ? $city->name_ar : $city->name }}</td>
 										<td>
-											@php
-												$country = DB::table('countries')->find($city->id);
-											@endphp
-											@if(isset($country))
-												{{ (session()->has('language')) ? $country->name_ar : $country->name }}
-											@endif
+											{{--  @dd($city->country)  --}}
+											{{   $city->country->name ?? 'N/A' }}
 										</td>
 										<td>
 											<a href="{{route('editCity', $city->id)}}"><i class="la la-pencil-alt text-success mr-5"></i></a>
@@ -77,6 +73,9 @@
 
 @section('script')
 	<script>
+		function get_url(url, id){
+            return url.replace("item_id", id);
+        }
 		function deleteFunction(id) {
             swal({
                 title: "Are you sure?",
@@ -90,7 +89,7 @@
 
 					$.ajax({
 						method: "POST",
-						url: "{{route('deleteCity')}}",
+						url: get_url("{{route('deleteCity','item_id')}}", id),
 						data: {
 							_token: $('meta[name="csrf-token"]').attr('content'),
 							'id': id

@@ -27,7 +27,7 @@
                                             $count = DB::table('jobs')
                                             ->where('category', $job_category->id)
                                             ->where('status', '=' , 1)
-                                            ->where('approval_status', '=' , 1)
+                                            ->where('job_approval', '=' , 1)
                                             ->whereDate('date','<=', $timeCheck)
                                             ->whereDate('endingDate','>=', $timeCheck)
                                             ->count(); 
@@ -44,7 +44,7 @@
                                             $count = DB::table('jobs')
                                             ->where('job_location', $location->id)
                                             ->where('status', '=' , 1)
-                                            ->where('approval_status', '=' , 1)
+                                            ->where('job_approval', '=' , 1)
                                             ->whereDate('date','<=', $timeCheck)
                                             ->whereDate('endingDate','>=', $timeCheck)
                                             ->count(); 

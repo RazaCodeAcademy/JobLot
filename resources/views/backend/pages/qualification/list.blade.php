@@ -70,6 +70,9 @@
 
 @section('script')
 	<script>
+		function get_url(url, id){
+            return url.replace("item_id", id);
+        }
 		function deleteFunction(id) {
             swal({
                 title: "Are you sure?",
@@ -83,7 +86,7 @@
 
 					$.ajax({
 						method: "POST",
-						url: "{{route('deleteQualification')}}",
+						url: get_url("{{route('deleteQualification','item_id')}}", id),
 						data: {
 							_token: $('meta[name="csrf-token"]').attr('content'),
 							'id': id

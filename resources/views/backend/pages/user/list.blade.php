@@ -59,11 +59,20 @@
 							</thead>
 							<tbody>
 								@foreach ($users as $user)
+								{{--  @dd($user->roles->first()->id)  --}}
 									<tr>
 										<td>{{$loop->iteration}}</td>
 										<td>{{$user->first_name.' '.$user->last_name}}</td>
 										<td>{{$user->email}}</td>
-										<td>@if($user->role_id == 2) Employer @elseif($user->role_id == 3) Employee @elseif($userRole->id == 1 && $user->role_id == 4) Sub Admin  @endif</td>
+										<td>
+											@if($user->roles->first()->id == 2) 
+											Employer 
+											@elseif($user->roles->first()->id == 3) 
+											Employee 
+											@elseif($user->roles->first()->id == 1 ) 
+											 Admin  
+											@endif
+										</td>
 										<td>
                                             @if($userRole->id == 1)
                                                 <a href="{{route('viewUser', $user->id)}}"><i class="la la-eye text-success mr-5"></i></a>

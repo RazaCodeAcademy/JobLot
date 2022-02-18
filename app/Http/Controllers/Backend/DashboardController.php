@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Job;
 use App\Models\User;
 use App\Models\EmployeeAppliedJob;
+use App\Models\Country;
+use App\Models\EmployeeBussinessCategory;
 
 class DashboardController extends Controller
 {
@@ -21,8 +23,8 @@ class DashboardController extends Controller
         $employees = DB::table('model_has_roles')->select('model_id')->where('role_id','=','3')->get();
 
         $date = \Carbon\Carbon::today()->subDays(5);
-        $jobs = Job::where('created_at','>=',$date)->get();
-        $countries = DB::table('countries')->get();
+        $jobs = Job::where('created_at','>=',$date)->with('get_bussines_catogories','get_location')->get();
+        $countries = Country::all();
 
         return view('backend.pages.dashboard.dashboard',compact('liveJobs','liveAppliedEmployeeJobs','employers','employees','jobs','countries'));
     }

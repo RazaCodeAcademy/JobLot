@@ -5,18 +5,31 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Job;
+use App\Models\EmployeeAppliedJob;
+use App\Models\Country;
+use App\Models\ModelHasRole;
+use App\Models\User;
 
 class StatisticController extends Controller
 {
     public function list()
     {
-        $liveJobs = DB::table('jobs')->where('status','=',1)->where('approval_status','=',1)->count();
-        $totalJobs = DB::table('jobs')->get();
-        $totalCandidateJobsApplied = DB::table('candidate_applied_jobs')->count();
-        $liveAppliedCandidateJobs = DB::table('candidate_applied_jobs')->count();
-        $employers = DB::table('model_has_roles')->select('model_id')->where('role_id','=','2')->get();
-        $candidates = DB::table('model_has_roles')->select('model_id')->where('role_id','=','3')->get();
-        $countries = DB::table('countries')->get();
+        $liveJobs = Job::where('status','=',1)->where('job_approval','=',1)->count();
+        $totalJobs = Job::all();
+        $totalCandidateJobsApplied = EmployeeAppliedJob::all()->count();
+        $liveAppliedCandidateJobs = EmployeeAppliedJob::all()->count();
+        $employers = ModelHasRole::select('model_id')->where('role_id','=','2')->get();
+        $candidates = ModelHasRole::select('model_id')->where('role_id','=','3')->get();
+        $countries = Country::all();
+     
+        
+        $employers = User::whereIn('id',$employers->pluck('model_id'))->get();
+        
+        
+        // $employeeJobs = Job::where('employer_id',$employee->id)->get();
+        // $employeeLiveJobsCount =Job::where('employer_id',$employee->id)->where('status','=',1)->where('job_approval','=',1)->count();
+        // $appliedCandidates = Job::where('jobs.employer_id',$employee->id)->count();
 
         return view('backend.pages.statistics.view',compact('liveJobs','totalJobs','totalCandidateJobsApplied','liveAppliedCandidateJobs','employers','candidates','countries'));
     }
@@ -25,7 +38,7 @@ class StatisticController extends Controller
     {
         if ($request->country_id == 0)
         {
-            $liveJobs = DB::table('jobs')->where('status','=',1)->where('approval_status','=',1)->count();
+            $liveJobs = DB::table('jobs')->where('status','=',1)->where('job_approval','=',1)->count();
             $totalJobs = DB::table('jobs')->count();
             $totalCandidateJobsApplied = DB::table('candidate_applied_jobs')->count();
             $liveAppliedCandidateJobs = DB::table('candidate_applied_jobs')->count();
@@ -39,7 +52,7 @@ class StatisticController extends Controller
 
         else
         {
-            $liveJobs = DB::table('jobs')->where('status','=',1)->where('approval_status','=',1)->where('job_location', $request->country_id)->count();
+            $liveJobs = DB::table('jobs')->where('status','=',1)->where('job_approval','=',1)->where('job_location', $request->country_id)->count();
             $totalJobs = DB::table('jobs')->where('job_location', $request->country_id)->count();
             $totalCandidateJobsApplied = DB::table('candidate_applied_jobs')
                 ->join('jobs','candidate_applied_jobs.job_id','=','jobs.id')

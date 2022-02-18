@@ -9,34 +9,39 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Country;
+use App\Models\ModelHasRole;
+use App\Models\EmployeePersonalInformation;
+use App\Models\Role;
+use App\Models\City;
+
 
 class UserController extends Controller
 {
     public function listUsers()
     {
-        $users= DB::table('users')
-        ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-        ->select('users.id','users.first_name','users.last_name','model_has_roles.role_id','users.email','users.created_at','users.updated_at')
-        ->whereIn('model_has_roles.role_id', ['2','3','4'])
-        ->orderBy('users.id', 'desc')
-        ->get();
-
+        $users= User::whereHas(
+            'roles', function($q){
+                $q->where('role_id', '1')->orwhere('role_id','2');
+            })->orderby('created_at','desc')->get();
+       
         return view('backend.pages.user.list', compact('users'));
     }
 
     public function createUser()
     {
-        $countries = DB::table('countries')->get();
+        $countries = Country::all();
+        $cities = City::all();
 
-        return view('backend.pages.user.create',compact('countries'));
+        return view('backend.pages.user.create',compact('countries','cities'));
     }
 
     public function storeUser(Request $request)
     {
         $rules = [
-            'Username' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
             'accountTypeUser' => 'required',
-            'country_name' => 'required',
+            'state_id' => 'required',
             'UserEmail' => 'required|unique:users,email',
             'user_password' => 'required|confirmed|min:6',
         ];
@@ -49,37 +54,44 @@ class UserController extends Controller
         }
 
         $userid =  User::create([
-            'name' => $request['Username'],
+            'first_name' => $request['first_name'],
+            'last_name' => $request['last_name'],
+            'street_address' => $request['street_address'],
+            'city_name' => $request['city_name'],
+            
+            'state_id' => $request['state_id'],
+            'zip_code' => $request['zip_code'],
             'email' => $request['UserEmail'],
+            'phone_number' => $request['phone_number'],
             'password' => Hash::make($request['user_password']),
-            'agreement' => 1,
-            'country_name' => $request['country_name'],
+            'terms_and_conditions' => 1,
+            // 'country_name' => $request['country_name'],
         ]);
 
         if($request->accountTypeUser == 'Employer')
         {
             $data1=array('role_id'=>'2',"model_type"=>'App\Models\User',"model_id"=>$userid->id);
-            DB::table('model_has_roles')->insert($data1);
+            ModelHasRole::insert($data1);
         }
 
-        elseif($request->accountTypeUser == 'Candidate')
+        elseif($request->accountTypeUser == 'Employee')
         {
             $data1=array('role_id'=>'3',"model_type"=>'App\Models\User',"model_id"=>$userid->id);
-            DB::table('model_has_roles')->insert($data1);
+            ModelHasRole::insert($data1);
 
-            DB::table('candidate_abouts')->insert([
-                'user_id' => $userid->id
-            ]);
+            // DB::table('candidate_abouts')->insert([
+            //     'user_id' => $userid->id
+            // ]);
 
-            DB::table('candidate_personal_informations')->insert([
+            EmployeePersonalInformation::insert([
                 'user_id' => $userid->id
             ]);
         }
 
         elseif($request->accountTypeUser == 'Admin')
         {
-            $data1 = array('role_id'=>'4',"model_type"=>'App\Models\User',"model_id"=>$userid->id);
-            DB::table('model_has_roles')->insert($data1);
+            $data1 = array('role_id'=>'1',"model_type"=>'App\Models\User',"model_id"=>$userid->id);
+            ModelHasRole::insert($data1);
         }
 
         return redirect()->route('listUsers')->with('success', 'Record Added Successfully.');
@@ -87,45 +99,48 @@ class UserController extends Controller
 
     public function editUser($id)
     {
-        $user = DB::table('users')->where('users.id', $id)
-        ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-        ->select('users.id','users.name', 'model_has_roles.role_id','users.email','users.created_at','users.updated_at')
-        ->whereIn('model_has_roles.role_id', ['2','3','4'])
-        ->first();
+        $user = User::find($id);
 
-        $countries = DB::table('countries')->get();
+        $countries = Country::all();
+        $cities = City::all();
 
         if($user == null)
         {
             return redirect()->route('listUsers')->with('error', 'No Record Found.');
         }
 
-        return view('backend.pages.user.edit', compact('user','countries'));
+        return view('backend.pages.user.edit', compact('user','countries','cities'));
     }
 
-    public function updateUser(Request $request)
+    public function updateUser(Request $request,$id)
     {
-        $user = DB::table('users')->where('id', $request->id)->first();
+        $rules = [
+            'first_name' => 'required|string|max:255',
+            'state_id' => 'required',
+            'UserEmail' => 'required|unique:users,email',
+        ];
+
+        $user =User::find($id);
 
         if($user == null)
         {
             return redirect()->route('listUsers')->with('error', 'No Record Found.');
         }
 
-        $user_type = DB::table('model_has_roles')->where('model_id',$user->id)->first();
+        $user_type = ModelHasRole::where('model_id',$user->id)->first();
 
         if ($user_type->role_id == 2){
-
-            $user_role_id = DB::table('model_has_roles')->where('model_id', auth()->user()->id)->first();
-			$myRole = DB::table('roles')->where('id', $user_role_id->role_id)->first();
+                
+            $user_role_id = ModelHasRole::where('model_id', Auth::user()->id)->first();
+			$myRole = Role::where('id', $user_role_id->role_id)->first();
 
             $rules = [
-                'Username' => 'required|string|max:255'
+                'first_name' => 'required|string|max:255',
+                
+                
+                'phone_number' => 'required',
             ];
-
-            if($myRole->id == 1){
-                $rules['free_jobs'] = 'integer';
-            }
+           
 
             $validator = Validator::make($request->all(), $rules);
 
@@ -133,32 +148,27 @@ class UserController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
-            DB::table('users')->where('id', $request->id)->update([
-                'name' => $request->Username,
-                'name' => $request->Username,
-                'phoneNo' => $request->phoneNo,
-                'phoneNo2' => $request->phoneNo2,
-                'companyPhoneNo' => $request->companyPhoneNo,
+
+            User::find($id)->update([
+                'first_name' => $request->first_name,
+       
+                'phone_number' => $request->phone_number,
+                
             ]);
 
-            $user_role_id = DB::table('model_has_roles')->where('model_id', auth()->user()->id)->first();
-			$myRole = DB::table('roles')->where('id', $user_role_id->role_id)->first();
+            $user_role_id = ModelHasRole::where('model_id', auth()->user()->id)->first();
+			$myRole = Role::where('id', $user_role_id->role_id)->first();
 
-            if($myRole->id == 1){
-                DB::table('users')->where('id', $request->id)->update([
-                    'free_jobs' => $request->free_jobs,
-                ]);
-            }
-
-            if($request->hasFile('profile_avatar')) {
-                $image = $request->file('profile_avatar');
+            
+            if($request->hasFile('profile_image')) {
+                $image = $request->file('profile_image');
                 $path = public_path(). '/images/';
                 $filename = time() . '.' . $image->getClientOriginalExtension();
                 $image->move($path, $filename);
                 $avatar  = $filename;
 
 
-                DB::table('users')->where('id', $request->id)->update(array(
+                User::find($id)->update(array(
                     'avatar' => $avatar,
                 ));
             }
@@ -168,7 +178,9 @@ class UserController extends Controller
 
         elseif ($user_type->role_id == 3){
             $rules = [
-                'Username' => 'required|string|max:255'
+                'first_name' => 'required|string|max:255',
+                
+                 'state_id' => 'required'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -177,22 +189,21 @@ class UserController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
-            DB::table('users')->where('id', $request->id)->update([
+           User::find($id)->update([
                 'name' => $request->Username,
-                'phoneNo' => $request->phoneNo,
-                'phoneNo2' => $request->phoneNo2,
-                'companyPhoneNo' => $request->companyPhoneNo
+                'phoneNo' => $request->phone_number,
+                
             ]);
 
-            if($request->hasFile('profile_avatar')) {
-                $image = $request->file('profile_avatar');
+            if($request->hasFile('profile_image')) {
+                $image = $request->file('profile_image');
                 $path = public_path(). '/images/';
                 $filename = time() . '.' . $image->getClientOriginalExtension();
                 $image->move($path, $filename);
                 $avatar  = $filename;
 
 
-                DB::table('users')->where('id', $request->id)->update(array(
+               User::find($id)->update(array(
                     'avatar' => $avatar,
                 ));
             }
@@ -200,10 +211,10 @@ class UserController extends Controller
             return redirect()->route('listUsers')->with('success','Record Successfully Updated');
         }
 
-        elseif ($user_type->role_id == 4){
+        elseif ($user_type->role_id == 1){
             $rules = [
-                'country_name' => 'required',
-                'Username' => 'required|string|max:255'
+                'first_name' => 'required|string|max:255',
+                'state_id' => 'required'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -212,9 +223,16 @@ class UserController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
-            DB::table('users')->where('id', $request->id)->update([
-                'name' => $request->Username,
-                'country_name' => $request->country_name
+             User::find($id)->update([
+            'first_name' => $request['first_name'],
+            'last_name' => $request['last_name'],
+            'street_address' => $request['street_address'],
+            'city_name' => $request['city_name'],
+            
+            'state_id' => $request['state_id'],
+            'zip_code' => $request['zip_code'],
+            'email' => $request['UserEmail'],
+            'phone_number' => $request['phone_number'],
             ]);
             return redirect()->route('listUsers')->with('success','Record Successfully Updated');
         }
@@ -224,53 +242,25 @@ class UserController extends Controller
     }
 
     public function deleteUser(Request $request){
-        $user = DB::table('users')->where('id',$request->id)->first();
+        $user =User::where('id',$request->id)->first();
 
         if(empty($user)) {
             return response()->json(['status' => 0]);
         }
 
-        DB::table('users')->where('id',$request->id)->delete();
-        DB::table('model_has_roles')->where('model_id',$request->id)->delete();
+       User::where('id',$request->id)->delete();
+       ModelHasRole::where('model_id',$request->id)->delete();
 
         return response()->json(['status' => 1]);
     }
 
     public function viewUser($id)
     {
-        $userRole= DB::table('users')->where('users.id', $id)
-        ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-        ->select('users.id','users.first_name','users.last_name','model_has_roles.role_id','users.email','users.created_at','users.updated_at')
-        ->whereIn('model_has_roles.role_id', ['2','3','4'])
-        ->first();
-
-        if($userRole->role_id == 2){
-            $user= DB::table('users')->where('users.id', $id)
-            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->select('users.id','users.first_name','users.last_name','model_has_roles.role_id','users.email' ,'users.created_at','users.updated_at')
-            ->whereIn('model_has_roles.role_id', ['2','3'])
-            ->first();
-        }
-
-        if($userRole->role_id == 3){
-            $user= DB::table('users')->where('users.id', $id)
-            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->join('candidate_profiles', 'users.id', '=', 'candidate_profiles.user_id')
-            ->join('candidate_abouts', 'users.id', '=', 'candidate_abouts.user_id')
-            ->select('users.id','users.first_name','users.last_name','model_has_roles.role_id','users.email','users.created_at','users.updated_at','candidate_abouts.location')
-            ->whereIn('model_has_roles.role_id', ['2','3'])
-            ->first();
-        }
-
-        if($userRole->role_id == 4){
-            $user= DB::table('users')->where('users.id', $id)
-                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->select('users.id','users.first_name','users.last_name','model_has_roles.role_id','users.email','users.created_at','users.updated_at')
-                ->whereIn('model_has_roles.role_id', ['4'])
-                ->first();
-        }
-
-        // return $user;
+        $user = User::where('id', $id)
+        ->whereHas(
+            'roles', function($q){
+                $q->where('name', 'admin')->orwhere('name', 'employer')->orwhere('name','employee');
+            })->orderby('created_at','desc')->first();
 
         if($user == null)
         {

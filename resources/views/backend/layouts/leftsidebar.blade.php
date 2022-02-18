@@ -2,8 +2,8 @@
 <div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
     <!--begin::Brand-->
     <div class="brand flex-column-auto" id="kt_brand">
-        <a href="{{route('adminDashboard')}}" class="brand-logo">
-            <img alt="Logo" src="{{asset('asset/images/logo.png')}}" />
+        <a href="{{route('adminDashboard')}}" class="brand-logo" style="padding-left: 40px">
+            <img alt="Logo" src="{{asset('public/asset/images/joblot-blue-logo.png')}}"  style="width: 100px; height:50px;"/>
         </a>
 
         <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
@@ -112,7 +112,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">{{__('Candidates')}}</span>
+                        <span class="menu-text">{{__('Employee')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -120,7 +120,7 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text">{{__('Candidates')}}</span>
+                                    <span class="menu-text">{{__('Employee')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listCandidate' || Route::currentRouteName() == 'subAdminListCandidate' ) ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -133,7 +133,7 @@
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">{{__('List Candidates')}}</span>
+                                    <span class="menu-text">{{__('List Employee')}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -165,8 +165,7 @@
                             <li class="menu-item {{ (Route::currentRouteName() == 'listJobApproval' || Route::currentRouteName() == 'subAdminListJobApproval' ) ? 'menu-item-active' : '' }}" aria-haspopup="true">
                                 @if ($user->id == 1)
                                     <a href="{{route('listJobApproval')}}" class="menu-link">
-                                @elseif($user->id == 4)
-                                    <a href="{{route('subAdminListJobApproval')}}" class="menu-link">
+                               
                                 @endif
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
@@ -178,7 +177,7 @@
                     </div>
                 </li>
 
-                <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listFinancial' || Route::currentRouteName() == 'subAdminListFinancial') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
+                {{--  <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listFinancial' || Route::currentRouteName() == 'subAdminListFinancial') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -214,7 +213,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li>  --}}
 
                 <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listStatistics' || Route::currentRouteName() == 'subAdminListStatistics') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
@@ -426,7 +425,7 @@
                     </div>
                 </li>
 
-                <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listLocations' || Route::currentRouteName() == 'createLocation' || Route::currentRouteName() == 'editLocation') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
+                {{--  <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listLocations' || Route::currentRouteName() == 'createLocation' || Route::currentRouteName() == 'editLocation') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -466,7 +465,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li>  --}}
 
                 <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listCareerLevels' || Route::currentRouteName() == 'createCareerLevel' || Route::currentRouteName() == 'editCareerLevel') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
@@ -594,7 +593,7 @@
                     </div>
                 </li>
 
-                <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listJobTypes' || Route::currentRouteName() == 'createJobType' || Route::currentRouteName() == 'editJobType') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
+                {{--  <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listJobTypes' || Route::currentRouteName() == 'createJobType' || Route::currentRouteName() == 'editJobType') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -634,9 +633,9 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li>  --}}
 
-                <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listLanguages' || Route::currentRouteName() == 'createLanguage' || Route::currentRouteName() == 'editLanguage') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
+                {{--  <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listLanguages' || Route::currentRouteName() == 'createLanguage' || Route::currentRouteName() == 'editLanguage') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -676,9 +675,9 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li>  --}}
 
-                <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listNationalities' || Route::currentRouteName() == 'createNationality' || Route::currentRouteName() == 'editNationality') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
+                {{--  <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listNationalities' || Route::currentRouteName() == 'createNationality' || Route::currentRouteName() == 'editNationality') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -718,9 +717,9 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li>  --}}
 
-                <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listJobSkills' || Route::currentRouteName() == 'createJobSkill' || Route::currentRouteName() == 'editJobSkill') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
+                {{--  <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listJobSkills' || Route::currentRouteName() == 'createJobSkill' || Route::currentRouteName() == 'editJobSkill') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -760,11 +759,11 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li>  --}}
 
                 @endif
 
-                @if($user->id == 1 || $user->id == 4)
+                {{--  @if($user->id == 1 )
 
                 <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listAdvertise' || Route::currentRouteName() == 'createAdvertise' || Route::currentRouteName() == 'editAdvertise' || Route::currentRouteName() == 'subAdminListAdvertise' || Route::currentRouteName() == 'subAdminEditAdvertise'  || Route::currentRouteName() == 'subAdminCreateAdvertise') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
@@ -816,7 +815,7 @@
                     </div>
                 </li>
 
-                @endif
+                @endif  --}}
             </ul>
         </div>
     </div>

@@ -35,4 +35,14 @@ class Job extends Model
     {
         return $this->belongsToMany(User::class, 'employee_applied_jobs', 'job_id', 'user_id');
     }
+   
+   public function get_location()
+   {
+       return $this->belongsTo(Country::class, 'name', 'id');
+   }
+   public function get_bussines_catogories()
+   {
+       return $this->belongsTo(EmployeeBussinessCategory::class, 'business_cat_id', 'id');
+   }
+   
 }

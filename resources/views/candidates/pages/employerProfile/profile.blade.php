@@ -88,7 +88,7 @@
                                         </span>
                                         <div class="d-flex flex-column text-dark-75">
                                             <span class="font-weight-bolder font-size-sm">{{__('Total Jobs Posted')}}</span>
-                                            @php $jobCount = DB::table('jobs')->where('user_id', $employer->id)->where('status','=',1)->where('approval_status','=',1)->count(); @endphp
+                                            @php $jobCount = DB::table('jobs')->where('user_id', $employer->id)->where('status','=',1)->where('job_approval','=',1)->count(); @endphp
                                             <span class="font-weight-bolder font-size-h5">
                                               <span class="text-dark-50 font-weight-bold"></span>
                                                @if(isset($jobCount)) {{$jobCount}} @else 0 @endif

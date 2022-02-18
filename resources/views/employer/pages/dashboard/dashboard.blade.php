@@ -274,13 +274,13 @@
                                         </td>
                                         <td style="text-align: center">
                                             <span style="width: 158px;">
-                                                <span @if ($job->approval_status == 1) class="label label-lg font-weight-bold  label-light-success label-inline"
-                                                        @elseif($job->approval_status == 2) class="label label-lg font-weight-bold  label-light-primary label-inline"
-                                                        @elseif($job->approval_status == 3) class="label label-lg font-weight-bold  label-light-danger label-inline" @endif>
-                                                    @if ($job->approval_status == 1)
+                                                <span @if ($job->job_approval == 1) class="label label-lg font-weight-bold  label-light-success label-inline"
+                                                        @elseif($job->job_approval == 2) class="label label-lg font-weight-bold  label-light-primary label-inline"
+                                                        @elseif($job->job_approval == 3) class="label label-lg font-weight-bold  label-light-danger label-inline" @endif>
+                                                    @if ($job->job_approval == 1)
                                                         {{__('Approved')}}
-                                                    @elseif($job->approval_status == 2) {{__('InProcess')}}
-                                                    @elseif($job->approval_status == 3) {{__('Rejected')}}
+                                                    @elseif($job->job_approval == 2) {{__('InProcess')}}
+                                                    @elseif($job->job_approval == 3) {{__('Rejected')}}
                                                     @else N/A @endif
                                                 </span>
                                             </span>
@@ -322,7 +322,7 @@
                                             <a style="cursor: pointer" onclick="deleteFunction('{{ $job->id }}') "><i
                                                     class="la la-trash text-danger mr-1"></i></a>
 
-                                            @if($job->approval_status == 1)
+                                            @if($job->job_approval == 1)
                                                 <div class="dropdown">
                                                     <a class="dropdown-toggle" style="cursor: pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         <i class="fa fa-share-alt font-size-lg"></i>

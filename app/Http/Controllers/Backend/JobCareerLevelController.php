@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use App\Models\Job;
+use App\Models\EmployeePackage;
+use App\Models\JobCareerLevel;
 
 class JobCareerLevelController extends Controller
 {
     public function listCareerLevels()
     {
-        $levels = DB::table('job_career_levels')->orderBy('id', 'desc')->get();
+        $levels = JobCareerLevel::orderBy('id', 'desc')->get();
 
         return view('backend.pages.careerLevel.list', compact('levels'));
     }
@@ -35,7 +38,7 @@ class JobCareerLevelController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        DB::table('job_career_levels')->insert([
+        JobCareerLevel::create([
             'name' => $request->name,
             'name_ar' => $request->name_ar,
         ]);
@@ -45,7 +48,7 @@ class JobCareerLevelController extends Controller
 
     public function editCareerLevel($id)
     {
-        $level = DB::table('job_career_levels')->where('id', $id)->first();
+        $level =JobCareerLevel::find($id);
 
         if($level == null)
         {
@@ -55,9 +58,9 @@ class JobCareerLevelController extends Controller
         return view('backend.pages.careerLevel.edit', compact('level'));
     }
 
-    public function updateCareerLevel(Request $request)
+    public function updateCareerLevel(Request $request,$id)
     {
-        $level = DB::table('job_career_levels')->where('id', $request->id)->first();
+        $level = JobCareerLevel::find($id);
 
         if($level == null)
         {
@@ -75,7 +78,7 @@ class JobCareerLevelController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        DB::table('job_career_levels')->where('id', $request->id)->update([
+            JobCareerLevel::find($id)->update([
             'name' => $request->name,
             'name_ar' => $request->name_ar,
         ]);
@@ -84,14 +87,14 @@ class JobCareerLevelController extends Controller
 
     }
 
-    public function deleteCareerLevel(Request $request){
-        $level = DB::table('job_career_levels')->where('id',$request->id)->first();
+    public function deleteCareerLevel($id){
+        $level = JobCareerLevel::find($id);
 
         if(empty($level)) {
             return response()->json(['status' => 0]);
         }
 
-        DB::table('job_career_levels')->where('id',$request->id)->delete();
+       $level->delete();
 
         return response()->json(['status' => 1]);
     }

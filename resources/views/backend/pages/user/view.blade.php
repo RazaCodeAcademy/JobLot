@@ -25,19 +25,9 @@
 			</div>
 		</div>
 
-		@php 
-			$user_role_id = DB::table('model_has_roles')->where('model_id', Auth::user()->id)->first();
-			$myRole = DB::table('roles')->where('id', $user_role_id->role_id)->first();
-
-			if($myRole->id == 4){
-				$routeUrl = route('subAdminUpdateUser');
-			}
-			else{
-				$routeUrl = route('updateUser');
-			}
-		@endphp
-
-		@if($user->role_id == 2)
+		
+			{{--  @dd($user->roles->first()->id)  --}}
+			@if($user->roles->first()->id == 2)
 			<div class="d-flex flex-column-fluid">
 				<div class="container">
 					<!--begin::Profile Personal Information-->
@@ -51,11 +41,11 @@
 									<!--begin::User-->
 									<div class="d-flex align-items-center">
 										<div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
-											<div class="symbol-label" @if(!empty($user->avatar)) style="background-image:url({{ asset('images/'.$user->avatar) }})" @endif></div>
+											<div class="symbol-label" @if(!empty($user->profile_image)) style="background-image:url({{ asset('images/'.$user->profile_image) }})" @endif></div>
 											<i class="symbol-badge bg-success"></i>
 										</div>
 										<div>
-											<a href="{{route('viewUser', $user->id)}}" class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary">{{$user->first_name}}</a>
+											<a href="{{route('viewUser', $user->id)}}" class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary">{{$user->first_name}} {{ $user->last_name }}</a>
 										</div>
 									</div>
 									<div class="py-9">
@@ -63,31 +53,19 @@
 											<span class="font-weight-bold mr-2">{{__('Email:')}}</span>
 											<a href="mailto:{{$user->email}}" class="text-muted text-hover-primary">{{$user->email}}</a>
 										</div>
-										@if(!empty($user->phoneNo))
+										@if(!empty($user->phone_number))
 											<div class="d-flex align-items-center justify-content-between mb-2">
-												<span class="font-weight-bold mr-2">{{__('Phone 1:')}}</span>
-												<span class="text-muted">{{$user->phoneNo}}</span>
+												<span class="font-weight-bold mr-2">{{__('Phone Number:')}}</span>
+												<span class="text-muted">{{$user->phone_number}}</span>
 											</div>
 										@endif
-										@if(!empty($user->phoneNo2 ))
-											<div class="d-flex align-items-center justify-content-between mb-2">
-												<span class="font-weight-bold mr-2">{{__('Phone 2:')}}</span>
-												<span class="text-muted">{{$user->phoneNo2}}</span>
-											</div>
-										@endif
-										@if(!empty($user->companyPhoneNo))
-											<div class="d-flex align-items-center justify-content-between mb-2">
-												<span class="font-weight-bold mr-2">{{__('Phone 3:')}}</span>
-												<span class="text-muted">{{$user->companyPhoneNo}}</span>
-											</div>
-										@endif
-										@if(!empty($user->country_name))
-											@php
-												$country = DB::Table('countries')->select('name')->where('id',$user->country_name)->first();
-											@endphp
+										
+										
+										@if(!empty($user->state_id))
+											
 											<div class="d-flex align-items-center justify-content-between">
 												<span class="font-weight-bold mr-2">{{__('Location:')}}</span>
-												<span class="text-muted">{{$country->name}}</span>
+												<span class="text-muted">{{$user->country->name ?? 'N/a'}}</span>
 											</div>
 										@endif
 									</div>
@@ -106,7 +84,7 @@
 										<button type="button" id="submitButton" class="btn btn-success mr-2">{{__('Save Changes')}}</button>
 									</div>
 								</div>
-								<form method="POST" action="{{$routeUrl}}" class="form" id="submitForm" enctype="multipart/form-data">
+								<form method="POST" action="{{route('updateUser',$user->id)}}" class="form" id="submitForm" enctype="multipart/form-data">
 									<input type="hidden" name="id" value="{{$user->id}}">
 									@csrf
 									<div class="card-body">
@@ -120,11 +98,11 @@
 											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Avatar')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url({{asset('public/backend/dist/assets/media/users/blank.png')}})">
-													<div class="image-input-wrapper" @if(!empty($user->avatar)) style="background-image: url({{ asset('images/'.$user->avatar) }})" @endif></div>
+													<div class="image-input-wrapper" @if(!empty($user->profile_image)) style="background-image: url({{ asset('public/images/'.$user->profile_image) }})" @endif></div>
 													<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
 														<i class="fa fa-pen icon-sm text-muted"></i>
-														<input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg" required/>
-														<input type="hidden" name="profile_avatar_remove" />
+														<input type="file" name="profile_image" accept=".png, .jpg, .jpeg" required/>
+														
 													</label>
 													<span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
 														<i class="ki ki-bold-close icon-xs text-muted"></i>
@@ -136,17 +114,17 @@
 										<div class="form-group row">
 											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Name')}}</label>
 											<div class="col-lg-9 col-xl-6">
-												<input class="form-control form-control-lg form-control-solid" name="Username" type="text" value="{{$user->first_name}}" required/>
+												<input class="form-control form-control-lg form-control-solid" name="first_name" type="text" value="{{ $user->first_name }}" />
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Email')}}</label>
 											<div class="col-lg-9 col-xl-6">
-												<input disabled class="form-control form-control-lg form-control-solid" name="userEmail" type="email" value="{{$user->email}}" />
+												<input class="form-control form-control-lg form-control-solid" name="email" type="email" value="{{ $user->email }}" disabled />
 											</div>
 										</div>
 
-										@if($myRole->id == 1)
+										{{--  @if($myRole->id == 1)
 											<div class="form-group row">
 												<label class="col-xl-3 col-lg-3 col-form-label">{{__('No. of free jobs')}}</label>
 												<div class="col-lg-9 col-xl-6">
@@ -156,7 +134,7 @@
 													@enderror
 												</div>
 											</div>
-										@endif
+										@endif  --}}
 
 										<div class="row">
 											<label class="col-xl-3"></label>
@@ -165,7 +143,7 @@
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Phone 1')}}</label>
+											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Phone Number')}}</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="input-group input-group-lg input-group-solid">
 													<div class="input-group-prepend">
@@ -173,36 +151,11 @@
 															<i class="la la-phone"></i>
 														</span>
 													</div>
-													<input type="text" class="form-control form-control-lg form-control-solid" value="" placeholder="Phone 1" name="phoneNo" />
+													<input type="text" class="form-control form-control-lg form-control-solid"placeholder="Phone Number" name="phone_number" value="{{ $user->phone_number }}" />
 												</div>
 											</div>
 										</div>
-										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Phone 2')}}</label>
-											<div class="col-lg-9 col-xl-6">
-												<div class="input-group input-group-lg input-group-solid">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="la la-phone"></i>
-														</span>
-													</div>
-													<input type="text" class="form-control form-control-lg form-control-solid" value="" placeholder="Phone 2" name="phoneNo2" />
-												</div>
-											</div>
-										</div>
-										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Phone 3')}}</label>
-											<div class="col-lg-9 col-xl-6">
-												<div class="input-group input-group-lg input-group-solid">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="la la-phone"></i>
-														</span>
-													</div>
-													<input type="text" class="form-control form-control-lg form-control-solid" value="" placeholder="Phone 3" name="companyPhoneNo" />
-												</div>
-											</div>
-										</div>
+									
 									</div>
 								</form>
 							</div>
@@ -210,9 +163,10 @@
 					</div>
 				</div>
 			</div>
-		@endif
+			@endif
+		
 
-		@if($user->role_id == 3)
+			@if($user->roles->first()->id == 3)
 			<div class="d-flex flex-column-fluid">
 				<div class="container">
 					<!--begin::Profile Personal Information-->
@@ -241,28 +195,15 @@
 										@if($user->phoneNo != null)
 											<div class="d-flex align-items-center justify-content-between mb-2">
 												<span class="font-weight-bold mr-2">{{__('Phone 1:')}}</span>
-												<span class="text-muted">{{$user->phoneNo}}</span>
+												<span class="text-muted">{{$user->phone_number}}</span>
 											</div>
 										@endif
-										@if($user->phoneNo2 != null)
-											<div class="d-flex align-items-center justify-content-between mb-2">
-												<span class="font-weight-bold mr-2">{{__('Phone 2:')}}</span>
-												<span class="text-muted">{{$user->phoneNo2}}</span>
-											</div>
-										@endif
-										@if($user->companyPhoneNo != null)
-											<div class="d-flex align-items-center justify-content-between mb-2">
-												<span class="font-weight-bold mr-2">{{__('Phone 3:')}}</span>
-												<span class="text-muted">{{$user->companyPhoneNo}}</span>
-											</div>
-										@endif
-										@if($user->country_name != null)
-											@php
-												$country = DB::Table('countries')->select('name')->where('id',$user->country_name)->first();
-											@endphp
+									
+										@if(!empty($user->state_id ))
+											
 											<div class="d-flex align-items-center justify-content-between">
 												<span class="font-weight-bold mr-2">{{__('Location:')}}</span>
-												<span class="text-muted">{{$country->name ?? ''}}</span>
+												<span class="text-muted">{{$user->country->name ?? 'N/A'}}</span>
 											</div>
 										@endif
 									</div>
@@ -281,7 +222,7 @@
 										<button type="button" id="submitButton" class="btn btn-success mr-2">{{__('Save Changes')}}</button>
 									</div>
 								</div>
-								<form method="POST" action="{{$routeUrl}}" class="form" id="submitForm" enctype="multipart/form-data">
+								<form method="POST" action="{{route('updateUser',$user->id)}}" class="form" id="submitForm" enctype="multipart/form-data">
 									<input type="hidden" name="id" value="{{$user->id}}">
 									@csrf
 									<div class="card-body">
@@ -339,32 +280,8 @@
 												</div>
 											</div>
 										</div>
-										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Phone 2')}}</label>
-											<div class="col-lg-9 col-xl-6">
-												<div class="input-group input-group-lg input-group-solid">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="la la-phone"></i>
-														</span>
-													</div>
-													<input type="text" class="form-control form-control-lg form-control-solid" value="{{$user->phoneNo2}}" placeholder="Phone 2" name="phoneNo2" />
-												</div>
-											</div>
-										</div>
-										<div class="form-group row">
-											<label class="col-xl-3 col-lg-3 col-form-label">{{__('Phone 3')}}</label>
-											<div class="col-lg-9 col-xl-6">
-												<div class="input-group input-group-lg input-group-solid">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="la la-phone"></i>
-														</span>
-													</div>
-													<input type="text" class="form-control form-control-lg form-control-solid" value="{{$user->companyPhoneNo}}" placeholder="Phone 3" name="companyPhoneNo" />
-												</div>
-											</div>
-										</div>
+										
+										
 									</div>
 								</form>
 							</div>
@@ -372,18 +289,19 @@
 					</div>
 				</div>
 			</div>
-		@endif
+			@endif
+	
 
-        @if ($user->role_id == 4)
+			@if($user->roles->first()->id == 1)
             <div class="card-body">
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
                             <label>Account Type <span class="text-danger">*</span></label>
                             <select name="accountTypeUser" disabled class="form-control" required>
-                                @if($user->role_id == 4)    <option selected="selected" disabled="disabled">{{__('Admin')}}</option>
-                                @elseif($user->role_id == 2) <option selected="selected" disabled="disabled">{{__('Employer')}}</option>
-                                @elseif($user->role_id == 3) <option selected="selected" disabled="disabled">{{__('Candidate')}}</option>
+                                @if($user->roles->first()->id == 1)    <option selected="selected" disabled="disabled">{{__('Admin')}}</option>
+                                @elseif($user->roles->first()->id == 2) <option selected="selected" disabled="disabled">{{__('Employer')}}</option>
+                                @elseif($user->roles->first()->id == 3) <option selected="selected" disabled="disabled">{{__('Employee')}}</option>
                                 @endif
                             </select>
                         </div>
@@ -396,7 +314,7 @@
 								$country = DB::Table('countries')->select('name')->where('id',$user->country_name)->first();
                             @endphp
                             <select name="country" disabled class="form-control" >
-                                    <option selected disabled="disabled">{{$country->name}}</option>
+                                    <option selected disabled="disabled">{{$user->country->name}}</option>
                             </select>
                         </div>
                     </div>
@@ -404,7 +322,7 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label>{{__('Name')}} <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control"  placeholder="Enter Name" disabled name="Username" value="{{$user->name}}" required />
+                            <input type="text" class="form-control"  placeholder="Enter Name" disabled name="Username" value="{{$user->first_name}}" required />
                         </div>
                     </div>
 
@@ -416,7 +334,8 @@
                     </div>
                 </div>
             </div>
-        @endif
+			@endif
+      
 	</div>
 @endsection
 

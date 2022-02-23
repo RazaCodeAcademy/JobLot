@@ -16,6 +16,7 @@ class CreateJobQualificationsTable extends Migration
         Schema::create('job_qualifications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('name_ar');
             $table->timestamps();
         });
     }

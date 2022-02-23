@@ -21,7 +21,7 @@
              $user = DB::table('roles')->where('id', $user_role_id->role_id)->first();
         @endphp
 
-        @if($user->id == 1)
+        {{--  @if($user->id == 1)
             <div class="form-group row">
                 <label class="col-form-label text-right col-lg-4 col-sm-12">{{__('Filter by country')}}</label>
                 <div class="col-lg-4 col-md-9 col-sm-12">
@@ -34,14 +34,14 @@
                     </select>
                 </div>
             </div>
-        @endif
+        @endif  --}}
 
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
             <div class="container">
                 <!--Begin::Row-->
                 <div class="row">
-                    <div class="col-xl-3">
+                    <div class="col-xl-4">
                         <!--begin::Stats Widget 29-->
                         <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{asset('public/backend/dist/assets/media/svg/shapes/abstract-1.svg')}})">
                             <!--begin::Body-->
@@ -64,7 +64,7 @@
                         </div>
                         <!--end::Stats Widget 29-->
                     </div>
-                    <div class="col-xl-3">
+                    <div class="col-xl-4">
                         <!--begin::Stats Widget 30-->
                         <div class="card card-custom bg-info card-stretch gutter-b">
                             <!--begin::Body-->
@@ -87,7 +87,7 @@
                         </div>
                         <!--end::Stats Widget 30-->
                     </div>
-                    <div class="col-xl-3">
+                    {{--  <div class="col-xl-3">
                         <!--begin::Stats Widget 31-->
                         <div class="card card-custom bg-danger card-stretch gutter-b">
                             <!--begin::Body-->
@@ -111,10 +111,10 @@
                             <!--end::Body-->
                         </div>
                         <!--end::Stats Widget 31-->
-                    </div>
-                    <div class="col-xl-3">
+                    </div>  --}}
+                    <div class="col-xl-4">
                         <!--begin::Stats Widget 32-->
-                        <div class="card card-custom bg-dark card-stretch gutter-b">
+                        <div class="card card-custom bg-warning card-stretch gutter-b">
                             <!--begin::Body-->
                             <div class="card-body">
                                 <span class="svg-icon svg-icon-2x svg-icon-white">
@@ -129,7 +129,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 text-hover-primary d-block" id="live-candidate-applied-jobs">{{$liveAppliedCandidateJobs}}</span>
-                                <span class="font-weight-bold text-white font-size-sm">{{__('Total candidates applied to live jobs')}}</span>
+                                <span class="font-weight-bold text-white font-size-sm">{{__('Total employees applied to live jobs')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -137,7 +137,7 @@
                     </div>
                 </div>
                 <div class="row" style="justify-content: center">
-                    <div class="col-xl-3">
+                    <div class="col-xl-4">
                         <!--begin::Stats Widget 31-->
                         <div class="card card-custom bg-danger card-stretch gutter-b">
                             <!--begin::Body-->
@@ -156,15 +156,15 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="total-candidates">{{count($candidates)}}</span>
-                                <span class="font-weight-bold text-white font-size-sm">{{__('Total Candidate(s)')}}</span>
+                                <span class="font-weight-bold text-white font-size-sm">{{__('Total Employee(s)')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
                         <!--end::Stats Widget 31-->
                     </div>
-                    <div class="col-xl-3">
+                    <div class="col-xl-4">
                         <!--begin::Stats Widget 32-->
-                        <div class="card card-custom bg-dark card-stretch gutter-b">
+                        <div class="card card-custom bg-success card-stretch gutter-b">
                             <!--begin::Body-->
                             <div class="card-body">
                                 <span class="svg-icon svg-icon-2x svg-icon-white">
@@ -197,7 +197,7 @@
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">{{__('List of employers')}}
-                            <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
+                         <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
                 </div>
                 <div class="card-body">
@@ -208,27 +208,20 @@
                             <th style="text-align:center;">{{__('Country')}}</th>
                             <th style="text-align:center;">{{__('No. of job(s) posted')}}</th>
                             <th style="text-align:center;">{{__('Live job(s)')}}</th>
-                            <th style="text-align:center;">{{__('No. of applied candidate(s)')}}</th>
+                            <th style="text-align:center;">{{__('No. of applied employee(s)')}}</th>
+
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($employers as $employer)
-                            @php
-                                $employee = DB::table('users')->where('id',$employer->model_id)->first();
-                                $country_name = DB::table('countries')->where('id',$employee->country_name)->first();
-                                $employeeJobs = DB::table('jobs')->where('user_id',$employee->id)->get();
-                                $employeeLiveJobsCount = DB::table('jobs')->where('user_id',$employee->id)->where('status','=',1)->where('approval_status','=',1)->count();
-                                $appliedCandidates = DB::table('jobs')
-                                ->join('candidate_applied_jobs','jobs.id','=','candidate_applied_jobs.job_id')
-                                ->where('jobs.user_id',$employee->id)
-                                ->count();
-                            @endphp
+                        @foreach ($employers as $employeer)
+                        
                             <tr>
-                                <td style="text-align:center;">{{$employee->name}}</td>
-                                <td style="text-align:center;">{{$country_name->name}}</td>
-                                <td style="text-align:center;">{{count($employeeJobs)}}</td>
-                                <td style="text-align:center;">{{$employeeLiveJobsCount}}</td>
-                                <td style="text-align:center;">{{$appliedCandidates}}</td>
+                                <td style="text-align:center;">{{$employeer->first_name}}</td>
+                                <td style="text-align:center;">{{$employeer->country->name ?? 'n/A'}}</td>
+                                <td style="text-align:center;">{{ count($employeer->jobs) }}</td>  
+                                <td style="text-align:center;">{{ count($employeer->jobs->where('status', 1)) }}</td>
+                                <td style="text-align:center;">{{ $employeer->jobAppliedEmployee()}}</td>
+                                 
                             </tr>
                         @endforeach
                         </tbody>

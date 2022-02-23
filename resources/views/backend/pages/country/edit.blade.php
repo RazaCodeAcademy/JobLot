@@ -38,7 +38,7 @@
 						</div>
 					</div>
 
-					<form method="POST" action="{{route('updateCountry')}}" enctype="multipart/form-data">
+					<form method="POST" action="{{route('updateCountry',$country->id)}}" enctype="multipart/form-data">
 						@csrf
 						<div class="card-body">
 							<div class="row">

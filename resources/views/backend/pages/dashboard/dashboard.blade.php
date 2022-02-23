@@ -18,11 +18,11 @@
 			</div>
 		</div>
 
-        @php $user_role_id = DB::table('model_has_roles')->where('model_id', Auth::user()->id)->first();
+        {{--  @php $user_role_id = DB::table('model_has_roles')->where('model_id', Auth::user()->id)->first();
                      $user = DB::table('roles')->where('id', $user_role_id->role_id)->first();
-        @endphp
+        @endphp  --}}
 
-        @if ($user->id == 1)
+        {{--  @if ($user->id == 1)
             <div class="form-group row">
                 <label class="col-form-label text-right col-lg-4 col-sm-12">{{__('Filter by country')}}</label>
                 <div class="col-lg-4 col-md-9 col-sm-12">
@@ -35,7 +35,7 @@
                     </select>
                 </div>
             </div>
-        @endif
+        @endif  --}}
 
 
         <div class="d-flex flex-column-fluid">
@@ -163,14 +163,14 @@
                         </thead>
                         <tbody>
                         @foreach ($jobs as $job)
-                            @php
+                            {{--  @php
                                 $job_location = DB::table('countries')->where('id',$job->job_location)->first();
                                 $business = DB::table('employee_bussiness_categories')->where('id',$job->category)->first();
-                             @endphp
+                             @endphp  --}}
                             <tr>
                                 <td style="text-align:center;"><a href="{{route('employerJobDetail', encrypt($job->id))}}">{{$job->title}}</a></td>
-                                <td style="text-align:center;">{{$business->category}}</td>
-                                <td style="text-align:center;">{{$job_location->name}}</td>
+                                <td style="text-align:center;">{{$job->get_bussines_catogories->category ??'N/A'}}</td>
+                                <td style="text-align:center;">{{$job->get_location->name ?? 'N/A'}}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -182,7 +182,7 @@
 @endsection
 
 @section('script')
-    @if ($user->id == 1)
+   
         <script>
         $("#country").change(function (e) {
             $.ajax({
@@ -204,5 +204,5 @@
             });
         });
         </script>
-    @endif
+   
 @endsection

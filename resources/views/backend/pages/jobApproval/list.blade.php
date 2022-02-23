@@ -24,8 +24,7 @@
 
                                 @if($user->id == 1)
                                     <a href="{{route('listJobApproval')}}" class="text-muted">{{__('List Job Approvals')}}</a>
-                                @elseif($user->id == 4)
-                                    <a href="{{route('subAdminListJobApproval')}}" class="text-muted">{{__('List Job Approvals')}}</a>
+                              
                                 @endif
                             </li>
                         </ul>
@@ -50,30 +49,27 @@
                                 <th style="text-align: center">{{__('Sr No.')}}</th>
                                 <th style="text-align: center">{{__('Job title')}}</th>
                                 <th style="text-align: center">{{__('Job category')}}</th>
-                                <th style="text-align: center">{{__('Job location')}}</th>
                                 <th style="text-align: center">{{__('Actions')}}</th>
                             </tr>
                             </thead>
                             <tbody>
                                 @php $SrNo = 0; @endphp
                                 @foreach ($jobs as $job)
-                                    @php $SrNo++; $location = DB::table('countries')->where('id', $job->job_location)->first(); @endphp
+                                    {{--  @php $SrNo++; $location = DB::table('countries')->where('id', $job->job_location)->first(); @endphp  --}}
                                     <tr>
-                                        <td style="text-align: center">{{$SrNo}}</td>
+                                        <td style="text-align: center">{{$job->id}}</td>
                                         @if ($user->id == 1)
                                             <td style="text-align: center"><a href="{{route('employerJobDetail', encrypt($job->id))}}">{{$job->title}}</a></td>
                                         @elseif($user->id == 4)
                                             <td style="text-align: center"><a href="{{route('employerJobDetailSubAdmin', encrypt($job->id))}}">{{$job->title}}</a></td>
                                         @endif
-                                        <td style="text-align: center">{{$job->category}}</td>
-                                        <td style="text-align: center">{{$location->name}}</td>
+                                        <td style="text-align: center">{{$job->get_bussines_catogories->category ?? 'N/A'}}</td>
+                                       
                                         <td style="text-align: center">
                                             @if ($user->id == 1)
                                                 <a onclick="jobAcceptFunction('{{$job->id}}', '1')" style="cursor: pointer"><i class="las la-check-circle" style="color: green;font-size: 40px;"></i></a>
                                                 <a onclick="jobDeclineFunction('{{$job->id}}', '2', {{$job->user_id}})" style="cursor: pointer"><i class="las la-times-circle" style="color: red;font-size: 40px;"></i></a>
-                                            @elseif($user->id == 4)
-                                                <a onclick="jobAcceptFunctionSubAdmin('{{$job->id}}', '1')" style="cursor: pointer"><i class="las la-check-circle" style="color: green;font-size: 40px;"></i></a>
-                                                <a onclick="jobDeclineFunctionSubAdmin('{{$job->id}}', '2', {{$job->user_id}})" style="cursor: pointer"><i class="las la-times-circle" style="color: red;font-size: 40px;"></i></a>
+                                           
                                             @endif
                                         </td>
                                     </tr>
@@ -89,6 +85,9 @@
 
 @section('script')
     <script>
+        function get_url(url, id){
+            return url.replace("item_id", id);
+        }
         function jobAcceptFunction(id,value) {
             swal({
                 title: "Are you sure?",
@@ -102,7 +101,7 @@
 
                         $.ajax({
                             method: "POST",
-                            url: "{{route('jobStatus')}}",
+                            url: get_url("{{route('jobStatus','item_id')}}", id),
                             data: {
                                 _token: $('meta[name="csrf-token"]').attr('content'),
                                 'id': id,
@@ -144,7 +143,7 @@
 
                         $.ajax({
                             method: "POST",
-                            url: "{{route('jobStatus')}}",
+                            url: get_url("{{route('jobStatus','item_id')}}", id),
                             data: {
                                 _token: $('meta[name="csrf-token"]').attr('content'),
                                 'id': id,

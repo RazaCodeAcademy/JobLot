@@ -16,6 +16,7 @@ class CreateEmployeeBussinessCategoriesTable extends Migration
         Schema::create('employee_bussiness_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('category');
+            $table->string('category_ar');
             $table->timestamps();
         });
     }

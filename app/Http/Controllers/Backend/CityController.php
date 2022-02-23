@@ -6,18 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use App\Models\City;
+use App\Models\Country;
 
 class CityController extends Controller
 {
     public function listCities()
     {
-        $cities = DB::table('cities')->orderBy('id', 'desc')->get();
+        $cities = City::orderBy('id', 'desc')->get();
         return view('backend.pages.city.list', compact('cities'));
     }
 
     public function createCity()
     {
-        $countries = DB::table('countries')->get();
+        $countries = Country::all();
         return view('backend.pages.city.create', compact('countries'));
     }
 
@@ -46,21 +48,21 @@ class CityController extends Controller
 
     public function editCity($id)
     {
-        $city = DB::table('cities')->where('id', $id)->first();
+        $city = City::find($id);
 
         if($city == null)
         {
             return redirect()->route('listCities')->with('error', 'No Record Found.');
         }
 
-        $countries = DB::table('countries')->get();
+        $countries =Country::all();
 
         return view('backend.pages.city.edit', compact('city', 'countries'));
     }
 
-    public function updateCity(Request $request)
+    public function updateCity(Request $request, $id)
     {
-        $city = DB::table('cities')->where('id', $request->id)->first();
+        $city =City::find($id);
 
         if($city == null)
         {
@@ -78,24 +80,25 @@ class CityController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        DB::table('cities')->where('id', $request->id)->update([
+            City::find($id)->update([
             'name' => $request->name,
             'name_ar' => $request->name_ar,
             'country_id' => $request->country_id
         ]);
 
-        return redirect()->route('listCities')->with('success','Record Successfully Updated');
+        return redirect()->route('listCities',compact('city'))->with('success','Record Successfully Updated');
 
     }
 
-    public function deleteCity(Request $request){
-        $city = DB::table('cities')->where('id',$request->id)->first();
+    public function deleteCity($id){
+        
+        $city = City::find($id);
 
         if(empty($city)) {
             return response()->json(['status' => 0]);
         }
 
-        DB::table('cities')->where('id',$request->id)->delete();
+        $city->delete();
 
         return response()->json(['status' => 1]);
     }

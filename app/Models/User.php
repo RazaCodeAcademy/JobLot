@@ -93,14 +93,36 @@ class User extends Authenticatable
         return $this->hasMany(EmployeeExperience::class, 'user_id', 'id');
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
-    }
+ 
 
     public function get_notification()
     {
         return $this->hasMany(Notification::class, 'notifiable_id', 'id')->where('read_at', null);
+    }
+    
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
+    }
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'state_id', 'id');
+    }
+    
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_name', 'id');
+    }
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'employer_id', 'id');
+    }
+    
+    public function jobAppliedEmployee()
+    {
+        // return $this->jobs->pluck('id');
+        return EmployeeAppliedJob::whereIn('job_id', $this->jobs->pluck('id'))->count();
     }
 
     public function getLastMessage(){
@@ -132,5 +154,4 @@ class User extends Authenticatable
     public function isAppliedListed($job_id){
         return EmployeeAppliedJob::where([['id', $job_id], ['user_id', $this->id]])->first() ? 1 : 0;
     }
-
 }

@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use App\Models\EmployeeBussinessCategory;
+use App\Models\City;
 
 class EmployeeBusinessCategoryController extends Controller
 {
     public function listCategories()
     {
-        $categories = DB::table('employee_bussiness_categories')->orderBy('id', 'desc')->get();
+        $categories = EmployeeBussinessCategory::all();
 
         return view('backend.pages.category.list', compact('categories'));
     }
@@ -35,10 +37,10 @@ class EmployeeBusinessCategoryController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        DB::table('employee_bussiness_categories')->insert([
+        EmployeeBussinessCategory::create([
             'category' => $request->category,
             'category_ar' => $request->category_ar,
-            'icon' => 'cateogry'
+            
         ]);
 
         return redirect()->route('listCategories')->with('success', 'Record Added Successfully.');
@@ -46,7 +48,7 @@ class EmployeeBusinessCategoryController extends Controller
 
     public function editCategory($id)
     {
-        $category = DB::table('employee_bussiness_categories')->where('id', $id)->first();
+        $category = EmployeeBussinessCategory::find($id);
 
         if($category == null)
         {
@@ -56,9 +58,9 @@ class EmployeeBusinessCategoryController extends Controller
         return view('backend.pages.category.edit', compact('category'));
     }
 
-    public function updateCategory(Request $request)
+    public function updateCategory(Request $request,$id)
     {
-        $category = DB::table('employee_bussiness_categories')->where('id', $request->id)->first();
+        $category = EmployeeBussinessCategory::find($id);
 
         if($category == null)
         {
@@ -76,7 +78,7 @@ class EmployeeBusinessCategoryController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        DB::table('employee_bussiness_categories')->where('id', $request->id)->update([
+         EmployeeBussinessCategory::find($id)->update([
             'category' => $request->category,
             'category_ar' => $request->category_ar,
         ]);
@@ -85,14 +87,14 @@ class EmployeeBusinessCategoryController extends Controller
 
     }
 
-    public function deleteCategory(Request $request){
-        $category = DB::table('employee_bussiness_categories')->where('id',$request->id)->first();
+    public function deleteCategory(Request $request,$id){
+        $category = EmployeeBussinessCategory::find($id);
 
         if(empty($category)) {
             return response()->json(['status' => 0]);
         }
 
-        DB::table('employee_bussiness_categories')->where('id',$request->id)->delete();
+        $category->delete();
 
         return response()->json(['status' => 1]);
     }

@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Models\City;
+use App\Models\Country;
 
 class CountryController extends Controller
 {
     public function listCountries()
     {
-        $countries = DB::table('countries')->orderBy('id', 'desc')->get();
+        $countries = Country::all();
 
         return view('backend.pages.country.list', compact('countries'));
     }
@@ -36,7 +38,7 @@ class CountryController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        DB::table('countries')->insert([
+            Country::create([
             'name' => $request->name,
             'name_ar' => $request->name_ar,
             'currency' => $request->currency
@@ -47,7 +49,7 @@ class CountryController extends Controller
 
     public function editCountry($id)
     {
-        $country = DB::table('countries')->where('id', $id)->first();
+        $country = Country::find($id);
 
         if($country == null)
         {
@@ -57,9 +59,9 @@ class CountryController extends Controller
         return view('backend.pages.country.edit', compact('country'));
     }
 
-    public function updateCountry(Request $request)
+    public function updateCountry(Request $request,$id)
     {
-        $country = DB::table('countries')->where('id', $request->id)->first();
+        $country = Country::find($id);
 
         if($country == null)
         {
@@ -78,7 +80,7 @@ class CountryController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        DB::table('countries')->where('id', $request->id)->update([
+            $country = Country::find($id)->update([
             'name' => $request->name,
             'name_ar' => $request->name_ar,
             'currency' => $request->currency
@@ -88,14 +90,15 @@ class CountryController extends Controller
 
     }
 
-    public function deleteCountry(Request $request){
-        $country = DB::table('countries')->where('id',$request->id)->first();
+    public function deleteCountry($id){
+        
+        $country = Country::find($id);
 
         if(empty($country)) {
             return response()->json(['status' => 0]);
         }
 
-        DB::table('countries')->where('id',$request->id)->delete();
+        $country->delete();
 
         return response()->json(['status' => 1]);
     }

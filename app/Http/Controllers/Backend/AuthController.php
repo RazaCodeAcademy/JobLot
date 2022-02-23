@@ -85,28 +85,30 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => $request->password,
             );
-
+            
+           
             if (Auth::attempt($userdata))
-            {
-                if (Auth::user()->hasRole('Admin'))
+            { 
+                // dd(Auth::user()->hasRole('admin'));
+                if (Auth::user()->hasRole('admin'))
                 {
+                   
                     return redirect()->route('adminDashboard');
                 }
-                elseif (Auth::user()->hasRole('Employer'))
-                {
+                elseif (Auth::user()->hasRole('employer'))
+                { 
                     return redirect()->route('employerDashboard');
+                   
                 }
-                elseif (Auth::user()->hasRole('Candidate'))
+                elseif (Auth::user()->hasRole('employee'))
                 {
                     return redirect()->route('candidateDashboard');
                 }
-                elseif (Auth::user()->hasRole('Sub Admin'))
-                {
-                    return redirect()->route('subAdminDashboard');
-                }
+            
             }
             else
             {
+                
                 return redirect()->back()->withInput()->with('warning','These credentials do not match our records.');
             }
         }

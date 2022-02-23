@@ -38,7 +38,7 @@
 						</div>
 					</div>
 
-					<form method="POST" action="{{route('updateQualification')}}" enctype="multipart/form-data">
+					<form method="POST" action="{{route('updateQualification',$qualification->id)}}" enctype="multipart/form-data">
 						@csrf
 						<div class="card-body">
 							<div class="row">

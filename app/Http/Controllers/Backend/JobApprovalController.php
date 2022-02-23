@@ -7,17 +7,19 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Job;
+use App\Models\EmployeePackage;
 
 class JobApprovalController extends Controller
 {
     public function list()
     {
-        $jobs = DB::table('jobs')->where('approval_status','=',0)->orderBy('id', 'desc')->get();
+        $jobs =Job::where('job_approval','=',0)->orderBy('id', 'desc')->get();
 
         return view('backend.pages.jobApproval.list', compact('jobs'));
     }
 
-    public function status(Request $request)
+    public function status(Request $request,$id)
     {
         if ($request->value == 1)
         {
@@ -25,22 +27,22 @@ class JobApprovalController extends Controller
 
             $jobExpires = $current->addDays(30);
 
-            DB::table('jobs')->where('id',$request->id)->update([
-                'approval_status' => $request->value,
+                Job::find($id)->update([
+                'job_approval' => $request->value,
                 'expireDate' => Carbon::parse($jobExpires)->format('Y-m-d')
             ]);
             return response()->json(['status' => 1]);
         }
         elseif($request->value == 2)
             {
-                DB::table('jobs')->where('id',$request->id)->update([
-                    'approval_status' => $request->value
+                Job::find($id)->update([
+                    'job_approval' => $request->value
                 ]);
 
-                $countCheck = DB::table('employee_packages')->where('user_id', $request->user_id)->first();
+                $countCheck =EmployeePackage::where('user_id', $request->user_id)->first();
                 if ($countCheck > 0)
                 {
-                    DB::table('employee_packages')->where('user_id', $request->user_id)->decrement('jobs_count',1);
+                    EmployeePackage::where('user_id', $request->user_id)->decrement('jobs_count',1);
                 }
 
                 return response()->json(['status' => 1]);
@@ -53,7 +55,7 @@ class JobApprovalController extends Controller
 
     public function job_details($id)
     {
-        $job = DB::table('jobs')->where('id',decrypt($id))->first();
+        $job = Job::find($id);
 
         return view('backend.pages.jobApproval.jobDetails', compact('job'));
     }

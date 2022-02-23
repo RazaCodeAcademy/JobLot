@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use App\Models\JobSalaryRange;
 
 class JobSalaryRangeController extends Controller
 {
     public function listSalaryRanges()
     {
-        $ranges = DB::table('job_salary_ranges')->orderBy('id', 'desc')->get();
+        $ranges = JobSalaryRange::orderBy('id', 'desc')->get();
 
         return view('backend.pages.salaryRange.list', compact('ranges'));
     }
@@ -34,7 +35,7 @@ class JobSalaryRangeController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        DB::table('job_salary_ranges')->insert([
+        JobSalaryRange::create([
             'range' => $request->range
         ]);
 
@@ -43,7 +44,7 @@ class JobSalaryRangeController extends Controller
 
     public function editSalaryRange($id)
     {
-        $range = DB::table('job_salary_ranges')->where('id', $id)->first();
+        $range = JobSalaryRange::find($id);
 
         if($range == null)
         {
@@ -53,9 +54,9 @@ class JobSalaryRangeController extends Controller
         return view('backend.pages.salaryRange.edit', compact('range'));
     }
 
-    public function updateSalaryRange(Request $request)
+    public function updateSalaryRange(Request $request,$id)
     {
-        $range = DB::table('job_salary_ranges')->where('id', $request->id)->first();
+        $range = JobSalaryRange::find($id);
 
         if($range == null)
         {
@@ -72,7 +73,7 @@ class JobSalaryRangeController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        DB::table('job_salary_ranges')->where('id', $request->id)->update([
+        JobSalaryRange::find($id)->update([
             'range' => $request->range
         ]);
 
@@ -80,8 +81,8 @@ class JobSalaryRangeController extends Controller
 
     }
 
-    public function deleteSalaryRange(Request $request){
-        $range = DB::table('job_salary_ranges')->where('id',$request->id)->first();
+    public function deleteSalaryRange(Request $request,$id){
+        $range = JobSalaryRange::find($id);
 
         if(empty($range)) {
             return response()->json(['status' => 0]);

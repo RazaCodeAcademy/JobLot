@@ -7,19 +7,20 @@ use Illuminate\Support\Facades\Auth;
 
 // send notifications
 if (!function_exists("notifications")) {
-    function notifications($parent_id, $parent_type, $message){
+    function notifications($id=null, $notifiable, $parent_type, $message){
         $data = [
-            'parent_id'     => $parent_id,
+            'id'            => $id,
+            'parent_id'     => user()->id,
             'parent_type'   => $parent_type,
             'message'       => $message,
-            'route'         => current_url(),
+            'username'      => user()->get_name(),
             'image'         => user()->get_image(),
         ];
 
         $data = [
             "type"              => $parent_type,
             "notifiable_type"   => User::class,
-            "notifiable_id"     => user()->id,
+            "notifiable_id"     => $notifiable,
             "data"              => serialize($data),
         ];
 
@@ -65,5 +66,19 @@ if(!function_exists('current_url'))
     function current_url()
     {
         return \Request::url();
+    }
+}
+
+// get current url name
+if(!function_exists('getUser'))
+{
+    function getUser($users, $id)
+    {
+        foreach ($users as $user) {
+            $user->saved = $user->isSavedListed($id);
+            $user->shortListed = $user->isShortListed($id);
+            $user->applied = $user->isAppliedListed($id);
+        }
+        return $users;
     }
 }

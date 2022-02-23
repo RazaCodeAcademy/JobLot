@@ -138,14 +138,14 @@ class UserController extends Controller
         $user = Auth::user();
 
          // create directory
-        $categoryFolder = 'profile';
-        if (!Storage::exists($categoryFolder)) {
-            Storage::makeDirectory($categoryFolder);
+        $profileFolder = 'profile';
+        if (!Storage::exists($profileFolder)) {
+            Storage::makeDirectory($profileFolder);
         }
 
         // upload file
         if ($request->hasFile('profile_image')) {
-            $image = Storage::putFile($categoryFolder, new File($request->file('profile_image')));
+            $image = Storage::putFile($profileFolder, new File($request->file('profile_image')));
             $user->profile_image = $image;
 
             if($user->update()){
@@ -297,6 +297,27 @@ class UserController extends Controller
             'success' => true,
             'message' => 'Notification read successfuly!',
         ], 200);
+    }
+
+    public function removeNotification(Request $request)
+    {
+        $id = $request->notification_id;
+       
+        // remove single notification
+        $notification = user()->get_notification->where('id', $id)->first();
+        if(!empty($notification)){
+            $notification->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Notification removed successfuly!',
+            ], 200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong please try again!',
+            ], 400);
+        }
+
     }
 
     public function sendOTP(Request $request)

@@ -53,8 +53,8 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function(){
     Route::post('/add-to-saved-list-applicants', 'EmployerController@addToSaveListEmployee');
     Route::post('/short-listed-applicants', 'EmployerController@shortListed');
     Route::post('/saved-listed-applicants', 'EmployerController@savedListed');
-
-    Route::post('/post_job', 'EmployerController@postJob');
+    Route::post('/remove-shortlisted-applicants', 'EmployerController@removeShortListed');
+    Route::post('/remove-savelisted-applicants', 'EmployerController@removeSaveListed');
     
     // User Controller routes
     Route::post('upload-employer-profile-image', 'UserController@uploadProfileImage');
@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function(){
     Route::post('update-user-info', 'UserController@updateUserInfo');
     Route::post('get-user-notification', 'UserController@getNotification');
     Route::post('read-user-notification', 'UserController@readNotification');
+    Route::post('remove-user-notification', 'UserController@removeNotification');
 
     // EmployeeContrller 
     Route::post('/applied', 'EmployeeController@apply_job');
@@ -69,9 +70,12 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function(){
     Route::post('/employee-add-experience', 'EmployeeController@add_experience');
     Route::post('/employee-get-experience', 'EmployeeController@get_experience');
 
-
     // JobController 
     Route::post('/all-job', 'JobController@all_job');
     Route::post('/employee-saved-job', 'JobController@employee_saved_job');
     Route::post('/employee-get-saved-job', 'JobController@employee_get_saved_job');
+    Route::post('/post_job', 'JobController@post_job');
+    Route::post('/update-job', 'JobController@update_job');
+    Route::post('/remove-job', 'JobController@remove_job');
+
 });

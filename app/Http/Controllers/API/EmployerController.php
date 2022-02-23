@@ -87,6 +87,9 @@ class EmployerController extends Controller
         $singleJobAplicantList = EmployeeAppliedJob::where('job_id', $request->job_id)->pluck('user_id');
         $singleJobAplicantList = User::whereIn('id', $singleJobAplicantList->toArray())->get();
 
+        // get user is applied on job shortlisted and savedlisted
+        $singleJobAplicantList = getUser($singleJobAplicantList, $request->job_id);
+
         return response()->json([
             'singleJobAplicantList' => $singleJobAplicantList,
         ], 200);
@@ -126,6 +129,9 @@ class EmployerController extends Controller
         // get employees nearby
         $filterApplicants = $this->near_by_applicants($users, $request->distance);
 
+        // get user is applied on job shortlisted and savedlisted
+        $filterApplicants = getUser($filterApplicants, $request->job_id);
+
         // return response after filterize employees
         return response()->json([
             'count' => count($filterApplicants),
@@ -152,6 +158,9 @@ class EmployerController extends Controller
 
         // get employees nearby
         $employees = $this->near_by_applicants($users);
+
+        // get user is applied on job shortlisted and savedlisted
+        $employees = getUser($employees, $request->job_id);
 
         return response()->json([
             'count' => count($employees),
@@ -180,10 +189,19 @@ class EmployerController extends Controller
         $shortListedApplicants->status = '1';
         $shortListedApplicants->save();
 
+        $userSaved = EmployeeSavedListed::where([
+            ['user_id', $request->user_id], 
+            ['job_id', $request->job_id]
+        ])->first();
+        if(!empty($userSaved)){
+            $userSaved->delete();
+        }
+
         notifications(
-            $shortListedApplicants->id, 
+            $request->job_id,
+            $shortListedApplicants->user_id, 
             EmployeeShortListed::class, 
-            user()->get_name()." shortlisted to you at: (". date('d-M-y') .")"
+            "shortlisted to you at: (". date('d-M-y') .")"
         );
 
         return response()->json([
@@ -200,9 +218,10 @@ class EmployerController extends Controller
         $savedListedApplicants->save();
 
         notifications(
-            $savedListedApplicants->id, 
+            $request->job_id,
+            $savedListedApplicants->user_id, 
             EmployeeSavedListed::class, 
-            user()->get_name()." saved to you at: (". date('d-M-y') .")"
+            "saved to you at: (". date('d-M-y') .")"
         );
 
         return response()->json([
@@ -220,6 +239,7 @@ class EmployerController extends Controller
             'shortListed' => $shortListed,
         ], 200);
     }
+
     public function savedListed(Request $request)
     {
         $user = Auth::user();
@@ -230,27 +250,38 @@ class EmployerController extends Controller
             'savedListed' => $savedListed,
         ], 200);
     }
-    public function postJob(Request $request)
-    {
-        $job= New Job;
-        $job->business_cat_id = $request->business_cat_id;
-        $job->employer_id = $request->employer_id;
-        $job->title = $request->title;
-        $job->salary = $request->salary;
-        $job->job_type = $request->job_type;
-        $job->job_qualification = $request->job_qualification;
-        $job->state_authorized = $request->state_authorized;
-        $job->description = $request->description;
-        $job->comp_name= $request->comp_name;
-        $job->comp_location = $request->comp_location;
-        $job->salary_schedual = $request->salary_schedual;
-        $job->job_schedual_from = date('Y-m-d H:i:s',strtotime($request->job_schedual_from));
-        $job-> job_schedual_to = date('Y-m-d H:i:s',strtotime($request->job_schedual_to));
-        $job->save();
 
-        
+    public function removeShortListed(Request $request)
+    {
+        $shortListedApplicants = EmployeeShortListed::where([['job_id', $request->job_id], ['user_id', $request->user_id]])->first();
+
+        if(!empty($shortListedApplicants)){
+            $shortListedApplicants->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'User has been removed from shostlist successfuly!'
+            ], 200);
+        }
         return response()->json([
-            'PostJob' => $job,
-        ], 200);
+            'success' => false,
+            'message' => 'Something went wrong please try again!'
+        ], 400);
+    }
+
+    public function removeSaveListed(Request $request)
+    {
+        $saveListedApplicants = EmployeeSavedListed::where([['job_id', $request->job_id], ['user_id', $request->user_id]])->first();
+
+        if(!empty($saveListedApplicants)){
+            $saveListedApplicants->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'User has been removed from savelist successfuly!'
+            ], 200);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Something went wrong please try again!'
+        ], 400);
     }
 }

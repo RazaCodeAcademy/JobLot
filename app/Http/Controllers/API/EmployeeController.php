@@ -23,6 +23,15 @@ class EmployeeController extends Controller
         $appliedJob->status = '1';
         $appliedJob->save();
 
+        $job = Job::find($request->job_id);
+
+        notifications(
+            $job->id, 
+            $job->employer_id, 
+            EmployeeAppliedJob::class, 
+            "applied on job ". $job->title ." at: (". date('d-M-y') .")"
+        );
+
         return response()->json([
             'appliedJob' => $appliedJob,
         ], 200);

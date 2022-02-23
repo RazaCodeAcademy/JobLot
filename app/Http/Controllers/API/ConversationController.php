@@ -45,7 +45,15 @@ class ConversationController extends Controller
                 'text' => $message,
             ];
 
-            return $msg = Message::create($message);
+            $msg = Message::create($message);
+
+            notifications(
+                $participantId, 
+                Conversation::class, 
+                "sends message to you at: (". date('d-M-y') .")"
+            );
+
+            return $msg;
         }else{
             $conversation = Conversation::create([
                 'moderator_id' => $user->id,
@@ -59,7 +67,15 @@ class ConversationController extends Controller
 
             $conversation->recipient()->attach([$participantId, $user->id]);
 
-            return $msg = Message::create($message);
+            $msg = Message::create($message);
+
+            notifications(
+                $participantId, 
+                Conversation::class, 
+                "sends message to you at: (". date('d-M-y') .")"
+            );
+
+            return $msg;
         }
     }
 

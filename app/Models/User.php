@@ -69,13 +69,18 @@ class User extends Authenticatable
         if(!empty($this->profile_image)){
             return asset('storage/app/'.$this->profile_image);
         }else{
-            return asset('images/12432424.jpg');
+            return asset('public/images/1615444706.jpg');
         }
     }
 
     public function saved_jobs()
     {
         return $this->belongsToMany(Job::class, 'saved_jobs', 'user_id', 'job_id');
+    }
+
+    public function applied_jobs()
+    {
+        return $this->belongsToMany(Job::class, 'employee_applied_jobs', 'user_id', 'job_id');
     }
 
     public function get_jobs()
@@ -97,4 +102,35 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class, 'notifiable_id', 'id')->where('read_at', null);
     }
+
+    public function getLastMessage(){
+        $conversation = Conversation::where([
+            ['moderator_id', $user->id],
+            ['participant_id', $participantId],
+        ])->orWhere([
+            ['moderator_id', $participantId],
+            ['participant_id', $user->id],
+        ])->first();
+
+        $lastMessage = $this->messages->last() ? Str::limit($this->messages->last()->text, 12).'...' : '....';
+        return [
+            'text' => $lastMessage,
+        ];
+    }
+
+    // employee shortlisted or not
+    public function isShortListed($job_id){
+        return EmployeeShortListed::where([['id', $job_id], ['user_id', $this->id]])->first() ? 1 : 0;
+    }
+
+    // employee savedlisted or not
+    public function isSavedListed($job_id){
+        return EmployeeSavedListed::where([['id', $job_id], ['user_id', $this->id]])->first() ? 1 : 0;
+    }
+
+    // employee appliedlisted or not
+    public function isAppliedListed($job_id){
+        return EmployeeAppliedJob::where([['id', $job_id], ['user_id', $this->id]])->first() ? 1 : 0;
+    }
+
 }

@@ -13,13 +13,13 @@ class IndexController extends Controller
     public function index(){
         $timeCheck = Carbon::now();
         $locations = DB::table('countries')->get();
-        $active_jobs = DB::table('jobs') ->where('status', '=', 1)->where('approval_status', '=', '1')->whereDate('date','<=', Carbon::now())->whereDate('endingDate','>=', Carbon::now())->count();
-        $total_jobs = DB::table('jobs') ->where('approval_status', '=', 1)->whereDate('date','<=', Carbon::now())->whereDate('endingDate','>=', Carbon::now())->orderBy('id','DESC')->get();
+        $active_jobs = DB::table('jobs') ->where('status', '=', 1)->where('job_approval', '=', '1')->count();
+        $total_jobs = DB::table('jobs') ->where('job_approval', '=', 1)->orderBy('id','DESC')->get();
         $job_categories = DB::table('employee_bussiness_categories')->get();
         $total_candidates = DB::table('model_has_roles')->where('role_id', '=',3)->count();
         $total_companies_count = DB::table('model_has_roles')->where('role_id', '=',2)->count();
         $total_companies = DB::table('model_has_roles')->where('role_id', '=',2)->get();
-        $totalCvs = DB::table('candidate_applied_jobs')->count();
+        $totalCvs = DB::table('employee_applied_jobs')->count();
 
         return view('frontend.pages.index', compact('job_categories','locations','active_jobs','total_jobs','total_candidates','total_companies_count','total_companies','timeCheck', 'totalCvs'));
     }
@@ -49,20 +49,19 @@ class IndexController extends Controller
         $keyword = $request->keyword;
 
         $searchQuery = DB::table('jobs')->where('status', '=',1)
-        ->where('approval_status', '=', 1)
-        ->whereDate('date','<=', Carbon::now())
-        ->whereDate('endingDate', '>=', Carbon::now())
+        ->where('job_approval', '=', 1)
+       
         ->where(function($query) use($keyword){
-            return $query->where('title', 'LIKE', '%' . $keyword . '%')
-                ->orWhere('title_ar', 'LIKE', '%' . $keyword . '%');
+            return $query->where('title', 'LIKE', '%' . $keyword . '%');
+                
         });
 
-        if($request->location != null){
-            $searchQuery->where('job_location', $request->location);
-        }
+        // if($request->location != null){
+        //     $searchQuery->where('job_location', $request->location);
+        // }
 
         if($request->category != null){
-            $searchQuery->where('category', $request->category);
+            $searchQuery->where('business_cat_id', $request->category);
         }
 
         $total_jobs = $searchQuery->get();
@@ -73,9 +72,7 @@ class IndexController extends Controller
     public function countryJobs($id){
 
         $total_jobs = DB::table('jobs')->where('status', '=',1)
-        ->where('approval_status', '=', 1)
-        ->whereDate('date','<=', Carbon::now())
-        ->whereDate('endingDate', '>=', Carbon::now())
+        ->where('job_approval', '=', 1)
         ->where('job_location', $id)
         ->get();
 
@@ -85,10 +82,9 @@ class IndexController extends Controller
     public function categoryJobs($id){
 
         $total_jobs = DB::table('jobs')->where('status', '=',1)
-        ->where('approval_status', '=', 1)
-        ->whereDate('date','<=', Carbon::now())
-        ->whereDate('endingDate', '>=', Carbon::now())
-        ->where('category', $id)
+        ->where('job_approval', '=', 1)
+        
+        ->where('business_cat_id', $id)
         ->get();
 
         return view('frontend.pages.job_filter',compact('total_jobs'));

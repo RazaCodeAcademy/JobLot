@@ -27,7 +27,10 @@ Route::middleware(['middleware' => 'auth:web'])
 /////////////////////////////////////////////////////////
 
 Route::middleware(['frontend'])->group(function () {
-    Route::get('/', 'Frontend\IndexController@index')->name('welcome');
+    // Route::get('/', 'Frontend\IndexController@index')->name('welcome');
+    Route::get('/', function(){
+        return redirect()->route('adminLogin');
+    })->name('welcome');
     Route::post('/loginUser', 'Frontend\AuthenticationController@login')->name('userLogin');
     Route::get('/job-details/{slug}', 'Frontend\IndexController@job_details')->name('jobDetails');
     Route::get('/job-search', 'Frontend\IndexController@job_search')->name('job_search');

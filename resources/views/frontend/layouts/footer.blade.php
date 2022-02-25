@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 order-lg-1">
-                                <p class="copyright-text">{{__('Copyright')}} <a href="{{route('welcome')}}">{{__('PATH')}}</a> <?php echo date('Y');?>, {{__('All right reserved')}}</p>
+                                <p class="copyright-text">{{__('Copyright')}} <a href="{{route('welcome')}}">{{__('JobLot')}}</a> <?php echo date('Y');?>, {{__('All right reserved')}}</p>
                             </div>
                             <div class="col-xl-4 col-lg-3 order-lg-3">
                                 <div class="back-to-top">

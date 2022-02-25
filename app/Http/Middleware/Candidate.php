@@ -34,7 +34,7 @@ class Candidate
             }
 
         }
-        return redirect()->route('welcome')->with('error', 'Session Expired! Login to continue');
+        return redirect()->route('login')->with('error', 'Session Expired! Login to continue');
 
     }
 }

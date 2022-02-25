@@ -23,7 +23,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
 
-    <link rel="icon" href="{{asset('/public/asset/images/logo.png')}}">
+    <link rel="shortcut icon" href="{{asset('public/asset/images/joblot-blue-logo.png')}}" />
     <link rel="apple-touch-icon" href="{{asset('/public/asset/images/logo.png')}}">
     <link rel="apple-touch-icon" sizes="72x72" href="{{asset('/public/asset/images/logo.png')}}">
     <link rel="apple-touch-icon" sizes="114x114" href="{{asset('/public/asset/images/logo.png')}}">

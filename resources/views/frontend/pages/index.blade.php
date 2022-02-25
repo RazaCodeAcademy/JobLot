@@ -15,21 +15,21 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto job-browse">
+                {{--  <ul class="navbar-nav mr-auto job-browse">
                     <li class="nav-item dropdown">
                         <a title="" href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Browse Jobs</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li class="search-by">
                                 <h5>{{__('BY Category')}}</h5>
                                 <ul>
+
                                     @foreach($job_categories as $job_category)
                                         @php  
                                             $count = DB::table('jobs')
-                                            ->where('category', $job_category->id)
+                                            ->where('business_cat_id', $job_category->id)
                                             ->where('status', '=' , 1)
                                             ->where('job_approval', '=' , 1)
-                                            ->whereDate('date','<=', $timeCheck)
-                                            ->whereDate('endingDate','>=', $timeCheck)
+                                            
                                             ->count(); 
                                         @endphp
                                         <li><a href="{{route('categoryJobs', $job_category->id)}}">{{(session()->has('language')) ? $job_category->category_ar : $job_category->category}} <span>({{$count}})</span></a></li>
@@ -42,11 +42,10 @@
                                     @foreach($locations as $location)
                                         @php  
                                             $count = DB::table('jobs')
-                                            ->where('job_location', $location->id)
+                                            
                                             ->where('status', '=' , 1)
                                             ->where('job_approval', '=' , 1)
-                                            ->whereDate('date','<=', $timeCheck)
-                                            ->whereDate('endingDate','>=', $timeCheck)
+                                            
                                             ->count(); 
                                         @endphp
                                         <li><a href="{{route('countryJobs', $location->id)}}">{{(session()->has('language')) ? $location->name_ar : $location->name}} <span>({{$count}})</span></a></li>
@@ -55,22 +54,22 @@
                             </li>
                         </ul>
                     </li>
-                </ul>
-                <ul class="navbar-nav ml-auto account-nav">
+                </ul>  --}}
+                <ul class="navbar-nav float-left account-nav">
                     @auth()
                         <li class="menu-item">
                             <a  @if(Auth::user()->hasRole('Employer')) href="{{route('employerDashboard')}}"
-                                @elseif( Auth::user()->hasRole('Candidate')) href="{{route('candidateDashboard')}}"
+                                @elseif( Auth::user()->hasRole('employee')) href="{{route('candidateDashboard')}}"
                                 @elseif( Auth::user()->hasRole('Admin')) href="{{route('adminDashboard')}}"
-                                @elseif( Auth::user()->hasRole('Sub Admin')) href="{{route('subAdminDashboard')}}" @endif type="button" >
+                                 @endif type="button" >
                                 {{__('Dashboard')}}
                             </a>
                         </li>
                     @endauth
                     @guest()
                         <li class="menu-item login-popup"><button title="Title" type="button" data-toggle="modal" data-target="#loginModal">{{__('Login')}}</button></li>
-                        <li class="menu-item"><a href="{{route('candidate-register')}}">{{__('Register as Candidate')}}</a></li>
-                        <li class="menu-item"><a href="{{route('employer-register')}}">{{__('Register as Employer')}}</a></li>
+                        {{--  <li class="menu-item"><a href="{{route('candidate-register')}}">{{__('Register as Employee')}}</a></li>
+                        <li class="menu-item"><a href="{{route('employer-register')}}">{{__('Register as Employer')}}</a></li>  --}}
                     @endguest
                     <li class="menu-item"><a href="{{ (session()->has('language')) ? route('removeLanguage') : route('addLanguage') }}">{{ (session()->has('language')) ? 'English' : 'عربى' }}</a></li>
                 </ul>
@@ -87,7 +86,7 @@
                         <h1>{{$active_jobs}} {{__('Job(s) Listed')}}</h1>
                         <p>{{__('Create free account to find thousands Jobs, Employment & Career Opportunities around you!')}}</p>
                         @if(Auth::check())
-                            @if(Auth::user()->hasRole('Candidate'))
+                            @if(Auth::user()->hasRole('employee'))
                                 <a href="{{route('resume')}}" class="button" >{{__('Upload Resume')}}</a>
                             @endif
                         @else
@@ -100,7 +99,7 @@
     </div>
 
     {{-- Job Search and FIlter By Categories --}}
-    <div class="searchAndFilter-wrapper">
+    {{--  <div class="searchAndFilter-wrapper">
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -129,14 +128,13 @@
                                     @foreach($job_categories as $job_category)
                                         @php
                                             $count = DB::table('jobs')
-                                            ->where('category', $job_category->id)
+                                            ->where('business_cat_id', $job_category->id)
                                             ->where('status', '=' , 1)
-                                            ->where('approval_status', '=' , 1)
-                                            ->whereDate('date','<=', $timeCheck)
-                                            ->whereDate('endingDate','>=', $timeCheck)
+                                            ->where('job_approval', '=' , 1)
+                                           
                                             ->count();
                                         @endphp
-                                        <li>
+                                        {{--  <li>
                                             <a href="{{route('categoryJobs', $job_category->id)}}">
                                                 <i @if ($job_category->icon == 'bar-chart-2')  data-feather="bar-chart-2"
                                                 @elseif ($job_category->icon == 'briefcase') data-feather="briefcase"
@@ -147,8 +145,8 @@
                                                 </i>{{(session()->has('language')) ? $job_category->category_ar : $job_category->category}}
                                                 <span>({{$count}})</span>
                                             </a>
-                                        </li>
-                                    @endforeach
+                                        </li>  --}}
+                                    {{--  @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -156,7 +154,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>  --}}  
 
     {{-- Guest Candidate/Employer Registre Page --}}
     @guest()
@@ -169,8 +167,8 @@
                                 <img src="{{asset('asset/images/register-box/1.png')}}" alt="">
                             </div>
                             <span>{{__('Are You')}}</span>
-                            <h3>{{__('Candidate?')}}</h3>
-                            <a href="{{route('candidate-register')}}">{{__('Register Now')}} <i class="fas fa-arrow-right"></i></a>
+                            <h3>{{__('Employee?')}}</h3>
+                            <a>{{__('Register Now')}} <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -180,7 +178,7 @@
                             </div>
                             <span>{{__('Are You')}}</span>
                             <h3>{{__('Employer?')}}</h3>
-                            <a href="{{route('employer-register')}}">{{__('Register Now')}} <i class="fas fa-arrow-right"></i></a>
+                            <a>{{__('Register Now')}} <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -194,11 +192,11 @@
             <div class="row">
                 <div class="col">
                     <div class="section-header">
-                        <h2>{{__('Top Companies')}}</h2>
+                        <h2>{{__('Top Employers')}}</h2>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            {{--  <div class="row">
                 <div class="col">
                     <div class="company-carousel owl-carousel">
                         @foreach($total_companies as $total_company)
@@ -240,7 +238,7 @@
                         @endforeach
                     </div>
                 </div>
-            </div>
+            </div>  --}}
         </div>
     </div>
 
@@ -289,9 +287,9 @@
                                                             <a data-toggle="modal" data-target="#loginModal" class="button">{{__('Apply Now')}}</a>
                                                         @endguest
                                                         @auth()
-                                                            @if(Auth::user()->hasRole('Candidate'))
+                                                            @if(Auth::user()->hasRole('employee'))
                                                                 @php
-                                                                    $dataCheck = DB::table('candidate_applied_jobs')->select()->where('user_id', Auth::user()->id)->where('job_id', $total_job->id)->first();
+                                                                    $dataCheck = DB::table('employee_applied_jobs')->select()->where('user_id', Auth::user()->id)->where('job_id', $total_job->id)->first();
                                                                 @endphp
                                                                 @if(isset($dataCheck))
                                                                     <a class="apply">{{__('Applied')}}</a>
@@ -334,7 +332,7 @@
                             <i data-feather="users"></i>
                         </div>
                         <p class="fact-number"><span class="count" data-form="0" data-to="{{$total_candidates}}"></span></p>
-                        <p class="fact-name">{{__('Candidate')}}</p>
+                        <p class="fact-name">{{__('Employee')}}</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
@@ -351,8 +349,8 @@
                         <div class="fact-icon">
                             <i data-feather="award"></i>
                         </div>
-                        <p class="fact-number"><span class="count" data-form="0" data-to="{{$total_companies_count}}"></span></p>
-                        <p class="fact-name">{{__('Companies')}}</p>
+                        <p class="fact-number"><span class="count" data-form="0" data-to="{{$total_candidates}}"></span></p>
+                        <p class="fact-name">{{__('Employers')}}</p>
                     </div>
                 </div>
             </div>

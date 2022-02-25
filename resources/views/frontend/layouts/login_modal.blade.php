@@ -1,5 +1,5 @@
 <div class="account-entry">
-    <form method="post" action="{{ route('userLogin') }}">
+    <form method="post" action="{{ route('adminLoginPost') }}">
         @csrf
         <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">

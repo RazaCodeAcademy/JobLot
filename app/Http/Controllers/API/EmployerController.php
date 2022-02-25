@@ -235,6 +235,9 @@ class EmployerController extends Controller
         $shortListed = EmployeeShortListed::where('job_id', $request->job_id)->pluck('user_id');
         $shortListed = User::whereIn('id', $shortListed)->get();
 
+        // get user is applied on job shortlisted and savedlisted
+        $shortListed = getUser($shortListed, $request->job_id);
+
         return response()->json([
             'shortListed' => $shortListed,
         ], 200);
@@ -245,6 +248,9 @@ class EmployerController extends Controller
         $user = Auth::user();
         $savedListed = EmployeeSavedListed::where('job_id', $request->job_id)->pluck('user_id');
         $savedListed = User::whereIn('id', $savedListed)->get();
+
+        // get user is applied on job shortlisted and savedlisted
+        $savedListed = getUser($savedListed, $request->job_id);
 
         return response()->json([
             'savedListed' => $savedListed,

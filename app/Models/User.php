@@ -142,16 +142,16 @@ class User extends Authenticatable
 
     // employee shortlisted or not
     public function isShortListed($job_id){
-        return EmployeeShortListed::where([['id', $job_id], ['user_id', $this->id]])->first() ? 1 : 0;
+        return EmployeeShortListed::where([['job_id', $job_id], ['user_id', $this->id]])->first() ? 1 : 0;
     }
 
     // employee savedlisted or not
     public function isSavedListed($job_id){
-        return EmployeeSavedListed::where([['id', $job_id], ['user_id', $this->id]])->first() ? 1 : 0;
+        return EmployeeSavedListed::where([['job_id', $job_id], ['user_id', $this->id]])->first() ? 1 : 0;
     }
 
     // employee appliedlisted or not
     public function isAppliedListed($job_id){
-        return EmployeeAppliedJob::where([['id', $job_id], ['user_id', $this->id]])->first() ? 1 : 0;
+        return EmployeeAppliedJob::where([['job_id', $job_id], ['user_id', $this->id]])->first() ? 1 : 0;
     }
 }

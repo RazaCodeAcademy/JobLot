@@ -44,22 +44,18 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if ($user->hasRole('Admin'))
+        if ($user->hasRole('admin'))
         {
             return redirect()->route('adminDashboard');
         }
-        elseif ($user->hasRole('Employer'))
+        elseif ($user->hasRole('employer'))
         {
             return redirect()->route('employeedashboard', encrypt($user->id));
         }
-        elseif ($user->hasRole('Candidate'))
+        elseif ($user->hasRole('employee'))
         {
             return redirect()->route('edit_profile', $user->id);
 
-        }
-        elseif ($user->hasRole('Sub Admin'))
-        {
-            return redirect()->route('subAdminDashboard');
         }
         else
         {

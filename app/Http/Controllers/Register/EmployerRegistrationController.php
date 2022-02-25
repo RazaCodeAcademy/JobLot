@@ -168,7 +168,7 @@ dd($request->all());
         DB::table('model_has_roles')->insert($data1);
         session()->forget('sessionData');
 
-        return redirect()->route('welcome')->with('success','Registered successfully login to continue!');
+        return redirect()->route('login')->with('success','Registered successfully login to continue!');
 
     }
 }

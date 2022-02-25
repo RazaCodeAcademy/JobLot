@@ -23,7 +23,7 @@ class AuthenticationController extends Controller
 
           if ($validator->fails())
           {
-              return \redirect()->route('welcome')->withErrors($validator)->withInput();
+              return \redirect()->route('login')->withErrors($validator)->withInput();
           }
           else
           {
@@ -86,7 +86,7 @@ class AuthenticationController extends Controller
               }
               else
               {
-                  return \redirect()->route('welcome')->withInput()->with('warning','These credentials do not match our records.');
+                  return \redirect()->route('login')->withInput()->with('warning','These credentials do not match our records.');
               }
           }
     }

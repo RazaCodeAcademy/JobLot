@@ -260,7 +260,7 @@ class CandidateRegistrationController extends Controller
         }
         session()->forget('candidateSessionData');
 
-        return redirect()->route('welcome')->with('success','Registered successfully login to continue!');
+        return redirect()->route('login')->with('success','Registered successfully login to continue!');
 
     }
 }

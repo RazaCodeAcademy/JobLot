@@ -48,6 +48,7 @@ class ConversationController extends Controller
             $msg = Message::create($message);
 
             notifications(
+                null,
                 $participantId, 
                 Conversation::class, 
                 "sends message to you at: (". date('d-M-y') .")"
@@ -70,6 +71,7 @@ class ConversationController extends Controller
             $msg = Message::create($message);
 
             notifications(
+                null,
                 $participantId, 
                 Conversation::class, 
                 "sends message to you at: (". date('d-M-y') .")"

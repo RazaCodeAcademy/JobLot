@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\EmployeeAppliedJob;
 use App\Models\EmployeeExperience;
+use App\Models\User;
 
 // use facades
 use Auth;
@@ -76,10 +77,16 @@ class EmployeeController extends Controller
 
     public function get_experience(Request $request)
     {
+        $user = null;
+        if(!empty($request->user_id)){
+            $user = User::find($request->user_id);
+        }else{
+            $user = user();
+        }
 
         return response()->json([
-            'count' => count(user()->get_experiences),
-            'experiences' => user()->get_experiences,
+            'count' => count($user->get_experiences),
+            'experiences' => $user->get_experiences,
         ], 200);
        
     }

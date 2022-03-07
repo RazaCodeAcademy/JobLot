@@ -1,69 +1,39 @@
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Font Awesome Css -->
+    <link rel="stylesheet" href="{{ asset('/public/frontend/css/font-awesome/css/all.css') }}" />
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('/public/frontend/css/bootstrap.min.css') }}" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('/public/frontend/css/main.css') }}" />
+   {{-- Toaster --}}
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0- 
+   alpha/css/bootstrap.css" rel="stylesheet">
     <title>{{__('JobLot')}}</title>
-    <link rel="shortcut icon" href="{{ asset('/public/') }}" type="image/x-icon">
-
-    <link rel="stylesheet" href="{{asset('/public/asset/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('/public/asset/css/fontawesome-all.min.css')}}">
-    <link rel="stylesheet" href="{{asset('/public/asset/css/themify-icons.css')}}" />
-    <link rel="stylesheet" href="{{asset('/public/asset/css/et-line.css')}}" />
-    <link rel="stylesheet" href="{{asset('/public/asset/css/bootstrap-select.min.css')}}" />
-    <link rel="stylesheet" href="{{asset('/public/asset/css/plyr.css')}}" />
-    <link rel="stylesheet" href="{{asset('/public/asset/css/flag.css')}}" />
-    <link rel="stylesheet" href="{{asset('/public/asset/css/slick.css')}}" />
-    <link rel="stylesheet" href="{{asset('/public/asset/css/owl.carousel.min.css')}}" />
-    <link rel="stylesheet" href="{{asset('/public/asset/css/jquery.nstSlider.min.css')}}" />
-
-    <link rel="stylesheet" type="text/css" href="{{asset('/public/css/main.css')}}">
-
-    <link href="{{asset('/public/public/toast/toastr1.css')}}" rel="stylesheet">
-    <link href="{{asset('/public/public/toast/toastr2.css')}}" rel="stylesheet">
-
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
-
-    <link rel="shortcut icon" href="{{asset('public/asset/images/joblot-blue-logo.png')}}" />
-    <link rel="apple-touch-icon" href="{{asset('/public/asset/images/logo.png')}}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{{asset('/public/asset/images/logo.png')}}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{{asset('/public/asset/images/logo.png')}}">
 
     <style>
-        .main3 {
-            padding:5px;
-
-
-            color:#fff;
-        }
-        .main3 div {
-            margin:20px;
-            padding:20px;
-            background-color: #273238;
-            text-align: center;
-            border-radius: 5px;
-            font-weight: 700;
-            font-size: 22px;
-        }
-        .main3 div i{
-            font-size: 25px;
-        }
-        .main3   a{
-            display: block;
-        }
-        .main3.activated div{
-            background-color: #f04d42;
-            color:#fff;
-
-        }
-        .main3:hover div{
-            background-color: #f04d42;
-            color:#fff;
-        }
-        .headerSeparator{
-            width:100%; height:60px;
+        .icon-color{
+            color: #45adec;
         }
 
+        .button-success{
+            outline: 0;
+            border: 0;
+            font-size: 1.4rem;
+            color: #fff;
+            font-weight: bold;
+            padding: 1rem 3rem;
+            background-color: #28a745;
+            transition: all 0.3s;
+            border-radius: 0.5rem;
+        }
+
+        .header .header-search-dropdown .recent-footer i {
+            margin-right: 0rem !important;
+        }
     </style>
-
-    @yield('css')
 </head>

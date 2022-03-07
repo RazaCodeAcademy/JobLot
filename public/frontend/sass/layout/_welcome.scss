@@ -1,0 +1,187 @@
+.welcome {
+    background-image: $gradient-color, url("../img/hero-cover.jpg");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    .welcome-logo {
+        display: inline-block;
+        padding: 3rem;
+    }
+}
+
+.main {
+    min-width: 45rem;
+    max-width: 45rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.6rem;
+    text-align: center;
+    @media only screen and (max-width: 768px) {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+    }
+    @media only screen and (max-height: 600px) {
+        top: 30%;
+        transform: translateX(-50%);
+    }
+    .main-header {
+        background-image: $gradient-color-solid;
+        padding: 2rem;
+        text-align: center;
+    }
+    .main-content {
+        padding: 2rem 6rem;
+        background-color: #fff;
+        @media only screen and (max-width: 768px) {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        p {
+            color: $text-light;
+            margin-bottom: 2rem;
+            line-height: 1.9rem;
+        }
+        h6 {
+            font-weight: bold;
+            color: $text-dark;
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+        }
+    }
+    .main-bottom {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin-bottom: 5rem;
+        a:first-child {
+            color: $text-dark;
+        }
+        a:last-child {
+            color: $main-color;
+        }
+    }
+    .main-footer {
+        p {
+            font-size: 1.4rem;
+        }
+        ul {
+            display: flex;
+            justify-content: center;
+        }
+        li {
+            &:not(:last-child) {
+                margin-right: 3rem;
+            }
+        }
+        a {
+            font-size: 3rem;
+            display: inline-block;
+            color: $main-color;
+            transition: all 0.3s;
+            &:hover {
+                color: darken($main-color, 5%);
+            }
+        }
+    }
+    .main-form-control {
+        margin-bottom: 2rem;
+        input {
+            margin-bottom: 0.5rem;
+        }
+        small {
+            color: $text-placeholder;
+            font-size: 1.2rem;
+        }
+    }
+    .main-form-terms {
+        display: flex;
+        justify-content: flex-start;
+        text-align: left;
+        input[type="radio"] {
+            width: auto;
+            display: inline-block;
+            margin-right: 1rem;
+        }
+        p {
+            font-size: 1.2rem;
+            color: $text-light;
+        }
+        a {
+            color: $main-color;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+    }
+}
+
+.main-form {
+    input {
+        background-color: #f5f5f5;
+        color: $text-placeholder;
+        border: none;
+        outline: 0;
+        padding: 1.5rem;
+        font-size: 1.4rem;
+        margin-bottom: 2rem;
+        width: 100%;
+        border-radius: 1rem;
+        transition: all 0.3s;
+        &::placeholder {
+            color: $text-placeholder;
+        }
+        &:focus {
+            color: $text-placeholder;
+            background-color: darken(#f5f5f5, 2%);
+        }
+    }
+    button {
+        background-color: $main-color;
+        padding: 1.5rem;
+        font-size: 1.4rem;
+        width: 100%;
+        border: none;
+        outline: 0;
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 1rem;
+        transition: all 0.3s;
+        margin-bottom: 1rem;
+        &:hover {
+            background-color: darken($main-color, 5%);
+        }
+    }
+}
+
+.register-wrapper {
+    @media only screen and (max-height: 600px) {
+        min-height: 150vh;
+    }
+}
+
+.main.register {
+    text-align: left;
+    .register-header {
+        display: flex;
+        align-items: center;
+        a {
+            color: #fff;
+            margin-right: auto;
+        }
+        p {
+            margin: 0;
+            color: #fff;
+            font-weight: bold;
+            margin-right: auto;
+        }
+    }
+}

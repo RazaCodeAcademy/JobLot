@@ -1,0 +1,17 @@
+.main-nav {
+	background-image: $gradient-color-solid;
+
+	.navbar-brand {
+		img {
+			height: 3rem;
+		}
+	}
+
+	.nav-profile-box {
+		position: relative;
+	}
+
+	.nav-avatar {
+		cursor: pointer;
+	}
+}

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Str;
 // use models
 use App\Models\Job;
 use App\Models\SavedJob;
@@ -21,7 +21,8 @@ class JobController extends Controller
         $job= New Job;
         $job->business_cat_id = $request->business_cat_id;
         $job->employer_id = $request->employer_id;
-        $job->title = $request->title;
+        $job->title = Str::ucfirst($request->title);
+        $job->slug = Str::slug($request->title);
         $job->salary = $request->salary;
         $job->job_type = $request->job_type;
         $job->job_qualification = $request->job_qualification;
@@ -46,7 +47,8 @@ class JobController extends Controller
         $job= Job::where([['id', $request->job_id], ['employer_id', user()->id]])->first();
         $job->business_cat_id = $request->business_cat_id ? $request->business_cat_id : $job->business_cat_id;
         $job->employer_id = $request->employer_id ? $request->employer_id : $job->employer_id;
-        $job->title = $request->title ? $request->title : $job->title;
+        $job->title = Str::ucfirst($request->title) ? Str::ucfirst($request->title) : $job->title ;
+        $job->slug = Str::slug($request->title) ? Str::slug($request->title) : $job->slug ;
         $job->salary = $request->salary ? $request->salary : $job->salary;
         $job->job_type = $request->job_type ? $request->job_type : $job->job_type;
         $job->job_qualification = $request->job_qualification ? $request->job_qualification : $job->job_qualification;
@@ -120,12 +122,6 @@ class JobController extends Controller
         $user->saved_jobs()->attach($request->job_id);
 
         $job = Job::find($request->job_id);
-
-        // notifications(
-        //     $job->employer_id, 
-        //     SavedJob::class, 
-        //     "saved your job ". $job->title ." at: (". date('d-M-y') .")"
-        // );
        
         return response()->json([
             'saved_jobs' => $user->saved_jobs->sortByDesc('created_at')->first(),

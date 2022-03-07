@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
+use Auth;
 class Frontend
 {
     /**
@@ -15,12 +15,18 @@ class Frontend
      */
     public function handle($request, Closure $next)
     {
-        if(session()->has('language')){
-            \App::setLocale('ar');
+        if (Auth::user() &&  Auth::user()->hasRole('employee')) {
+            return $next($request);
+        }else{
+
+            return redirect()->route('login')->with('error','You have not user access');
         }
-        else{
-            \App::setLocale('en');
-        }
-        return $next($request);
+        // if(session()->has('language')){
+        //     \App::setLocale('ar');
+        // }
+        // else{
+        //     \App::setLocale('en');
+        // }
+        // return $next($request);
     }
 }

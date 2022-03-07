@@ -36,7 +36,9 @@ class User extends Authenticatable
         'job_schedual_to',
         'latitude',
         'longitude',
-        'profile_image'
+        'profile_image',
+        'social_id',
+        'social_type',
     ];
 
     /**
@@ -153,5 +155,15 @@ class User extends Authenticatable
     // employee appliedlisted or not
     public function isAppliedListed($job_id){
         return EmployeeAppliedJob::where([['job_id', $job_id], ['user_id', $this->id]])->first() ? 1 : 0;
+    }
+
+    // is saved job
+    public function isSavedJob($id){
+        return $this->saved_jobs()->where('job_id', $id)->first() ? true : false;
+    }
+
+    // is saved job
+    public function isAppliedJob($id){
+        return $this->applied_jobs()->where('job_id', $id)->first() ? true : false;
     }
 }

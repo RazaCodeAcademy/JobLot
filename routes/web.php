@@ -25,17 +25,44 @@ Route::middleware(['middleware' => 'auth:web'])
 /////////////////////// Frontend ////////////////////////
 
 /////////////////////////////////////////////////////////
+Route::get('/', 'Frontend\UserController@login')->name('login');
+Route::post('/user-login', 'Frontend\UserController@loginuser')->name('user-login');
+Route::get('/register', 'Frontend\UserController@create')->name('register');
+Route::post('/user-register', 'Frontend\UserController@store')->name('user-register');
+Route::get('login/{provider}', 'Frontend\SocialController@redirectToProvider');
+Route::get('{provider}/callback', 'Frontend\SocialController@handleProviderCallback');
+Route::get('logout','Frontend\UserController@logout')->name('logout');
 
 Route::middleware(['frontend'])->group(function () {
-    // Route::get('/', 'Frontend\IndexController@index')->name('welcome');
-    Route::get('/', function(){
-        return redirect()->route('adminLogin');
-    })->name('welcome');
-    Route::post('/loginUser', 'Frontend\AuthenticationController@login')->name('userLogin');
-    Route::get('/job-details/{slug}', 'Frontend\IndexController@job_details')->name('jobDetails');
-    Route::get('/job-search', 'Frontend\IndexController@job_search')->name('job_search');
+    Route::get('/welcome', 'Frontend\IndexController@index')->name('welcome');
+    // Route::get('/', function(){
+    //     return redirect()->route('adminLogin');
+    // })->name('welcome');
+    // Profile Details
+    Route::get('/dashboard', 'Frontend\DashboardController@index')->name('dashboard');
+    Route::match(['get','post'],'update-employee-details-page','Frontend\DashboardController@updateEmployeeDetailsPage')->name('update-employee-details-page');
+    // Ajax Check Current Password
+    Route::get('/settings','Frontend\DashboardController@settings')->name('settings');
+    Route::post('/check_current','Frontend\DashboardController@chkCurrentpassword')->name('check-current-pwd');
+    Route::Post('update-current-password','Frontend\DashboardController@updatepassword')->name('update-current-password');
+    Route::get('/notifications','Frontend\DashboardController@notifications')->name('notifications');
+    // saved employed jobs
+    Route::get('saved-job', 'Frontend\DashboardController@savedjob')->name('saved-job');
+    // other pages 
+    Route::get('/job-details/{slug}', 'Frontend\DashboardController@job_details')->name('jobDetails');
+    Route::get('/job-search', 'Frontend\DashboardController@job_search')->name('job_search');
+    Route::get('/{slug}/category', 'Frontend\DashboardController@category')->name('category-job');
+    Route::get('/category-job-search', 'Frontend\DashboardController@category_job_search')->name('category-job-search');
+    Route::post('save-job/{job_id}', 'Frontend\DashboardController@savejob')->name('save-job');
+    Route::post('tending-filter', 'Frontend\DashboardController@trending_filter')->name('tending-filter');
+    Route::post('/apply_job/{job_id}/', 'Frontend\DashboardController@apply_job')->name('apply-job');
+    Route::post('cat-tending-filter', 'Frontend\DashboardController@category_job_search')->name('cat-tending-filter');
+    // old route
+    // Route::post('/loginUser', 'Frontend\AuthenticationController@login')->name('userLogin');
+    // Route::get('/job-details/{slug}', 'Frontend\IndexController@job_details')->name('jobDetails');
+    // Route::get('/job-search', 'Frontend\IndexController@job_search')->name('job_search');
     Route::get('/country-jobs/{id}', 'Frontend\IndexController@countryJobs')->name('countryJobs');
-    Route::get('/category-jobs/{id}', 'Frontend\IndexController@categoryJobs')->name('categoryJobs');
+    // Route::get('/category-jobs/{id}', 'Frontend\IndexController@categoryJobs')->name('categoryJobs');
     Route::get('add-language', 'Frontend\IndexController@addLanguage')->name('addLanguage');
     Route::get('remove-language', 'Frontend\IndexController@removeLanguage')->name('removeLanguage');
     Route::get('/candidate-registeration', 'Register\CandidateRegistrationController@registerView')->name('candidate-register');

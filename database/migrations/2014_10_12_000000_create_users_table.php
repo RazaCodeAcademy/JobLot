@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('profile_image')->nullable();
             $table->boolean('terms_and_conditions')->default(0)->comment('0: for not accept 1: for accept');
             $table->boolean('status')->default(1)->comment('0: for not inactive 1: for active');
+            $table->date('dob')->after('status')->nullable();
             $table->string('comp_name')->nullable();
             $table->string('comp_location')->nullable();
             $table->string('salary_schedual')->nullable();

@@ -18,6 +18,7 @@ class CreateJobsTable extends Migration
             $table->string('business_cat_id')->comment('employer business category');
             $table->string('employer_id')->comment('employer_id foriegn key from user');
             $table->string('title')->comment('common title or new title for job');
+            $table->string('slug')->nullable();
             $table->string('salary');
             $table->string('job_type')->comment('1: for full time 2: for part time');
             $table->string('job_qualification')->comment('number of years of qulification');
@@ -31,6 +32,7 @@ class CreateJobsTable extends Migration
             $table->string('salary_schedual')->nullable();
             $table->timestamp('job_schedual_from')->nullable();
             $table->timestamp('job_schedual_to')->nullable();
+            $table->integer('count')->nullable();
             $table->timestamps();
         });
     }

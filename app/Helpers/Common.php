@@ -32,7 +32,6 @@ if (!function_exists("notifications")) {
 if (!function_exists("unserialized_notification")) {
     function unserialized_notification($notifications){
         if(!empty($notifications)){
-
             foreach ($notifications as $key => $value) {
                 $value->data = unserialize($value->data);
             }

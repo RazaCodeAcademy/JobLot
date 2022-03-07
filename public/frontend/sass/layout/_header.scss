@@ -1,0 +1,167 @@
+.header {
+	min-height: 50rem;
+	background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1)),
+		url(../img/dashboard-cover.jpg);
+	background-position: center;
+	background-size: cover;
+
+	display: flex;
+	align-items: flex-end;
+
+	&.category {
+		background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1)),
+			url(../img/category-cover.jpg);
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: stretch;
+		padding-top: 4rem;
+	}
+
+	.header-wrapper {
+		width: 100%;
+	}
+
+	.header-content {
+		display: flex;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		padding: 4rem 0;
+	}
+
+	.header-description {
+		flex: 1 1 30rem;
+		color: #fff;
+
+		h1 {
+			font-size: 3rem;
+			font-weight: bold;
+		}
+
+		p {
+			font-size: 2rem;
+		}
+
+		img {
+			width: 10rem;
+		}
+
+		&.category-description {
+			display: flex;
+			align-items: center;
+
+			div:first-child {
+				margin-right: 2rem;
+			}
+		}
+	}
+
+	.header-search {
+		flex: 3 1 50rem;
+		margin-top: 1.5rem;
+		box-shadow: $shadow-dark;
+		border-radius: 1.5rem;
+		position: relative;
+
+		.header-filter-box {
+			background-color: #fff;
+			border-radius: 1rem;
+			padding: 1.5rem;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			position: relative;
+			z-index: 6;
+
+			img {
+				width: 2rem;
+				margin-right: 1rem;
+			}
+
+			input {
+				flex: 1;
+				outline: 0;
+				border: 0;
+				font-size: 1.4rem;
+				color: #ababab;
+
+				&::placeholder {
+					color: #ababab;
+				}
+
+				&:focus {
+					outline: 0;
+					border: 0;
+				}
+			}
+
+			span {
+				font-size: 1.4rem;
+				color: #6e6e6e;
+				font-weight: bold;
+			}
+		}
+	}
+
+	.header-search-dropdown {
+		background-color: $bg-color;
+		padding: 2.8rem 2rem 2rem 2rem;
+		position: absolute;
+		top: calc(100% - 0.8rem);
+		z-index: 5;
+		border-bottom-left-radius: 1.5rem;
+		border-bottom-right-radius: 1.5rem;
+		transform-origin: top;
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY(-100%);
+		transition: opacity 0.3s ease;
+
+		&.open {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
+		}
+
+		.recent {
+			padding: 3rem 0 0;
+		}
+
+		.recent-main {
+			p {
+				font-size: 1.2rem;
+			}
+			span {
+				font-size: 1.2rem;
+			}
+		}
+
+		.recent-footer {
+			i {
+				margin-right: 0.8rem;
+			}
+			p {
+				font-size: 1.2rem;
+			}
+		}
+
+		.container {
+			padding: 0;
+		}
+	}
+}
+
+.pill-box {
+	p {
+		color: $main-color;
+		font-size: 1.4rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.button {
+		margin: 1rem 0;
+
+		&:not(:last-child) {
+			margin-right: 1.5rem;
+		}
+	}
+}

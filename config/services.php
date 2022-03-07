@@ -30,4 +30,21 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'twitter' => [
+        'client_id' => env('TWITTER_API_KEY'),
+        'client_secret' => env('TWITTER_API_SECRET_KEY'),
+        'redirect' => env('TWITTER_CALLBACK_URL'),
+    ],
+    'facebook' => [
+        'client_id' => env('FACEBOOK_API_KEY'),
+        'client_secret' => env('FACEBOOK_API_SECRET_KEY'),
+        'redirect' => env('FACEBOOK_CALLBACK_URL'),
+    ],
+    'google' => [
+        'client_id' => env('app_id'),
+        'client_secret' => env('app_secret'),
+        'redirect' => 'http://localhost/project/JobLot/google/callback',
+    ],
+
+
 ];

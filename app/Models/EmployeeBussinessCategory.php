@@ -11,7 +11,6 @@ class EmployeeBussinessCategory extends Model
     protected $fillable = [
         'category', 
         'category_ar',
-       
         
     ];
 }

@@ -1,0 +1,67 @@
+.button {
+	display: inline-block;
+	padding: 1rem 1.5rem;
+	border-radius: 2.5rem;
+	font-size: 1.4rem;
+
+	&--find {
+		color: #fff;
+		font-weight: bold;
+		background-color: rgba(255, 255, 255, 0.3);
+		transition: all 0.3s ease-in-out;
+
+		img {
+			width: 2rem;
+			margin-right: 0.5rem;
+		}
+
+		&:hover {
+			color: #fff;
+			background-color: rgba(255, 255, 255, 0.4);
+		}
+	}
+
+	&--pill {
+		color: $text-pill;
+		background-color: $bg-pill;
+		border-radius: 2rem;
+		transition: all 0.3s ease-in-out;
+
+		&:hover {
+			color: $text-pill;
+			background-color: darken($bg-pill, 3%);
+		}
+	}
+}
+
+.button-secondary {
+	outline: 0;
+	border: 0;
+	font-size: 1.4rem;
+	color: #fff;
+	font-weight: bold;
+	padding: 1rem 3rem;
+	background-color: #cbcbcb;
+	transition: all 0.3s;
+	border-radius: 0.5rem;
+
+	&:hover {
+		background-color: darken(#cbcbcb, 3%);
+	}
+}
+
+.button-main {
+	outline: 0;
+	border: 0;
+	font-size: 1.4rem;
+	color: #fff;
+	font-weight: bold;
+	padding: 1rem 3rem;
+	background-color: $main-color;
+	transition: all 0.3s;
+	border-radius: 0.5rem;
+
+	&:hover {
+		background-color: darken($main-color, 3%);
+	}
+}

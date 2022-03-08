@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-	<!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <!-- Font Awesome Css -->
-    <link rel="stylesheet" href="{{ asset('/public/frontend/css/font-awesome/css/all.css') }}" />
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('/public/frontend/css/bootstrap.min.css') }}" />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('/public/frontend/css/main.css') }}" />
-	   {{-- Toaster --}}
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0- 
-    alpha/css/bootstrap.css" rel="stylesheet">
-    <title>Login</title>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<!-- Font Awesome Css -->
+		<link rel="stylesheet" href="{{ asset('/public/frontend/css/font-awesome/css/all.css') }}" />
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{{ asset('/public/frontend/css/bootstrap.min.css') }}" />
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="{{ asset('/public/frontend/css/main.css') }}" />
+		{{-- Toaster --}}
+		<link href="{{asset('public/toast/toastr1.css')}}" rel="stylesheet">
+    	<link href="{{asset('public/toast/toastr2.css')}}" rel="styleshee">
+    	<title>Login</title>
 	</head>
 	<body>
 		<section class="welcome">
@@ -82,47 +82,20 @@
 		{{-- Toaster --}}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-		<link rel="stylesheet" type="text/css" 
-		href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+		<script src="{{asset('public/toast/toastr.js')}}"></script>
+		<script src="{{asset('public/toast/toastr.min.js')}}"></script>
+		@if(Session::has('success'))
+			<script>
+				toastr.options.positionClass = 'toast-top-right';
+				toastr.success('{{  Session::get('success') }}')
+			</script>
+		@endif
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-		{!! session('success') !!}
-		<script>
-			@if(Session::has('message'))
-			toastr.options =
-			{
-				"closeButton" : true,
-				"progressBar" : true
-			}
-					toastr.success("{{ session('message') }}");
-			@endif
-		
-			@if(Session::has('error'))
-			toastr.options =
-			{
-				"closeButton" : true,
-				"progressBar" : true
-			}
-					toastr.error("{{ session('error') }}");
-			@endif
-		
-			@if(Session::has('info'))
-			toastr.options =
-			{
-				"closeButton" : true,
-				"progressBar" : true
-			}
-					toastr.info("{{ session('info') }}");
-			@endif
-		
-			@if(Session::has('warning'))
-			toastr.options =
-			{
-				"closeButton" : true,
-				"progressBar" : true
-			}
-					toastr.warning("{{ session('warning') }}");
-			@endif
-		</script>
+		@if(Session::has('error'))
+			<script>
+				toastr.options.positionClass = 'toast-top-right';
+				toastr.error('{{  Session::get('error') }}')
+			</script>
+		@endif
 	</body>
 </html>

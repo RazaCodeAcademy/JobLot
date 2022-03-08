@@ -1,8 +1,11 @@
 <?php
 Auth::routes();
 Route::get('/clear', function(){
-    Artisan::call('optimize');
-    return "Cache is cleared";
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    return 'all cache has been removed and reset appliation succussfuly!';
 });
 
 
@@ -74,8 +77,6 @@ Route::middleware(['frontend'])->group(function () {
 /////////////////////////////////////////////////////////
 
 Route::prefix('admin')->group(function (){
-    Route::get('/', 'Backend\AuthController@login')->name('adminLogin');
-    Route::post('/admin-login', 'Backend\AuthController@loginPost')->name('adminLoginPost');
 
     Route::middleware(['admin'])->group(function () {
 

@@ -57,6 +57,8 @@
             </div>
         </div>
     </header>
+     <div class="overlay">
+    </div>
 
     <main class="shadow">
         <!-- recent -->
@@ -138,36 +140,35 @@
         }
     }
    
-    function searched_jobs(jobs){
+   function searched_jobs(jobs){
         var html = '';
         jobs.forEach((job) => {
             html += `
                 <div class="col-lg-6">
-                    <div class="recent-box">
-                        <div class="recent-img">
-                            <img src="${get_image(job.user.profile_image)}" alt="" />
+                <div class="recent-box">
+                    <div class="recent-img">
+                        <img src="${get_image(job.user.profile_image)}" alt="" />
+                    </div>
+                    <div class="recent-description">
+                        <div class="recent-header">
+                            <h4>${job.title}</h4>
+                            <a href="javascript:void(0)" onclick="savejob('{{ $job->id }}')"><i class="fas fa-star {{ user()->isSavedJob($job->id) ? 'icon-color' : ''  }}" id="save-job-{{ $job->id }}"></i></a>
                         </div>
-                        <div class="recent-description">
-                            <div class="recent-header">
-                                <h4>${job.title}</h4>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <div class="recent-main">
-                                <p>${job.user.first_name} ${job.user.last_name}</p>
-                                <span>${job.user.street_address}</span>
-                            </div>
-                            <div class="recent-footer">
-                                <i class="far fa-clock"></i>
-                                <p>From ${job.user.job_schedual_from} a.m - ${job.user.job_schedual_to} p.m</p>
-                            </div>
+                        <div class="recent-main">
+                            <p>${job.user.first_name} ${job.user.last_name}</p>
+                            <span>${job.user.street_address}</span>
+                        </div>
+                        <div class="recent-footer" style="column-gap:1rem; align-items:flex-start;">
+                        <i class="far fa-clock"></i>
+                      <p style="font-size: 1.2rem;">From ${moment(job.user.job_schedual_from).format('LT')} - ${moment(job.user.job_schedual_to).format('LT')}</p>
                         </div>
                     </div>
                 </div>
-            `
+            </div>
+                      `
         });
 
         ele(`display-search-jobs`).innerHTML = html;
     }
-
 </script>
 @endsection

@@ -57,7 +57,7 @@ class DashboardController extends Controller
             User::where('email',Auth::user()->email)->update(['first_name'=>$data['first_name'],'last_name'=>$data['last_name'],
             'phone_number'=>$data['phone_number'], 'zip_code'=>$data['zip_code'], 'street_address'=>$data['street_address'],
              'profile_image'=>$image ]);
-            return redirect()->route('dashboard')->with('message', 'Employee Details Updated Successfully!');
+            return redirect()->route('dashboard')->with('success', 'Employee Details Updated Successfully!');
         }
     
         return view('frontend.pages.userprofile.profile');

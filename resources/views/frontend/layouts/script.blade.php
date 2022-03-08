@@ -6,47 +6,24 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<link rel="stylesheet" type="text/css" 
- href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="{{asset('public/toast/toastr.js')}}"></script>
+<script src="{{asset('public/toast/toastr.min.js')}}"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-{!! session('success') !!}
+@if(Session::has('success'))
+    <script>
+        toastr.options.positionClass = 'toast-top-right';
+        toastr.success('{{  Session::get('success') }}')
+    </script>
+@endif
+
+@if(Session::has('error'))
+    <script>
+        toastr.options.positionClass = 'toast-top-right';
+        toastr.error('{{  Session::get('error') }}')
+    </script>
+@endif
+ 
 <script>
-    @if(Session::has('message'))
-    toastr.options =
-    {
-        "closeButton" : true,
-        "progressBar" : true
-    }
-            toastr.success("{{ session('message') }}");
-    @endif
-  
-    @if(Session::has('error'))
-    toastr.options =
-    {
-        "closeButton" : true,
-        "progressBar" : true
-    }
-            toastr.error("{{ session('error') }}");
-    @endif
-  
-    @if(Session::has('info'))
-    toastr.options =
-    {
-        "closeButton" : true,
-        "progressBar" : true
-    }
-            toastr.info("{{ session('info') }}");
-    @endif
-  
-    @if(Session::has('warning'))
-    toastr.options =
-    {
-        "closeButton" : true,
-        "progressBar" : true
-    }
-            toastr.warning("{{ session('warning') }}");
-    @endif  
 
     // get element by id
     const ele = (id) => {

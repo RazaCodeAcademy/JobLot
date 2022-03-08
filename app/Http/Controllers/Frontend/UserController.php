@@ -15,7 +15,7 @@ class UserController extends Controller
 {
     public function create()
     {
-       return view('new_frontend.pages.register');
+       return view('frontend.pages.register');
     }
 
     public function store(Request $request){
@@ -59,7 +59,7 @@ class UserController extends Controller
         $user->save();
         }
         $notification = array(
-        'message' => 'User Register Successfully!', 
+        'success' => 'User Register Successfully!', 
         );
         $data = array('role_id' => '3', "model_type" => 'App\Models\User', "model_id" => $user->id);
         DB::table('model_has_roles')->insert($data);
@@ -73,7 +73,21 @@ class UserController extends Controller
 
     public function login()
     {
-        return view('new_frontend.pages.login');
+        if(Auth::check()){
+            if (Auth::user()->hasRole('admin'))
+            {
+                return redirect()->route('adminDashboard');
+            }
+            elseif (Auth::user()->hasRole('employer'))
+            {
+                return redirect()->route('employerDashboard');
+            }
+            elseif (Auth::user()->hasRole('employee'))
+            {
+                return redirect()->route('dashboard');
+            }
+        }
+        return view('frontend.pages.login');
     }
 
     public function loginuser(Request $request){
@@ -100,7 +114,7 @@ class UserController extends Controller
                     if (Auth::user()->hasRole('admin'))
                     {
                         $notification = array(
-                            'message' => 'Login Successfully!', 
+                            'success' => 'Login Successfully!', 
                             );
                         return redirect()->route('adminDashboard')->with($notification);
                     }
@@ -112,7 +126,7 @@ class UserController extends Controller
                     elseif (Auth::user()->hasRole('employee'))
                     {
                         $notification = array(
-                            'message' => 'Login Successfully!', 
+                            'success' => 'Login Successfully!', 
                             );
                         return redirect()->route('dashboard')->with($notification);
                     }
@@ -130,7 +144,7 @@ class UserController extends Controller
     {
         Auth::logout();
         $notification = array(
-            'message' => 'logout Successfully!', 
+            'success' => 'logout Successfully!', 
             );
         return redirect()->route('login')->with($notification);
     }

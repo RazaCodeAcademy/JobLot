@@ -10,9 +10,9 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('/public/frontend/css/main.css') }}" />
-   {{-- Toaster --}}
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0- 
-   alpha/css/bootstrap.css" rel="stylesheet">
+    <link href="{{asset('public/toast/toastr1.css')}}" rel="stylesheet">
+    <link href="{{asset('public/toast/toastr2.css')}}" rel="styleshee">
+    
     <title>{{__('JobLot')}}</title>
 
     <style>

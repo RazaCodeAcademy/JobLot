@@ -11,9 +11,10 @@
 		<!-- Custom CSS -->
 		<link rel="stylesheet" href="{{ asset('/public/frontend/css/main.css') }}" />
 
-		<link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+		{{-- Toaster --}}
+		<link href="{{asset('public/toast/toastr1.css')}}" rel="stylesheet">
+    	<link href="{{asset('public/toast/toastr2.css')}}" rel="styleshee">
 		<title>register</title>
-		{!! Toastr::message() !!}
 		<style>
 			.hidden{
 				display: none;
@@ -164,8 +165,20 @@
 
 		<!-- Custom JS -->
 		<script src="{{ asset('/public/frontend/js/main.js') }}"></script>
-		<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-        <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
-        {!! Toastr::message() !!}
+			<script src="{{asset('public/toast/toastr.js')}}"></script>
+		<script src="{{asset('public/toast/toastr.min.js')}}"></script>
+		@if(Session::has('success'))
+			<script>
+				toastr.options.positionClass = 'toast-top-right';
+				toastr.success('{{  Session::get('success') }}')
+			</script>
+		@endif
+
+		@if(Session::has('error'))
+			<script>
+				toastr.options.positionClass = 'toast-top-right';
+				toastr.error('{{  Session::get('error') }}')
+			</script>
+		@endif
 	</body>
 </html>

@@ -8,6 +8,9 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Passport\HasApiTokens;
 
+// use facades here
+use Carbon\Carbon;
+
 
 class User extends Authenticatable
 {
@@ -165,5 +168,9 @@ class User extends Authenticatable
     // is saved job
     public function isAppliedJob($id){
         return $this->applied_jobs()->where('job_id', $id)->first() ? true : false;
+    }
+
+    public function getLastLogin(){
+        return $this->last_login != null ? Carbon::parse($this->last_login)->diffForHumans() : 'N/A';
     }
 }

@@ -60,7 +60,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block" id="live-jobs">{{$liveJobs}}</span>
-                                <span class="font-weight-bold text-muted font-size-sm">{{__('Total Live Job(s)')}}</span>
+                                <span class="font-weight-bold text-muted font-size-sm">{{__('Total Active Job(s)')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -83,7 +83,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="live-candidate-applied-jobs">{{$liveAppliedEmployeeJobs}}</span>
-                                <span class="font-weight-bold text-white font-size-sm">{{__('Total candidates applied to live jobs')}}</span>
+                                <span class="font-weight-bold text-white font-size-sm">{{__('Total candidates active to live jobs')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -163,14 +163,10 @@
                         </thead>
                         <tbody>
                         @foreach ($jobs as $job)
-                            {{--  @php
-                                $job_location = DB::table('countries')->where('id',$job->job_location)->first();
-                                $business = DB::table('employee_bussiness_categories')->where('id',$job->category)->first();
-                             @endphp  --}}
                             <tr>
                                 <td style="text-align:center;"><a href="{{route('employerJobDetail', encrypt($job->id))}}">{{$job->title}}</a></td>
                                 <td style="text-align:center;">{{$job->get_bussines_catogories->category ??'N/A'}}</td>
-                                <td style="text-align:center;">{{$job->get_location->name ?? 'N/A'}}</td>
+                                <td style="text-align:center;">{{$job->user->comp_location ?? 'N/A'}}</td>
                             </tr>
                         @endforeach
                         </tbody>

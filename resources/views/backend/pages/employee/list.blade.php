@@ -39,7 +39,7 @@
                                     </svg>
                                     <!--end::Svg Icon-->
                                 </span>
-                                <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="total-jobs">@if(isset($activeUsers)) {{$activeUsers}} @else 0 @endif</span>
+                                <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="total-jobs">{{ count($employees) }}</span>
                                 <span class="font-weight-bold text-white font-size-sm">{{__('Total Active User(s)')}}</span>
                             </div>
                             <!--end::Body-->
@@ -65,46 +65,35 @@
                     <table class="table table-separate table-head-custom table-checkable" id="myCustomTable">
                         <thead>
                         <tr>
-                            <th style="text-align:center;">{{__('Name')}}</th>
+                            <th style="text-align:center;">{{__('First Name')}}</th>
+                            <th style="text-align:center;">{{__(' Last Name')}}</th>
                             <th style="text-align:center;">{{__('Current Country')}}</th>
                             <th style="text-align:center;">{{__('City_name')}}</th>
-                            {{--  <th style="text-align:center;">{{__('Age')}}</th>  --}}
                             <th style="text-align:center;">{{__('Phone_no')}}</th>
-                            <th style="text-align:center;">{{__(' employee Last name')}}</th>
-                            {{--  <th style="text-align:center;">{{__('Degree')}}</th>  --}}
+                            <th style="text-align:center;">{{__('Created-at')}}</th>
+                            <th style="text-align:center;">{{__('Job Applied')}}</th>
+                            <th style="text-align:center;">{{__('Last Login')}}</th>
+                            <th style="text-align:center;">{{__('Status')}}</th>
                         </tr>
                         </thead>
                         <tbody>
-                           
-                            
-                                @foreach ($employees as $employee)
-                                    {{--  @php
-                                           
-                                            
-                                            $candidate_personal_informations = DB::table('employee_personal_information')->where('user_id', $candidate->model_id)->first();
-                                           
-                                            $candidate_applied_jobs = DB::table('employee_applied_jobs')
-                                                                        ->where('user_id', $candidate->model_id)
-                                                                        ->where('status','=','Hired')
-                                                                        ->latest('created_at')
-                                                                        ->first() ?? '';
-                                           
-                                            if (!empty($candidate_applied_jobs)){
-                                            $job_id = DB::table('jobs')->select('user_id')->where('id',$employee_applied_jobs->job_id)->first();
-                                            $employeeName = DB::table('users')->select('name')->where('id', $job_id->user_id)->first() ?? '';
-                                            }
-                                    @endphp  --}}
-                                    <tr>
-                                        <td style="text-align:center;">{{$employee->first_name}}</td>
-                                        <td style="text-align:center;">{{ $employee->country->name ?? 'N/A' }}</td>
-                                        <td style="text-align:center;">{{ $employee->city->name ?? 'N/A' }}</td>
-                                        {{--  <td style="text-align:center;">@if(isset($employee_personal_informations->age)){{$employee_personal_informations->age}}@endif</td>  --}}
-                                        <td style="text-align:center;">{{ $employee->phone_number }}</td>
-                                        <td style="text-align:center;">{{ $employee->last_name }}</td>
-                                        {{--  <td style="text-align:center;">@if(isset($degree)){{$degree->name}}@endif</td>  --}}
-                                    </tr>
-                                @endforeach
-                          
+                            @foreach($employees as $employee)
+                                <tr>
+                                    <td style="text-align:center;">{{$employee->first_name}}</td>
+                                    <td style="text-align:center;">{{ $employee->last_name }}</td>
+                                    <td style="text-align:center;">{{ $employee->state_id ?? 'N/A' }}</td>
+                                    <td style="text-align:center;">{{ $employee->city_name ?? 'N/A' }}</td>
+                                    <td style="text-align:center;">{{ $employee->phone_number }}</td>
+                                    <td style="text-align:center;">{{ $employee->created_at->diffForHumans() }}</td>
+                                    <td style="text-align:center;">{{ $employee->jobAppliedEmployee() }}</td>
+                                    <td style="text-align:center;">
+                                        {{ $employee->getLastLogin() }}
+                                    </td>
+                                    <td style="text-align:center;">
+                                        {{ $employee->status == 1 ? 'Active' : 'InActive'  }}   
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

@@ -14,15 +14,25 @@ use App\Models\ModelHasRole;
 use App\Models\EmployeePersonalInformation;
 use App\Models\Role;
 use App\Models\City;
+use App\Models\State;
 
 
 class UserController extends Controller
 {
-    public function listUsers()
+    public function listAdmins()
     {
         $users= User::whereHas(
             'roles', function($q){
-                $q->where('role_id', '1')->orwhere('role_id','2');
+                $q->where('role_id', '1');
+            })->orderby('created_at','desc')->get();
+       
+        return view('backend.pages.user.list', compact('users'));
+    }
+    public function listEmployers()
+    {
+        $users= User::whereHas(
+            'roles', function($q){
+                $q->where('role_id', '2');
             })->orderby('created_at','desc')->get();
        
         return view('backend.pages.user.list', compact('users'));
@@ -31,9 +41,10 @@ class UserController extends Controller
     public function createUser()
     {
         $countries = Country::all();
+        $states = State::all();
         $cities = City::all();
 
-        return view('backend.pages.user.create',compact('countries','cities'));
+        return view('backend.pages.user.create',compact('countries','cities','states'));
     }
 
     public function storeUser(Request $request)

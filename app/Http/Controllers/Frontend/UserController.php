@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\Console\Input\Input;
 use App\Models\User;
+use Carbon\Carbon;
 class UserController extends Controller
 {
     public function create()
@@ -73,14 +74,17 @@ class UserController extends Controller
 
     public function login()
     {
+       
         if(Auth::check()){
+
             if (Auth::user()->hasRole('admin'))
             {
                 return redirect()->route('adminDashboard');
             }
             elseif (Auth::user()->hasRole('employer'))
+            
             {
-                return redirect()->route('employerDashboard');
+               return redirect()->route('employerDashboard');
             }
             elseif (Auth::user()->hasRole('employee'))
             {
@@ -109,10 +113,13 @@ class UserController extends Controller
                     'password' => $request->password,
                 );
 
-                if (Auth::attempt($userdata))
-                {
+            if (Auth::attempt($userdata))
+            {   
+                Auth::user()->last_login = Carbon::now()->toDateTimeString();
+                Auth::user()->update();
                     if (Auth::user()->hasRole('admin'))
                     {
+                        
                         $notification = array(
                             'success' => 'Login Successfully!', 
                             );
@@ -120,11 +127,11 @@ class UserController extends Controller
                     }
                     elseif (Auth::user()->hasRole('employer'))
                     {
-
+                        
                         return redirect()->route('employerDashboard')->with($notification);
                     }
                     elseif (Auth::user()->hasRole('employee'))
-                    {
+                    {   
                         $notification = array(
                             'success' => 'Login Successfully!', 
                             );
@@ -142,6 +149,8 @@ class UserController extends Controller
     }
     public function logout()
     {
+        Auth::user()->last_login = Carbon::now()->toDateTimeString();
+        Auth::user()->update();
         Auth::logout();
         $notification = array(
             'success' => 'logout Successfully!', 

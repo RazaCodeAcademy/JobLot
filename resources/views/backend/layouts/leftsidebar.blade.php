@@ -62,7 +62,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">{{__('Manage Users')}}</span>
+                        <span class="menu-text">{{__('Manage Admin')}}</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -70,7 +70,55 @@
                         <ul class="menu-subnav">
                             <li class="menu-item menu-item-parent" aria-haspopup="true">
                                 <span class="menu-link">
-                                    <span class="menu-text"{{__('>Manage Users')}}</span>
+                                    <span class="menu-text"{{__('>Manage Employers')}}</span>
+                                </span>
+                            </li>
+                            <li class="menu-item {{ (Route::currentRouteName() == 'createUser' || Route::currentRouteName() == 'subAdminCreateUser') ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                @if($user->id == 1)
+                                    <a href="{{route('createUser')}}" class="menu-link">
+                                
+                                @endif
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{__('Create')}}</span>
+                                    </a>
+                            </li>
+                            <li class="menu-item {{ (Route::currentRouteName() == 'listAdmins' || Route::currentRouteName() == 'editUser' || Route::currentRouteName() == 'viewUser' || Route::currentRouteName() == 'subAdminListUsers'  || Route::currentRouteName() == 'subAdminEditUser' || Route::currentRouteName() == 'subAdminViewUser') ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                @if($user->id == 1)
+                                    <a href="{{route('listAdmins')}}" class="menu-link">
+                               
+                                @endif
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">{{__('List Admin')}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listEmployers' || Route::currentRouteName() == 'createUser' || Route::currentRouteName() == 'editUser' || Route::currentRouteName() == 'viewUser' || Route::currentRouteName() == 'subAdminListUsers' || Route::currentRouteName() == 'subAdminCreateUser' || Route::currentRouteName() == 'subAdminEditUser' || Route::currentRouteName() == 'subAdminViewUser') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="javascript:;" class="menu-link menu-toggle">
+                        <span class="svg-icon menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24" />
+                                    <path d="M5,5 L5,15 C5,15.5948613 5.25970314,16.1290656 5.6719139,16.4954176 C5.71978107,16.5379595 5.76682388,16.5788906 5.81365532,16.6178662 C5.82524933,16.6294602 15,7.45470952 15,7.45470952 C15,6.9962515 15,6.17801499 15,5 L5,5 Z M5,3 L15,3 C16.1045695,3 17,3.8954305 17,5 L17,15 C17,17.209139 15.209139,19 13,19 L7,19 C4.790861,19 3,17.209139 3,15 L3,5 C3,3.8954305 3.8954305,3 5,3 Z" fill="#000000" fill-rule="nonzero" transform="translate(10.000000, 11.000000) rotate(-315.000000) translate(-10.000000, -11.000000)" />
+                                    <path d="M20,22 C21.6568542,22 23,20.6568542 23,19 C23,17.8954305 22,16.2287638 20,14 C18,16.2287638 17,17.8954305 17,19 C17,20.6568542 18.3431458,22 20,22 Z" fill="#000000" opacity="0.3" />
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="menu-text">{{__('Manage Employers')}}</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="menu-submenu">
+                        <i class="menu-arrow"></i>
+                        <ul class="menu-subnav">
+                            <li class="menu-item menu-item-parent" aria-haspopup="true">
+                                <span class="menu-link">
+                                    <span class="menu-text"{{__('>Manage Employers')}}</span>
                                 </span>
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'createUser' || Route::currentRouteName() == 'subAdminCreateUser') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -87,19 +135,18 @@
                             </li>
                             <li class="menu-item {{ (Route::currentRouteName() == 'listUsers' || Route::currentRouteName() == 'editUser' || Route::currentRouteName() == 'viewUser' || Route::currentRouteName() == 'subAdminListUsers'  || Route::currentRouteName() == 'subAdminEditUser' || Route::currentRouteName() == 'subAdminViewUser') ? 'menu-item-active' : '' }}" aria-haspopup="true">
                                 @if($user->id == 1)
-                                    <a href="{{route('listUsers')}}" class="menu-link">
-                                @elseif($user->id == 4)
-                                    <a href="{{route('subAdminListUsers')}}" class="menu-link">
+                                    <a href="{{route('listEmployers')}}" class="menu-link">
                                 @endif
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">{{__('List Users')}}</span>
+                                    <span class="menu-text">{{__('List Employers')}}</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </li>
+              
 
                 <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listCandidate' || Route::currentRouteName() == 'subAdminListCandidate') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
@@ -299,7 +346,7 @@
                     </div>
                 </li>  --}}
 
-                <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listCountries' || Route::currentRouteName() == 'createCountry' || Route::currentRouteName() == 'editCountry') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'listCountries' || Route::currentRouteName() == 'createCountry' || Route::currentRouteName() == 'editState') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -335,6 +382,47 @@
                                         <span></span>
                                     </i>
                                     <span class="menu-text">{{__('List Countries')}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="menu-item menu-item-submenu {{ (Route::currentRouteName() == 'liststates'  || Route::currentRouteName() == 'liststates') ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="javascript:;" class="menu-link menu-toggle">
+                        <span class="svg-icon menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24" />
+                                    <path d="M5,5 L5,15 C5,15.5948613 5.25970314,16.1290656 5.6719139,16.4954176 C5.71978107,16.5379595 5.76682388,16.5788906 5.81365532,16.6178662 C5.82524933,16.6294602 15,7.45470952 15,7.45470952 C15,6.9962515 15,6.17801499 15,5 L5,5 Z M5,3 L15,3 C16.1045695,3 17,3.8954305 17,5 L17,15 C17,17.209139 15.209139,19 13,19 L7,19 C4.790861,19 3,17.209139 3,15 L3,5 C3,3.8954305 3.8954305,3 5,3 Z" fill="#000000" fill-rule="nonzero" transform="translate(10.000000, 11.000000) rotate(-315.000000) translate(-10.000000, -11.000000)" />
+                                    <path d="M20,22 C21.6568542,22 23,20.6568542 23,19 C23,17.8954305 22,16.2287638 20,14 C18,16.2287638 17,17.8954305 17,19 C17,20.6568542 18.3431458,22 20,22 Z" fill="#000000" opacity="0.3" />
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="menu-text">{{__('Manage States')}}</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="menu-submenu">
+                        <i class="menu-arrow"></i>
+                        <ul class="menu-subnav">
+                            <li class="menu-item menu-item-parent" aria-haspopup="true">
+                                <span class="menu-link">
+                                    <span class="menu-text">{{__('Manage Countries')}}</span>
+                                </span>
+                            </li>
+                            <li class="menu-item {{ (Route::currentRouteName() == 'createState') ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                <a href="{{route('createState')}}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">{{__('Create')}}</span>
+                                </a>
+                            </li>
+                            <li class="menu-item {{ (Route::currentRouteName() == 'listCountries' || Route::currentRouteName() == 'editState') ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                <a href="{{route('liststates')}}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">{{__('List States')}}</span>
                                 </a>
                             </li>
                         </ul>

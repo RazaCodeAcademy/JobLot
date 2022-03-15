@@ -17,7 +17,7 @@
 						<h5 class="text-dark font-weight-bold my-1 mr-5">{{__('Users')}}</h5>
 						<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
 							<li class="breadcrumb-item">
-								<a href="{{route('listUsers')}}" class="text-muted">{{__('List Users')}}</a>
+								<a href="#" class="text-muted">{{__('List Users')}}</a>
 							</li>
 						</ul>
 					</div>
@@ -54,6 +54,9 @@
 									<th>{{__('Name')}}</th>
 									<th>{{__('Email')}}</th>
 									<th>{{__('Role')}}</th>
+									<th>{{__('Bussiness-Name')}}</th>
+									<th>{{__('Bussiness-type')}}</th>
+									<th>{{__('status')}}</th>
 									<th>{{__('Actions')}}</th>
 								</tr>
 							</thead>
@@ -74,22 +77,32 @@
 											@endif
 										</td>
 										<td>
+											{{ $user->comp_name ?? 'N/A' }}
+										</td>
+										<td>
+											 N/A
+										</td>
+										<td>
+											@if($user->status == 0) 
+											InActive 
+											@elseif($user->status == 1) 
+											Active
+											@endif
+										</td>
+										<td>
                                             @if($userRole->id == 1)
                                                 <a href="{{route('viewUser', $user->id)}}"><i class="la la-eye text-success mr-5"></i></a>
-                                            @elseif($userRole->id == 4)
-                                                <a href="{{route('subAdminViewUser', $user->id)}}"><i class="la la-eye text-success mr-5"></i></a>
+                                            
                                             @endif
 
                                             @if($userRole->id == 1)
                                                 <a href="{{route('editUser', $user->id)}}"><i class="la la-pencil-alt text-success mr-5"></i></a>
-                                            @elseif($userRole->id == 4)
-                                                <a href="{{route('subAdminEditUser', $user->id)}}"><i class="la la-pencil-alt text-success mr-5"></i></a>
+                                            
                                             @endif
 
                                                 @if($userRole->id == 1)
                                                     <a style="cursor: pointer" onclick="deleteFunction('{{$user->id}}') "><i class="la la-trash text-danger mr-5"></i></a>
-                                                @elseif($userRole->id == 4)
-                                                    <a style="cursor: pointer" onclick="deleteFunctionSubAdmin('{{$user->id}}') "><i class="la la-trash text-danger mr-5"></i></a>
+                                                
                                                 @endif
 
 										</td>

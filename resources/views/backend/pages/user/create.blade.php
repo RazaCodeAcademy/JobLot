@@ -45,9 +45,8 @@
 							</div>
                             <div class="card-toolbar">
                                 @if($user->id == 1)
-                                    <a href="{{route('listUsers')}}" class="btn btn-primary font-weight-bolder"><i class="la la-eye"></i>{{__('View Users')}}</a>
-                                @elseif($user->id == 4)
-                                    <a href="{{route('subAdminListUsers')}}" class="btn btn-primary font-weight-bolder"><i class="la la-eye"></i>{{__('View Users')}}</a>
+                                    <a href="{{route('listAdmins')}}" class="btn btn-primary font-weight-bolder"><i class="la la-eye"></i>{{__('View Users')}}</a>
+                               
                                 @endif
                             </div>
 						</div>
@@ -122,8 +121,8 @@
 										<label>{{__('State')}} <span class="text-danger">*</span></label>
 										<select name="state_id"  class="form-control" required>
                                             <option selected="selected" disabled="disabled" value="">{{__('Select State')}}</option>
-                                            @foreach($countries as $country)
-                                            <option @if(old('country') == $country->id) selected @endif value='{{$country->id}}'>{{$country->name}}</option>
+                                            @foreach($states as $state)
+                                            <option @if(old('country') == $state->id) selected @endif value='{{$state->id}}'>{{$state->name}}</option>
                                             @endforeach
                                         </select>
 										@error('State')

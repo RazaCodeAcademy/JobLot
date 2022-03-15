@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 //use Illuminate\Support\Facades\Auth;
 
@@ -44,6 +45,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        
         if ($user->hasRole('admin'))
         {
             return redirect()->route('adminDashboard');

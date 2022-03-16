@@ -14,6 +14,7 @@
 		<link href="{{asset('public/toast/toastr1.css')}}" rel="stylesheet">
     	<link href="{{asset('public/toast/toastr2.css')}}" rel="styleshee">
     	<title>Login</title>
+		 <link rel="shortcut icon" href="{{ asset('/public/frontend/img/logo-color.png') }}">
 	</head>
 	<body>
 		<section class="welcome">

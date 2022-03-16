@@ -27,46 +27,63 @@ use App\Models\TrendingFilter;
 class DashboardController extends Controller
 {
     public function index(request $request){
+        $trends = TrendingFilter::orderBy('count' ,'DESC')
+        ->paginate(10);
 
+        $jobs = Job::with('user')
+        ->where('job_approval', 1)
+        ->orderBy('id','DESC')
+        ->get();
 
-     $trends = TrendingFilter::orderBy('count' ,'DESC')->paginate(10);
-     $jobs = Job::with('user')->where('job_approval', 1)->orderBy('id','DESC')->get();
-     $bussinesscategories = EmployeeBussinessCategory::where('status',1)->paginate(20);
-     $timeCheck = Carbon::now();
-     return view('frontend.pages.index',compact('jobs','timeCheck','bussinesscategories','trends'));
+        $bussinesscategories = EmployeeBussinessCategory::where('status', 1)
+        ->paginate(20);
+
+        $timeCheck = Carbon::now();
+
+        return view('frontend.pages.index',compact('jobs','timeCheck','bussinesscategories','trends'));
     }
+
     // Employee Details 
     public function updateEmployeeDetailsPage(request $request)
     {
         if($request->isMethod('post')){
             $data=$request->all();
+
             $profileFolder = 'profile';
             if (!Storage::exists($profileFolder)) {
-                // dd($profileFolder);
                 Storage::makeDirectory($profileFolder);
             }
     
             // upload file
             if ($request->hasFile('profile_image')) {
-                // dd($request->hasFile);
                 $image = Storage::putFile($profileFolder, new File($request->file('profile_image')));
                 $data['profile_image'] = $image;
-            }else{
-                $image =   $profileFolder ;
             }
-            User::where('email',Auth::user()->email)->update(['first_name'=>$data['first_name'],'last_name'=>$data['last_name'],
-            'phone_number'=>$data['phone_number'], 'zip_code'=>$data['zip_code'], 'street_address'=>$data['street_address'],
-             'profile_image'=>$image ]);
+
+            // add user data into array
+            $user_data = [
+                'first_name'        => $data['first_name'],
+                'last_name'         => $data['last_name'],
+                'phone_number'      => $data['phone_number'], 
+                'zip_code'          => $data['zip_code'], 
+                'street_address'    => $data['street_address'],
+                'profile_image'     => $image ?? user()->profile_image,
+            ];
+
+            User::find(user()->id)->update($user_data);
+
             return redirect()->route('dashboard')->with('success', 'Employee Details Updated Successfully!');
         }
     
         return view('frontend.pages.userprofile.profile');
     }
+
     public function settings()
     {
         return view('frontend.pages.userprofile.settings');
     }
-      // Employee Check Password is Correct or Not
+
+    // Employee Check Password is Correct or Not
     public function chkCurrentpassword(request $request){
         $data=$request->all();
         if(Hash::check($data['current_pwd'],Auth::user()->password)){
@@ -76,6 +93,7 @@ class DashboardController extends Controller
             return "false"; 
         }
     }
+
     // Employee Update Password   
     public function updatepassword(request $request)
     {
@@ -84,7 +102,9 @@ class DashboardController extends Controller
         if(Hash::check($data['current_pwd'],Auth::user()->password)){
             // Check if new password is matching
         if($data ['new_pwd'] == $data['confirm_pwd']){
-            User::where('id',Auth::user()->id)->update(['password'=>bcrypt($data['new_pwd'])]);
+            User::where('id',Auth::user()->id)->update(
+                ['password'=>bcrypt($data['new_pwd'])
+            ]);
             session::flash('success_message', 'your password has been updated Successfully');
         }else{
             session::flash('error_message', 'New password and Confirm passwrd is not match');
@@ -94,17 +114,20 @@ class DashboardController extends Controller
         }
         return redirect()->back();
     }
+
     //  Employee Notification
     public function notifications()
     {
         $notifications = unserialized_notification(user()->get_notification);
         return view('frontend.pages.userprofile.notifications', compact('notifications'));
     }
+
     // employed saved jobs
     public function savedjob()
     {
        return view('frontend.pages.userprofile.savedjobs');
     }
+
     // Employee Search job
     public function job_search(Request $request)
     {
@@ -135,6 +158,7 @@ class DashboardController extends Controller
             ]);
         }
     }
+
     // Employee Ctegory job Search 
     public function category_job_search(Request $request)
     {
@@ -177,6 +201,7 @@ class DashboardController extends Controller
        }
        $filter->save();
     }
+    
     public function apply_job(Request $request )
     {
 

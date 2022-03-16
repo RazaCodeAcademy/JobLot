@@ -14,7 +14,8 @@
 	   {{-- Toaster --}}
    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0- 
     alpha/css/bootstrap.css" rel="stylesheet">
-    <title>login</title>
+    <title>{{__('JobLot')}}</title>
+    <link rel="shortcut icon" href="{{ asset('/public/frontend/img/logo-color.png') }}">
 </head>
 
 <body>

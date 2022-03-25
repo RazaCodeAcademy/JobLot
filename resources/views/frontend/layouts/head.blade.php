@@ -14,6 +14,7 @@
     <link href="{{asset('public/toast/toastr2.css')}}" rel="styleshee">
     
     <title>{{__('JobLot')}}</title>
+    <link rel="shortcut icon" href="{{ asset('/public/frontend/img/logo-color.png') }}">
 
     <style>
         .icon-color{

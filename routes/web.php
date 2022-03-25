@@ -60,6 +60,11 @@ Route::middleware(['frontend'])->group(function () {
     Route::post('tending-filter', 'Frontend\DashboardController@trending_filter')->name('tending-filter');
     Route::post('/apply_job/{job_id}/', 'Frontend\DashboardController@apply_job')->name('apply-job');
     Route::post('cat-tending-filter', 'Frontend\DashboardController@category_job_search')->name('cat-tending-filter');
+    // Footer Routes
+    Route::get('/about-us', 'Frontend\AboutController@about_us')->name('about_us');
+    Route::get('/contact_us', 'Frontend\ContactController@contact_us')->name('contact_us');
+    Route::get('/site_map', 'Frontend\SiteMapController@site_map')->name('site_map');
+    Route::get('/career', 'Frontend\CareerController@carrer')->name('career');
     // old route
     // Route::post('/loginUser', 'Frontend\AuthenticationController@login')->name('userLogin');
     // Route::get('/job-details/{slug}', 'Frontend\IndexController@job_details')->name('jobDetails');

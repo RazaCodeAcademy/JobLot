@@ -15,6 +15,7 @@
 		<link href="{{asset('public/toast/toastr1.css')}}" rel="stylesheet">
     	<link href="{{asset('public/toast/toastr2.css')}}" rel="styleshee">
 		<title>register</title>
+		<link rel="shortcut icon" href="{{ asset('/public/frontend/img/logo-color.png') }}">
 		<style>
 			.hidden{
 				display: none;

@@ -65,9 +65,25 @@
 											
 											<div class="d-flex align-items-center justify-content-between">
 												<span class="font-weight-bold mr-2">{{__('Location:')}}</span>
-												<span class="text-muted">{{$user->country->name ?? 'N/a'}}</span>
+												<span class="text-muted">{{$user->comp_location ?? 'N/a'}}</span>
 											</div>
 										@endif
+										<div class="d-flex align-items-center justify-content-between">
+											<span class="font-weight-bold mr-2">{{__('Bussiness Name:')}}</span>
+											<span class="text-muted">{{$user->comp_name ?? 'N/a'}}</span>
+										</div>
+										<div class="d-flex align-items-center justify-content-between">
+											<span class="font-weight-bold mr-2">{{__('Bussiness Type:')}}</span>
+											<span class="text-muted">N/a</span>
+										</div>
+										<div class="d-flex align-items-center justify-content-between">
+											<span class="font-weight-bold mr-2">{{__('No of Jobs:')}}</span>
+											<span class="text-muted">{{count($user->jobs) ?? 'N/a'}}</span>
+										</div>
+										<div class="d-flex align-items-center justify-content-between">
+											<span class="font-weight-bold mr-2">{{__('Joining Date:')}}</span>
+											<span class="text-muted">{{$user->created_at->diffForHumans() ?? 'N/a'}}</span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -123,19 +139,7 @@
 												<input class="form-control form-control-lg form-control-solid" name="email" type="email" value="{{ $user->email }}" disabled />
 											</div>
 										</div>
-
-										{{--  @if($myRole->id == 1)
-											<div class="form-group row">
-												<label class="col-xl-3 col-lg-3 col-form-label">{{__('No. of free jobs')}}</label>
-												<div class="col-lg-9 col-xl-6">
-													<input class="form-control form-control-lg form-control-solid" name="free_jobs" type="number" min="0" step="1" value="" />
-													@error('free_jobs')
-														<span class="" style="color: red">{{$message}}</span>
-													@enderror
-												</div>
-											</div>
-										@endif  --}}
-
+									
 										<div class="row">
 											<label class="col-xl-3"></label>
 											<div class="col-lg-9 col-xl-6">

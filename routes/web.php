@@ -97,6 +97,14 @@ Route::prefix('admin')->group(function (){
             Route::post('/update/{id}', 'Backend\CountryController@updateCountry')->name('updateCountry');
             Route::post('/delete/{id}', 'Backend\CountryController@deleteCountry')->name('deleteCountry');
         });
+        Route::group(['prefix' => 'states'], function () {
+            Route::get('/', 'Backend\StateController@listStates')->name('liststates');
+            Route::get('/create', 'Backend\StateController@createState')->name('createState');
+            Route::post('/store', 'Backend\StateController@storeState')->name('storeState');
+            Route::get('/edit/{id}', 'Backend\StateController@editState')->name('editState');
+            Route::post('/update/{id}', 'Backend\StateController@updateState')->name('updateState');
+            Route::post('/delete/{id}', 'Backend\StateController@deleteState')->name('deleteState');
+        });
 
         Route::group(['prefix' => 'cities'], function () {
             Route::get('/', 'Backend\CityController@listCities')->name('listCities');
@@ -114,6 +122,7 @@ Route::prefix('admin')->group(function (){
         Route::group(['prefix' => 'statistics'], function () {
             Route::get('/', 'Backend\StatisticController@list')->name('listStatistics');
             Route::post('filterCountry', 'Backend\StatisticController@filterCountry')->name('filterCountry');
+            Route::post('statistics-filters', 'Backend\StatisticController@statisticsFilters')->name('statisticsFilters');
         });
 
         Route::group(['prefix' => 'employee-business-categories'], function () {
@@ -198,7 +207,8 @@ Route::prefix('admin')->group(function (){
         });
 
         Route::group(['prefix' => 'manage-users'], function () {
-            Route::get('/', 'Backend\UserController@listUsers')->name('listUsers');
+            Route::get('/', 'Backend\UserController@listAdmins')->name('listAdmins');
+            Route::get('/employers-list', 'Backend\UserController@listEmployers')->name('listEmployers');
             Route::get('/create', 'Backend\UserController@createUser')->name('createUser');
             Route::post('/store', 'Backend\UserController@storeUser')->name('storeUser');
             Route::get('/edit/{id}', 'Backend\UserController@editUser')->name('editUser');

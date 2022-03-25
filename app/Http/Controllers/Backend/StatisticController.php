@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
+// use facades here
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
+// use models here
 use App\Models\Job;
 use App\Models\EmployeeAppliedJob;
 use App\Models\Country;
@@ -15,23 +20,13 @@ class StatisticController extends Controller
 {
     public function list()
     {
-        $liveJobs = Job::where('status','=',1)->where('job_approval','=',1)->count();
+        $liveJobs = Job::where('status', 1)->where('job_approval','=',1)->count();
         $totalJobs = Job::all();
-        $totalCandidateJobsApplied = EmployeeAppliedJob::all()->count();
         $liveAppliedCandidateJobs = EmployeeAppliedJob::all()->count();
         $employers = ModelHasRole::select('model_id')->where('role_id','=','2')->get();
         $candidates = ModelHasRole::select('model_id')->where('role_id','=','3')->get();
-        $countries = Country::all();
-     
-        
         $employers = User::whereIn('id',$employers->pluck('model_id'))->get();
-        
-        
-        // $employeeJobs = Job::where('employer_id',$employee->id)->get();
-        // $employeeLiveJobsCount =Job::where('employer_id',$employee->id)->where('status','=',1)->where('job_approval','=',1)->count();
-        // $appliedCandidates = Job::where('jobs.employer_id',$employee->id)->count();
-
-        return view('backend.pages.statistics.view',compact('liveJobs','totalJobs','totalCandidateJobsApplied','liveAppliedCandidateJobs','employers','candidates','countries'));
+        return view('backend.pages.statistics.view',compact('liveJobs','totalJobs','liveAppliedCandidateJobs','employers','candidates'));
     }
 
     public function filterCountry(Request $request)
@@ -81,5 +76,109 @@ class StatisticController extends Controller
             return response()->json(['values'=>$data]);
         }
 
+    }
+
+    public function statisticsFilters(Request $request){
+        $data = [];
+
+        // filter by all jobs
+        if($request->filter_type == 'all-jobs'){
+            $data = $this->filter_byAllJobs();
+        }
+
+        // filter by acitve jobs
+        if($request->filter_type == 'active-jobs'){
+            $data = $this->filter_byActiveJobs();
+        }
+
+        // filter by date
+        if($request->filter_type == 'date'){
+            $data = $this->filter_byDate($request->filter_by);
+        }
+
+        // filter by day
+        if($request->filter_type == 'day'){
+            $data = $this->filter_byDay($request->filter_by);
+        }
+
+        return response()->json($data);
+    }
+
+    public function filter_byAllJobs()
+    {
+       
+        $liveJobs = Job::where('status', 1)->count();
+        $totalJobs = Job::all()->count();
+        $liveAppliedCandidateJobs = EmployeeAppliedJob::all()->count();
+        $employers = ModelHasRole::select('model_id')->where('role_id','=','2')->get();
+        $candidates = ModelHasRole::select('model_id')->where('role_id','=','3')->count();
+        $employers = User::whereIn('id',$employers->pluck('model_id'))->count();
+
+        return [
+            'liveJobs' => $liveJobs,
+            'totalJobs' => $totalJobs,
+            'liveAppliedCandidateJobs' => $liveAppliedCandidateJobs,
+            'employers' => $employers,
+            'candidates' => $candidates,
+        ];
+    }
+
+    public function filter_byActiveJobs()
+    {
+        $liveJobs = Job::where('status', 1)->where('job_approval', 1)->count();
+        $totalJobs = Job::all()->count();
+        $liveAppliedCandidateJobs = EmployeeAppliedJob::all()->count();
+        $employers = ModelHasRole::select('model_id')->where('role_id','=','2')->get();
+        $candidates = ModelHasRole::select('model_id')->where('role_id','=','3')->get();
+        $employers = User::whereIn('id',$employers->pluck('model_id'))->where('status', 1)->count();
+        $candidates = User::whereIn('id',$candidates->pluck('model_id'))->where('status', 1)->count();
+
+        return [
+            'liveJobs' => $liveJobs,
+            'totalJobs' => $totalJobs,
+            'liveAppliedCandidateJobs' => $liveAppliedCandidateJobs,
+            'employers' => $employers,
+            'candidates' => $candidates,
+        ];
+    }
+
+    public function filter_byDate($filter_by)
+    {
+        $date = Carbon::parse($filter_by);
+        $liveJobs = Job::whereDate('created_at', $date)->count();
+        $totalJobs = Job::whereDate('created_at', $date)->count();
+        $liveAppliedCandidateJobs = EmployeeAppliedJob::whereDate('created_at', $date)->count();
+        $employers = ModelHasRole::select('model_id')->where('role_id','=','2')->get();
+        $candidates = ModelHasRole::select('model_id')->where('role_id','=','3')->get();
+        $employers = User::whereIn('id',$employers->pluck('model_id'))->whereDate('created_at', $date)->count();
+        $candidates = User::whereIn('id',$candidates->pluck('model_id'))->whereDate('created_at', $date)->count();
+
+        return [
+            'liveJobs' => $liveJobs,
+            'totalJobs' => $totalJobs,
+            'liveAppliedCandidateJobs' => $liveAppliedCandidateJobs,
+            'employers' => $employers,
+            'candidates' => $candidates,
+        ];
+    }
+
+    public function filter_byDay($filter_by)
+    {
+        $date = Carbon::now()->subDays($filter_by);
+        $liveJobs = Job::whereDate('created_at', '>=', $date)->count();
+        $totalJobs = Job::whereDate('created_at', '>=', $date)->count();
+        $liveAppliedCandidateJobs = EmployeeAppliedJob::whereDate('created_at', '>=', $date)->count();
+        $employers = ModelHasRole::select('model_id')->where('role_id','=','2')->get();
+        $candidates = ModelHasRole::select('model_id')->where('role_id','=','3')->get();
+        $employers = User::whereIn('id',$employers->pluck('model_id'))->whereDate('created_at', '>=', $date)->count();
+        $candidates = User::whereIn('id',$candidates->pluck('model_id'))->whereDate('created_at', '>=', $date)->count();
+
+        return [
+            'liveJobs' => $liveJobs,
+            'totalJobs' => $totalJobs,
+            'liveAppliedCandidateJobs' => $liveAppliedCandidateJobs,
+            'employers' => $employers,
+            'candidates' => $candidates,
+        ];
     }
 }

@@ -17,30 +17,43 @@
                 </div>
             </div>
         </div>
-        @php $user_role_id = DB::table('model_has_roles')->where('model_id', Auth::user()->id)->first();
-             $user = DB::table('roles')->where('id', $user_role_id->role_id)->first();
+        @php 
+        $user_role_id = DB::table('model_has_roles')->where('model_id', Auth::user()->id)->first();
+        $user = DB::table('roles')->where('id', $user_role_id->role_id)->first();
         @endphp
-
-        {{--  @if($user->id == 1)
-            <div class="form-group row">
-                <label class="col-form-label text-right col-lg-4 col-sm-12">{{__('Filter by country')}}</label>
-                <div class="col-lg-4 col-md-9 col-sm-12">
-                    <select class="form-control selectpicker" name="country" id="country" data-size="7" data-live-search="true">
-                        <option value="0">{{__('All')}}</option>
-                        <option data-divider="true" label="Label"></option>
-                        @foreach($countries as $country)
-                            <option value="{{$country->id}}">{{$country->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        @endif  --}}
-
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
             <div class="container">
                 <!--Begin::Row-->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                    <input type="date" class="form-control" id="date" onchange="statistics(this.value, 'date')">
+                    </div>
+                    <div class="col-md-4 ">
+                        <select  class="form-control" onchange="statistics(this.value, 'day')">
+                            <option selected disabled>Choose...</option>
+                            <option value="1">1 Day</option>
+                            <option value="2">2 Days</option>
+                            <option value="3">3 Days</option>
+                            <option value="7">7 Days</option>
+                            <option value="15">15 Days</option>
+                            <option value="30">30 Days</option>
+                          
+                        </select> 
+                    
+                    </div>
+                    <div class="col-md-4 ">
+                        <select  class="form-control" onchange="statistics(this.value, this.value)">
+                            <option selected disabled>Choose...</option>
+                            <option value="all-jobs">All Jobs</option>
+                            <option value="active-jobs">Active Jobs</option>
+                        </select> 
+                    
+                    </div>
+                    
+                </div>
                 <div class="row">
+                  
                     <div class="col-xl-4">
                         <!--begin::Stats Widget 29-->
                         <div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url({{asset('public/backend/dist/assets/media/svg/shapes/abstract-1.svg')}})">
@@ -58,7 +71,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-dark-75 font-size-h2 mb-0 mt-6 d-block" id="live-jobs">{{$liveJobs}}</span>
-                                <span class="font-weight-bold text-muted font-size-sm">{{__('Total Live Job(s)')}}</span>
+                                <span class="font-weight-bold text-muted font-size-sm">{{__('Total Active Job(s)')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -87,31 +100,7 @@
                         </div>
                         <!--end::Stats Widget 30-->
                     </div>
-                    {{--  <div class="col-xl-3">
-                        <!--begin::Stats Widget 31-->
-                        <div class="card card-custom bg-danger card-stretch gutter-b">
-                            <!--begin::Body-->
-                            <div class="card-body">
-                                <span class="svg-icon svg-icon-2x svg-icon-white">
-                                    <!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <rect x="0" y="0" width="24" height="24" />
-                                            <rect fill="#000000" opacity="0.3" x="13" y="4" width="3" height="16" rx="1.5" />
-                                            <rect fill="#000000" x="8" y="9" width="3" height="11" rx="1.5" />
-                                            <rect fill="#000000" x="18" y="11" width="3" height="9" rx="1.5" />
-                                            <rect fill="#000000" x="3" y="13" width="3" height="7" rx="1.5" />
-                                        </g>
-                                    </svg>
-                                    <!--end::Svg Icon-->
-                                </span>
-                                <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block" id="total-candidate-jobs">{{$totalCandidateJobsApplied}}</span>
-                                <span class="font-weight-bold text-white font-size-sm">{{__('Total applied')}}</span>
-                            </div>
-                            <!--end::Body-->
-                        </div>
-                        <!--end::Stats Widget 31-->
-                    </div>  --}}
+                  
                     <div class="col-xl-4">
                         <!--begin::Stats Widget 32-->
                         <div class="card card-custom bg-warning card-stretch gutter-b">
@@ -129,7 +118,7 @@
                                     <!--end::Svg Icon-->
                                 </span>
                                 <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 text-hover-primary d-block" id="live-candidate-applied-jobs">{{$liveAppliedCandidateJobs}}</span>
-                                <span class="font-weight-bold text-white font-size-sm">{{__('Total employees applied to live jobs')}}</span>
+                                <span class="font-weight-bold text-white font-size-sm">{{__('Total employees applied to Active jobs')}}</span>
                             </div>
                             <!--end::Body-->
                         </div>
@@ -207,7 +196,7 @@
                             <th style="text-align:center;">{{__('Name')}}</th>
                             <th style="text-align:center;">{{__('Country')}}</th>
                             <th style="text-align:center;">{{__('No. of job(s) posted')}}</th>
-                            <th style="text-align:center;">{{__('Live job(s)')}}</th>
+                            <th style="text-align:center;">{{__('Active job(s)')}}</th>
                             <th style="text-align:center;">{{__('No. of applied employee(s)')}}</th>
 
                         </tr>
@@ -217,7 +206,7 @@
                         
                             <tr>
                                 <td style="text-align:center;">{{$employeer->first_name}}</td>
-                                <td style="text-align:center;">{{$employeer->country->name ?? 'n/A'}}</td>
+                                <td style="text-align:center;">{{$employeer->comp_location ?? 'n/A'}}</td>
                                 <td style="text-align:center;">{{ count($employeer->jobs) }}</td>  
                                 <td style="text-align:center;">{{ count($employeer->jobs->where('status', 1)) }}</td>
                                 <td style="text-align:center;">{{ $employeer->jobAppliedEmployee()}}</td>
@@ -234,26 +223,27 @@
 
 @section('script')
     <script>
-        $("#country").change(function (e) {
+        
+        function statistics(filter_by, filter_type){
             $.ajax({
-                url: "{{route('filterCountry')}}",
+                url: "{{route('statisticsFilters')}}",
                 method: 'post',
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    country_id: $('#country').val(),
+                    filter_by: filter_by,
+                    filter_type: filter_type,
                 },
                 success: function(data){
-                    $('#live-jobs').html(data.values[0]);
-                    $('#total-jobs').html(data.values[1]);
-                    $('#total-candidate-jobs').html(data.values[2]);
-                    $('#live-candidate-applied-jobs').html(data.values[3]);
-                    $('#total-candidates').html(data.values[4]);
-                    $('#total-employers').html(data.values[5]);
+                    $('#live-jobs').text(data.liveJobs);
+                    $('#total-jobs').text(data.totalJobs);
+                    $('#live-candidate-applied-jobs').text(data.liveAppliedCandidateJobs);
+                    $('#total-candidates').text(data.employers);
+                    $('#total-employers').text(data.candidates);
                 },
                 error: function(result){
                     console.log('error');
                 }
             });
-        });
+        }
     </script>
 @endsection

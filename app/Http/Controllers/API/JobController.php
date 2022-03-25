@@ -89,8 +89,12 @@ class JobController extends Controller
         $user = user();
         $jobs = Job::orderBy('id', 'DESC')->get();
 
-        $appliedJob = EmployeeAppliedJob::where('user_id', $user->id)->pluck('job_id');
-        $savedJob = SavedJob::where('user_id', $user->id)->pluck('job_id');
+        $appliedJob = EmployeeAppliedJob::where('user_id', $user->id)
+        ->pluck('job_id');
+
+        $savedJob = SavedJob::orderBy('created_at')
+        ->where('user_id', $user->id)
+        ->pluck('job_id');
 
         // check logged in user applied on job or not
         foreach ($jobs as $job) {

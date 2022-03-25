@@ -55,6 +55,8 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function(){
     Route::post('/saved-listed-applicants', 'EmployerController@savedListed');
     Route::post('/remove-shortlisted-applicants', 'EmployerController@removeShortListed');
     Route::post('/remove-savelisted-applicants', 'EmployerController@removeSaveListed');
+    Route::post('/remove-appliedlisted-applicants', 'EmployerController@removeAppliedListed');
+    Route::post('/move-to-applied-listed', 'EmployerController@moveToAppliedListed');
     
     // User Controller routes
     Route::post('upload-employer-profile-image', 'UserController@uploadProfileImage');

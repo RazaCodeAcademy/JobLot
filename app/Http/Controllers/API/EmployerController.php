@@ -39,8 +39,12 @@ class EmployerController extends Controller
 
     public function jobList(){
 
-        $jobs = Job::where('employer_id', Auth::id())->orderBy('id', 'DESC')->get();
+        $jobs = Job::where('employer_id', Auth::id())
+        ->orderBy('id', 'DESC')
+        ->get();
+        
         return response()->json([
+            'count' => count($jobs),
             'jobs' => $jobs,
         ], 200);
     }
@@ -84,8 +88,12 @@ class EmployerController extends Controller
     public function singleJobAplicantList(Request $request)
     {
         // return $request->job_id;
-        $singleJobAplicantList = EmployeeAppliedJob::where('job_id', $request->job_id)->pluck('user_id');
-        $singleJobAplicantList = User::whereIn('id', $singleJobAplicantList->toArray())->get();
+        $singleJobAplicantList = EmployeeAppliedJob::where('job_id', $request->job_id)
+        ->pluck('user_id');
+
+        $singleJobAplicantList = User::orderBy('created_at', 'desc')
+        ->whereIn('id', $singleJobAplicantList->toArray())
+        ->get();
 
         // get user is applied on job shortlisted and savedlisted
         $singleJobAplicantList = getUser($singleJobAplicantList, $request->job_id);
@@ -98,36 +106,50 @@ class EmployerController extends Controller
     {
         $request->experience = $request->experience ?? 0;
 
-        // get job list
-        if($request->job_id == 0){
-            // get all job list
-            $job_ids = Job::where([
-                ['employer_id',Auth::id()],
-                ['job_type',$request->job_type],
-            ])->pluck('id');
-        }else{
-            // get a specific job
-            $job_ids = Job::where([
-                ['employer_id',Auth::id()],
-                ['id',$request->job_id],
-                ['job_type',$request->job_type],
-            ])->pluck('id');
+        if(
+            $request->job_id == 'all' && 
+            $request->experience == 'all' && 
+            $request-> distance == 'all' && 
+            $request->job_type == 'all'
+        ){
+
+            $users = User::whereHas('roles', function($query){
+                return $query->where('name', 'employee');
+            });
+        }else {
+            // get job list
+            if($request->job_id == 'all'){
+                // get all job list
+                $job_ids = Job::where([
+                    ['employer_id',Auth::id()],
+                    ['job_type',$request->job_type],
+                ])->pluck('id');
+            }else{
+                // get a specific job
+                $job_ids = Job::where([
+                    ['employer_id',Auth::id()],
+                    ['id',$request->job_id],
+                    ['job_type',$request->job_type],
+                ])->pluck('id');
+            }
+    
+            // created a requested date
+            $date = date('Y-m-d H:i:s',strtotime($request->date));
+    
+            // pluck employee ids who are applied on filterd job
+            $user_ids = EmployeeAppliedJob::whereIn('job_id', $job_ids)->pluck('user_id');
+    
+            // get employee data
+            $users = User::whereIn('id', $user_ids)
+                    ->whereHas('get_experiences', function($query) use($request){
+                        return $query->where('period', '<=', $request->experience);
+                    }); 
         }
 
-        // created a requested date
-        $date = date('Y-m-d H:i:s',strtotime($request->date));
-
-        // pluck employee ids who are applied on filterd job
-        $user_ids = EmployeeAppliedJob::whereIn('job_id', $job_ids)->pluck('user_id');
-
-        // get employee data
-        $users = User::whereIn('id', $user_ids)
-                ->whereHas('get_experiences', function($query) use($request){
-                    return $query->where('period', '<=', $request->experience);
-                });
+        $distance = $request->distance == 'all' ? 20 : $request->distance;
 
         // get employees nearby
-        $filterApplicants = $this->near_by_applicants($users, $request->distance);
+        $filterApplicants = $this->near_by_applicants($users,  $distance);
 
         // get user is applied on job shortlisted and savedlisted
         $filterApplicants = getUser($filterApplicants, $request->job_id);
@@ -197,6 +219,14 @@ class EmployerController extends Controller
             $userSaved->delete();
         }
 
+        $userApplied = EmployeeAppliedJob::where([
+            ['user_id', $request->user_id], 
+            ['job_id', $request->job_id]
+        ])->first();
+        if(!empty($userApplied)){
+            $userApplied->delete();
+        }
+
         notifications(
             $request->job_id,
             $shortListedApplicants->user_id, 
@@ -206,6 +236,26 @@ class EmployerController extends Controller
 
         return response()->json([
             'shortListedApplicants' => $shortListedApplicants,
+        ], 201);
+    }
+
+    public function moveToAppliedListed(Request $request){
+        $appliedListedApplicants = New EmployeeAppliedJob();
+        $appliedListedApplicants->user_id = $request->user_id;
+        $appliedListedApplicants->job_id = $request->job_id;
+        $appliedListedApplicants->status = '1';
+        $appliedListedApplicants->save();
+
+        $userShortListed = EmployeeShortListed::where([
+            ['user_id', $request->user_id], 
+            ['job_id', $request->job_id]
+        ])->first();
+        if(!empty($userShortListed)){
+            $userShortListed->delete();
+        }
+
+        return response()->json([
+            'appliedListedApplicants' => $appliedListedApplicants,
         ], 201);
     }
      
@@ -232,8 +282,13 @@ class EmployerController extends Controller
     public function shortListed(Request $request)
     {
         $user = Auth::user();
-        $shortListed = EmployeeShortListed::where('job_id', $request->job_id)->pluck('user_id');
-        $shortListed = User::whereIn('id', $shortListed)->get();
+
+        $shortListed = EmployeeShortListed::where('job_id', $request->job_id)
+        ->pluck('user_id');
+
+        $shortListed = User::orderBy('created_at', 'desc')
+        ->whereIn('id', $shortListed)
+        ->get();
 
         // get user is applied on job shortlisted and savedlisted
         $shortListed = getUser($shortListed, $request->job_id);
@@ -283,6 +338,23 @@ class EmployerController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'User has been removed from savelist successfuly!'
+            ], 200);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Something went wrong please try again!'
+        ], 400);
+    }
+
+    public function removeAppliedListed(Request $request)
+    {
+        $appliedListedApplicants = EmployeeAppliedJob::where([['job_id', $request->job_id], ['user_id', $request->user_id]])->first();
+
+        if(!empty($appliedListedApplicants)){
+            $appliedListedApplicants->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'User has been removed from appliedlist successfuly!'
             ], 200);
         }
         return response()->json([

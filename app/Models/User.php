@@ -99,7 +99,7 @@ class User extends Authenticatable
 
     public function get_notification()
     {
-        return $this->hasMany(Notification::class, 'notifiable_id', 'id')->where('read_at', null);
+        return $this->hasMany(Notification::class, 'notifiable_id', 'id')->where('read_at', null)->orderBy('created_at', 'desc');
     }
     
     public function roles()

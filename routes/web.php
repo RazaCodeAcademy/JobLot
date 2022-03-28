@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Auth\ForgotPasswordController;
 Auth::routes();
 Route::get('/clear', function(){
     Artisan::call('config:clear');
@@ -35,6 +37,11 @@ Route::post('/user-register', 'Frontend\UserController@store')->name('user-regis
 Route::get('login/{provider}', 'Frontend\SocialController@redirectToProvider');
 Route::get('{provider}/callback', 'Frontend\SocialController@handleProviderCallback');
 Route::get('logout','Frontend\UserController@logout')->name('logout');
+// forget password routes
+Route::get('forget-password', [ForgotPasswordController::class, 'ForgetPassword'])->name('ForgetPasswordGet');
+Route::post('forget-password', [ForgotPasswordController::class, 'ForgetPasswordStore'])->name('ForgetPasswordPost');
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'ResetPassword'])->name('ResetPasswordGet');
+Route::post('reset-password', [ForgotPasswordController::class, 'ResetPasswordStore'])->name('ResetPasswordPost');
 
 Route::middleware(['frontend'])->group(function () {
     Route::get('/welcome', 'Frontend\IndexController@index')->name('welcome');
@@ -63,6 +70,7 @@ Route::middleware(['frontend'])->group(function () {
     // Footer Routes
     Route::get('/about-us', 'Frontend\AboutController@about_us')->name('about_us');
     Route::get('/contact_us', 'Frontend\ContactController@contact_us')->name('contact_us');
+    Route::post('/contact',    'Frontend\ContactController@ContactUsForm')->name('contact.store');
     Route::get('/site_map', 'Frontend\SiteMapController@site_map')->name('site_map');
     Route::get('/career', 'Frontend\CareerController@carrer')->name('career');
     // old route
@@ -249,6 +257,13 @@ Route::prefix('admin')->group(function (){
             Route::get('/list', 'Backend\FinancialController@list')->name('listFinancial');
             // Route::post('/job/status', 'Backend\FinancialController@status')->name('jobStatus');
             Route::post('filterCountry', 'Backend\FinancialController@filterCountry')->name('filterCountryFinancial');
+        });
+
+        Route::group(['prefix' => 'contact'], function () {
+        //contact form routes
+        Route::get('/Contactlist', 'Backend\ContactController@index')->name('Contactlist');
+        Route::post('/deleteContact', 'Backend\ContactController@deletecontact')->name('deleteContact');
+
         });
 
     });

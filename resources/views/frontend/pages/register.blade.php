@@ -31,7 +31,7 @@
 			<div class="register-wrapper">
 				<main class="main register">
 					<div class="main-header register-header">
-						<a href="#" onclick="back()"><i class="fas fa-chevron-left"></i></a>
+						<a href="{{ route('login') }}" onclick="back()"><i class="fas fa-chevron-left"></i></a>
 						<p>Register to joblot</p>
 					</div>
 					<div class="main-content">

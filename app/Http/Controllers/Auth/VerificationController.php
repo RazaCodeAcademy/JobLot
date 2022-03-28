@@ -33,6 +33,21 @@ class VerificationController extends Controller
      *
      * @return void
      */
+
+     
+    public function redirectTo()
+    {
+
+        if(in_array('Admin', Auth::user()->roles->pluck('name')->toArray())){
+            return route('adminDashboard');
+        }
+        else if(in_array('employee', Auth::user()->roles->pluck('name')->toArray())){
+            return route('dashboard');
+        }
+        else {
+            return route('welcome');
+        }
+    }
     public function __construct()
     {
         $this->middleware('auth');

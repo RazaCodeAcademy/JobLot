@@ -147,6 +147,7 @@ class UserController extends Controller
                 }
         }
     }
+
     public function logout()
     {
         Auth::user()->last_login = Carbon::now()->toDateTimeString();
@@ -157,4 +158,5 @@ class UserController extends Controller
             );
         return redirect()->route('login')->with($notification);
     }
+
 }

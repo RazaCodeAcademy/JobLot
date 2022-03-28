@@ -310,18 +310,20 @@
                             </select>
                         </div>
                     </div>
+				
+						<div class="col-6">
+							<div class="form-group">
+								<label>{{__('Country')}} <span class="text-danger">*</span></label>
+								@php
+									$country = DB::Table('countries')->select('name')->where('id',$user->state_id)->first();
+									@endphp
+									@dd($country)
+								<select name="country" disabled class="form-control" >
+										<option selected disabled="disabled">{{$user->country->name ?? 'N/A'}}</option>
+								</select>
+							</div>
+						</div>
 
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label>{{__('Country')}} <span class="text-danger">*</span></label>
-                            @php
-								$country = DB::Table('countries')->select('name')->where('id',$user->country_name)->first();
-                            @endphp
-                            <select name="country" disabled class="form-control" >
-                                    <option selected disabled="disabled">{{$user->country->name}}</option>
-                            </select>
-                        </div>
-                    </div>
 
                     <div class="col-6">
                         <div class="form-group">

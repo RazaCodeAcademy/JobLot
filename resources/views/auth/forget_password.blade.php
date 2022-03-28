@@ -3,6 +3,7 @@
 	<head>
 		<!-- Required meta tags -->
 		<meta charset="utf-8" />
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 		<!-- Font Awesome Css -->
 		<link rel="stylesheet" href="{{ asset('/public/frontend/css/font-awesome/css/all.css') }}" />
@@ -13,7 +14,7 @@
 		{{-- Toaster --}}
 		<link href="{{asset('public/toast/toastr1.css')}}" rel="stylesheet">
     	<link href="{{asset('public/toast/toastr2.css')}}" rel="styleshee">
-    	<title>Login</title>
+    	<title>Reset Password</title>
 		 <link rel="shortcut icon" href="{{ asset('/public/frontend/img/logo-color.png') }}">
 	</head>
 	<body>
@@ -27,47 +28,21 @@
 					<img src="{{ asset('/public/frontend/img/logo-color.png') }}" alt="" />
 				</div>
 				<div class="main-content">
-					<p>
-						Find the perfect job and explore<br />
-						thousands of vacancies daily
-					</p>
-					<h6>Log in your account</h6>
+					
+					<h6>Recover Your Account</h6>
 
-					<form class="main-form" action="{{ route('user-login') }}" method="post">
+					<form class="main-form" action="{{ route('ForgetPasswordPost') }}" method="POST">
 						@csrf
-						<input type="text" name="email" placeholder="Username" />
+					
+						<input type="text" id="email_address" class="form-control" name="email" required autofocus placeholder="E-Mail Address">
 						@if ($errors->has('email'))
-							<div> <span  class="text-danger" id="emailError">{{ $errors->first('email') }}</span></div>
-							{{-- <span class="fa fa-info-circle errspan"></span> --}}
-                        @endif
-						<input type="password" name="password" placeholder="Password" />
-						@if ($errors->has('password'))
-							<div> <span  class="text-danger" id="passwordError">{{ $errors->first('password') }}</span></div>
-							{{-- <span class="fa fa-info-circle errspan"></span> --}}
-                        @endif
-						<button>Log in</button>
-						<div class="main-bottom">
-							<a href="{{ route('ForgetPasswordGet') }}">{{ __('Forgot Your Password?') }}</a>
-							<a href="{{ route('register') }}">New member ?</a>
-						</div>
-					</form>
+							<span class="text-danger">{{ $errors->first('email') }}</span>
+						@endif
 
-					<footer class="main-footer">
-						<p>Or continue with social accounts</p>
-						<ul>
-							<li>
-								<a href="{{ url('/login/facebook') }}"> <i class="fab fa-facebook-f"></i></a>
-							</li>
-							<li>
-								<a href="{{ url('/login/twitter') }}"><i class="fab fa-twitter"></i></a>
-							</li>
-							<li>
-								<a href="{{ url('/login/google') }}">
-									<i class="fab fa-google"></i>
-								</a>
-							</li>
-						</ul>
-					</footer>
+						<button type="submit" class="btn btn-primary">
+							Send Reset Password Link
+						</button>
+					</form>
 				</div>
 			</main>
 		</section>

@@ -37,4 +37,19 @@ class ConfirmPasswordController extends Controller
     {
         $this->middleware('auth');
     }
+
+    
+    public function redirectTo()
+    {
+
+        if(in_array('Admin', Auth::user()->roles->pluck('name')->toArray())){
+            return route('adminDashboard');
+        }
+        else if(in_array('employee', Auth::user()->roles->pluck('name')->toArray())){
+            return route('dashboard');
+        }
+        else {
+            return route('welcome');
+        }
+    }
 }

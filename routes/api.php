@@ -71,6 +71,8 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function(){
     Route::post('/applied-jobs-list', 'EmployeeController@applied_jobs_list');
     Route::post('/employee-add-experience', 'EmployeeController@add_experience');
     Route::post('/employee-get-experience', 'EmployeeController@get_experience');
+    Route::post('/employee-search-job', 'EmployeeController@search_job');
+    Route::post('/employee-search-chat-list', 'EmployeeController@search_chat_list');
 
     // JobController 
     Route::post('/all-job', 'JobController@all_job');

@@ -83,18 +83,23 @@ class ConversationController extends Controller
 
     public function searchUser(Request $request){
         if($request->search != ''){
-            $users = User::where(function ($query) use($request){
+            $user = Auth::user();
+            $conversation = Conversation::where([
+                ['moderator_id', $user->id],
+            ])->orWhere([
+                ['participant_id', $user->id],
+            ])->get();
+
+            $ids = [$conversation->pluck('moderator_id'), $conversation->pluck('participant_id')];
+            
+            $users = User::whereIn('id', $ids)
+                ->where(function ($query) use($request){
                     return $query->where('first_name','LIKE',"%{$request->search}%")
                         ->orWhere('last_name','LIKE',"%{$request->search}%")
                         ->orWhere('email','LIKE',"%{$request->search}%");
                 })->get();
-            if($users){
-
-                return response()->json([
-                    'error' => 'not matched any record'
-                ]);
-            }
             return response()->json([
+                'count' => count($users),
                 'users' => $users,
             ]);
         }else{
@@ -123,6 +128,7 @@ class ConversationController extends Controller
         }
 
         return [
+            'count' => count($conversations),
             'conversations' => $conversations,
         ];
     }

@@ -91,5 +91,32 @@ class EmployeeController extends Controller
        
     }
 
+    public function search_job(Request $request){
+        $jobs = Job::where(function ($query) use($request){
+            return $query->where('title', 'LIKE', '%'.$request->search.'%')
+            ->orWhere('comp_name', 'LIKE', '%'.$request->search.'%')
+            ->orWhere('job_type', 'LIKE', '%'.$request->search.'%')
+            ->orWhere('job_qualification', 'LIKE', '%'.$request->search.'%');
+        })->get();
+
+        return response()->json([
+            'count' => count($jobs),
+            'jobs' => $jobs,
+        ], 200);
+    }
+
+    public function search_chat_list(Request $request){
+        $jobs = Job::where(function ($query) use($request){
+            return $query->where('title', 'LIKE', '%'.$request->search.'%')
+            ->orWhere('comp_name', 'LIKE', '%'.$request->search.'%')
+            ->orWhere('job_type', 'LIKE', '%'.$request->search.'%')
+            ->orWhere('job_qualification', 'LIKE', '%'.$request->search.'%');
+        })->get();
+
+        return response()->json([
+            'count' => count($jobs),
+            'jobs' => $jobs,
+        ], 200);
+    }
 
 } 

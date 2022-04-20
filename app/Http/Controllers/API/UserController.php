@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Exception;
 use DB;
+use Str;
 use Storage;
 use Illuminate\Http\File;
 
@@ -49,81 +50,91 @@ class UserController extends Controller
     }
 
     public function registerEmployer(Request $request){
-        
-        // try{
-            $validator = Validator::make($request->all(), [
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'street_address' => 'required',
-                'city_name' => 'required',
-                'state_id' => 'required',
-                'zip_code' => 'required',
-                'latitude' => 'required', 
-                'longitude' => 'required',
-                'terms_and_conditions' => 'required',
-                'email' => 'required|email|unique:users',
-                'phone_number' => 'required|unique:users',
-                'password' => 'required',
-                'c_password' => 'required|same:password',
-                 'comp_name' => 'required',
-                'comp_location' => 'required',
-                'salary_schedual' => 'required',
-             
-                
-            ]);
-            if ($validator->fails()) {
-                return response()->json(['error' => $validator->messages()->first()], 401);
-            }
+        $user = User::where('email', $request->email)
+        ->orWhere('phone_number', $request->phone_number)
+        ->first();
+        if(!empty($user)){
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Mobile number or email already exist please try with another email or mobile number!',
+                ], 200);
+        }
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'street_address' => 'required',
+            'city_name' => 'required',
+            'state_id' => 'required',
+            'zip_code' => 'required',
+            'latitude' => 'required', 
+            'longitude' => 'required',
+            'terms_and_conditions' => 'required',
+            'email' => 'required|email|unique:users',
+            'phone_number' => 'required|unique:users',
+            'password' => 'required',
+            'c_password' => 'required|same:password',
+                'comp_name' => 'required',
+            'comp_location' => 'required',
+            'salary_schedual' => 'required',
+            
+            
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()->first()], 401);
+        }
 
-            $employerData = [
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'street_address' => $request->street_address,
-                'city_name' => $request->city_name,
-                'state_id' => $request->state_id,
-                'zip_code' => $request->zip_code,
-                'terms_and_conditions' => $request->terms_and_conditions,
-                'email' => $request->email,
-                'phone_number' => $request->phone_number,
-                'password' => bcrypt($request->password),
-                'comp_name'=> $request->comp_name,
-                'comp_location'=> $request->comp_location,
-                'salary_schedual'=> $request->salary_schedual,
-                'job_schedual_from'=> date('Y-m-d H:i:s',strtotime($request->job_schedual_from)),
-                'job_schedual_to'=> date('Y-m-d H:i:s',strtotime($request->job_schedual_to)),
+        $employerData = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'street_address' => $request->street_address,
+            'city_name' => $request->city_name,
+            'state_id' => $request->state_id,
+            'zip_code' => $request->zip_code,
+            'terms_and_conditions' => $request->terms_and_conditions,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'password' => bcrypt($request->password),
+            'comp_name'=> $request->comp_name,
+            'comp_location'=> $request->comp_location,
+            'salary_schedual'=> $request->salary_schedual,
+            'job_schedual_from'=> date('Y-m-d H:i:s',strtotime($request->job_schedual_from)),
+            'job_schedual_to'=> date('Y-m-d H:i:s',strtotime($request->job_schedual_to)),
+            
+        ];
+
+        $user = User::create($employerData);
+        $token =  $user->createToken('MyApp')-> accessToken;
+
+        $data = array('role_id' => '2', "model_type" => 'App\Models\User', "model_id" => $user->id);
+        DB::table('model_has_roles')->insert($data);
+
+        if($request->business_cat_id){
+            $jobData = [
+                'business_cat_id' => $request->business_cat_id,
+                'employer_id' => $user->id,
+                'title' => $request->title,
+                'slug' => Str::slug($request->title),
+                'salary' => $request->salary,
+                'job_type' => $request->job_type,
+                'job_qualification' => $request->job_qualification,
+                'state_authorized' => $request->state_authorized,
+                'description' => $request->description,
                 
             ];
-
-            $user = User::create($employerData);
-            $success['token'] =  $user->createToken('MyApp')-> accessToken;
-            $success['user'] =  $user;
-
-            $data = array('role_id' => '2', "model_type" => 'App\Models\User', "model_id" => $user->id);
-            DB::table('model_has_roles')->insert($data);
-
-            if($request->business_cat_id){
-                $jobData = [
-                    'business_cat_id' => $request->business_cat_id,
-                    'employer_id' => $user->id,
-                    'title' => $request->title,
-                    'salary' => $request->salary,
-                    'job_type' => $request->job_type,
-                    'job_qualification' => $request->job_qualification,
-                    'state_authorized' => $request->state_authorized,
-                    'description' => $request->description,
-                    
-                ];
-                Job::create($jobData);
-            }
-            if ($user) {
-                return response()->json(['success' => $success], $this->successStatus);
-            }
-            return response()->json(['error' => 'something went wrong please try again!'], $this->successStatus);
-
-        // }
-        // catch(Exception $exception){
-        //     return response()->json(['error' => 'The Email Address Already Exists.'], 401);
-        // }
+            Job::create($jobData);
+        }
+        if ($user) {
+            return response()->json([
+                'success' => true,
+                'message' =>  'Employer registered successfuly!',
+                'token' =>  $token,
+            ], 200);
+        }
+        return response()->json([
+            'success' => true,
+            'message' =>  'Something went wrong please try again!',
+        ], 200);
     }
 
     public function details(){
@@ -215,7 +226,16 @@ class UserController extends Controller
     public function register_employee(Request $request)
     {
         
-        
+        $user = User::where('email', $request->email)
+        ->orWhere('phone_number', $request->phone_number)
+        ->first();
+        if(!empty($user)){
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Mobile number or email already exist please try with another email or mobile number!',
+                ], 200);
+        }
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -248,13 +268,22 @@ class UserController extends Controller
 
 
         $user = User::create($employeeData);
-        $success['token'] =  $user->createToken('MyApp')-> accessToken;
-        $success['user'] =  $user;
+        $token =  $user->createToken('MyApp')-> accessToken;
 
         $data = array('role_id' => '3', "model_type" => 'App\Models\User', "model_id" => $user->id);
         DB::table('model_has_roles')->insert($data);
 
-        return response()->json(['success' => $success], $this->successStatus);
+        if ($user) {
+            return response()->json([
+                'success' => true,
+                'message' =>  'Employer registered successfuly!',
+                'token' =>  $token,
+            ], 200);
+        }
+        return response()->json([
+            'success' => true,
+            'message' =>  'Something went wrong please try again!',
+        ], 200);
 
     }
 

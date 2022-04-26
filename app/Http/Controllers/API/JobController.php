@@ -28,8 +28,8 @@ class JobController extends Controller
         $job->job_qualification = $request->job_qualification;
         $job->state_authorized = $request->state_authorized;
         $job->description = $request->description;
-        $job->comp_name= $request->comp_name;
-        $job->comp_location = $request->comp_location;
+        $job->comp_name= user()->comp_name;
+        $job->comp_location = user()->comp_location;
         $job->salary_schedual = $request->salary_schedual;
         $job->job_schedual_from = date('Y-m-d H:i:s',strtotime($request->job_schedual_from));
         $job-> job_schedual_to = date('Y-m-d H:i:s',strtotime($request->job_schedual_to));
@@ -54,8 +54,8 @@ class JobController extends Controller
         $job->job_qualification = $request->job_qualification ? $request->job_qualification : $job->job_qualification;
         $job->state_authorized = $request->state_authorized ? $request->state_authorized : $job->state_authorized;
         $job->description = $request->description ? $request->description : $job->description;
-        $job->comp_name= $request->comp_name ? $request->comp_name : $job->comp_name;
-        $job->comp_location = $request->comp_location ? $request->comp_location : $job->comp_location;
+        $job->comp_name= $request->comp_name ? $request->comp_name : user()->comp_name;
+        $job->comp_location = $request->comp_location ? $request->comp_location : user()->comp_location;
         $job->salary_schedual = $request->salary_schedual ? $request->salary_schedual : $job->salary_schedual;
         $job->job_schedual_from = date('Y-m-d H:i:s',strtotime($request->job_schedual_from ? $request->job_schedual_from : $job->job_schedual_from));
         $job-> job_schedual_to = date('Y-m-d H:i:s',strtotime($request->job_schedual_to ? $request->job_schedual_to : $job->job_schedual_to));
@@ -97,22 +97,7 @@ class JobController extends Controller
         ->pluck('job_id');
 
         // check logged in user applied on job or not
-        foreach ($jobs as $job) {
-            if(in_array($job->id, $appliedJob->toArray())){
-                $job->applied = 1;
-            }else{
-                $job->applied = 0;
-            }
-        }
-
-        // check logged in user saved job or not
-        foreach ($jobs as $job) {
-            if(in_array($job->id, $savedJob->toArray())){
-                $job->saved = 1;
-            }else{
-                $job->saved = 0;
-            }
-        }
+        $jobs = getJob($jobs, $user->id);
 
         return response()->json([
             'count' => count($jobs),
@@ -135,13 +120,12 @@ class JobController extends Controller
     // get employee saved job list
     public function employee_get_saved_job(Request $request){
         $user = Auth::user();
-        if(count($user->saved_jobs) > 0){
-            return response()->json([
-                'saved_jobs' => $user->saved_jobs,
-            ], 200);
-        }
+        $jobs = getJob($user->saved_jobs, $user->id);
+        
         return response()->json([
-            'error' => "there is no saved job for the user",
+            'count' => count($user->saved_jobs),
+            'saved_jobs' => $user->saved_jobs,
         ], 200);
+        
     }
 }

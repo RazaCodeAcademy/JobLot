@@ -24,6 +24,8 @@ class EmployeeController extends Controller
         $appliedJob->status = '1';
         $appliedJob->save();
 
+        user()->saved_jobs()->detach($request->job_id);
+
         $job = Job::find($request->job_id);
 
         notifications(
@@ -43,9 +45,7 @@ class EmployeeController extends Controller
         $user = Auth::user();
         $appliedJob = EmployeeAppliedJob::where('user_id', $user->id)->pluck('job_id');
         $jobs = Job::orderBy('id', 'DESC')->whereIn('id', $appliedJob->toArray())->get();
-        foreach ($jobs as $job) {
-            $job->applied = 1;
-        }
+        $jobs = getJob($jobs, $user->id);
         return response()->json([
             'applied_jobs_list' => $jobs,
         ], 200);
@@ -90,22 +90,30 @@ class EmployeeController extends Controller
         ], 200);
        
     }
+    
+    public function remove_experience(Request $request)
+    {
+        $user = user();
+        $experience = EmployeeExperience::where('id', $request->id)
+        ->where('user_id', $user->id)
+        ->first();
 
-    public function search_job(Request $request){
-        $jobs = Job::where(function ($query) use($request){
-            return $query->where('title', 'LIKE', '%'.$request->search.'%')
-            ->orWhere('comp_name', 'LIKE', '%'.$request->search.'%')
-            ->orWhere('job_type', 'LIKE', '%'.$request->search.'%')
-            ->orWhere('job_qualification', 'LIKE', '%'.$request->search.'%');
-        })->get();
+        if(!empty($experience)){
+            $experience->delete();
+            return response()->json([
+                'success' => true,
+                'message' => "User experience deleted successfuly!",
+            ], 200);
+        }
 
         return response()->json([
-            'count' => count($jobs),
-            'jobs' => $jobs,
+            'success' => false,
+            'message' => "User experience not deleted please try again!",
         ], 200);
+       
     }
 
-    public function search_chat_list(Request $request){
+    public function search_job(Request $request){
         $jobs = Job::where(function ($query) use($request){
             return $query->where('title', 'LIKE', '%'.$request->search.'%')
             ->orWhere('comp_name', 'LIKE', '%'.$request->search.'%')

@@ -81,3 +81,17 @@ if(!function_exists('getUser'))
         return $users;
     }
 }
+
+// get current url name
+if(!function_exists('getJob'))
+{
+    function getJob($jobs, $id)
+    {
+        foreach ($jobs as $job) {
+            $job->saved = $job->isSavedListed($id);
+            $job->shortListed = $job->isShortListed($id);
+            $job->applied = $job->isAppliedListed($id);
+        }
+        return $jobs;
+    }
+}

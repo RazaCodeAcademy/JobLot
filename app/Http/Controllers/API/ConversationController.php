@@ -82,26 +82,46 @@ class ConversationController extends Controller
     }
 
     public function searchUser(Request $request){
+        $users = [];
         if($request->search != ''){
             $user = Auth::user();
-            $conversation = Conversation::where([
-                ['moderator_id', $user->id],
-            ])->orWhere([
-                ['participant_id', $user->id],
+            $conversation_ids = Participant::select('conversation_id')->where([
+                ['user_id', $user->id]
             ])->get();
 
-            $ids = [$conversation->pluck('moderator_id'), $conversation->pluck('participant_id')];
-            
-            $users = User::whereIn('id', $ids)
-                ->where(function ($query) use($request){
-                    return $query->where('first_name','LIKE',"%{$request->search}%")
+        $conversations = Conversation::whereIn('id',$conversation_ids)->orderBy('updated_at', 'desc')->get();
+        if($conversations){
+            foreach($conversations as $conversation){
+                $recipient = '';
+                if($conversation->moderator_id == $user->id){
+                    $recipient = User::where('id', $conversation->participant_id)
+                    ->where(function ($query) use($request){
+                        return $query->where('first_name','LIKE',"%{$request->search}%")
                         ->orWhere('last_name','LIKE',"%{$request->search}%")
                         ->orWhere('email','LIKE',"%{$request->search}%");
-                })->get();
-            return response()->json([
-                'count' => count($users),
-                'users' => $users,
-            ]);
+                    })->first();
+                }else{
+                    $recipient = User::where('id', $conversation->moderator_id)
+                    ->where(function ($query) use($request){
+                        return $query->where('first_name','LIKE',"%{$request->search}%")
+                        ->orWhere('last_name','LIKE',"%{$request->search}%")
+                        ->orWhere('email','LIKE',"%{$request->search}%");
+                    })->first();
+                }
+                
+                if (!empty($recipient)) {
+                    $conversation->recipient = $recipient;
+                    $conversation->message = $conversation->getLastMessage();
+                    array_push($users, $conversation);
+                }
+            }
+        }
+
+        return [
+            'count' => count($users),
+            'conversations' => $users,
+        ];
+
         }else{
             return response()->json([
                 'error' => 'query required'

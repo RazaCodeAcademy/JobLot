@@ -28,7 +28,6 @@ Route::namespace('API')->group(function () {
     Route::post('send-otp', 'UserController@sendOTP');
     Route::post('verify-otp', 'UserController@verifyOTP');
     Route::post('reset-password', 'UserController@resetPassword');
-
 });
 
 Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function(){
@@ -70,9 +69,9 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function(){
     Route::post('/applied', 'EmployeeController@apply_job');
     Route::post('/applied-jobs-list', 'EmployeeController@applied_jobs_list');
     Route::post('/employee-add-experience', 'EmployeeController@add_experience');
+    Route::post('/employee-remove-experience', 'EmployeeController@remove_experience');
     Route::post('/employee-get-experience', 'EmployeeController@get_experience');
     Route::post('/employee-search-job', 'EmployeeController@search_job');
-    Route::post('/employee-search-chat-list', 'EmployeeController@search_chat_list');
 
     // JobController 
     Route::post('/all-job', 'JobController@all_job');

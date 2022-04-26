@@ -24,8 +24,7 @@ class Job extends Model
         'job_schedual_from',
         'job_schedual_to'
     ];
-
-
+    
     public function saved_jobs()
     {
         return $this->belongsToMany(User::class, 'saved_jobs', 'job_id', 'user_id');
@@ -53,5 +52,20 @@ class Job extends Model
     public function category()
     {
         return $this->belongsTo(EmployeeBussinessCategory::class, '	business_cat_id', 'id');
+    }
+
+    // employee shortlisted or not
+    public function isShortListed($user_id){
+        return EmployeeShortListed::where([['job_id', $this->id], ['user_id', $user_id]])->first() ? 1 : 0;
+    }
+
+    // employee savedlisted or not
+    public function isSavedListed($user_id){
+        return SavedJob::where([['job_id', $this->id], ['user_id', $user_id]])->first() ? 1 : 0;
+    }
+
+    // employee appliedlisted or not
+    public function isAppliedListed($user_id){
+        return EmployeeAppliedJob::where([['job_id', $this->id], ['user_id', $user_id]])->first() ? 1 : 0;
     }
 }

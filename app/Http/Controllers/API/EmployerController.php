@@ -37,9 +37,10 @@ class EmployerController extends Controller
         ], 200);
     }
 
-    public function jobList(){
+    public function jobList(Request $request){
 
-        $jobs = Job::where('employer_id', Auth::id())
+        $user_id = $request->user_id ? $request->user_id : Auth::id();
+        $jobs = Job::where('employer_id', $user_id)
         ->orderBy('id', 'DESC')
         ->get();
         
@@ -70,7 +71,7 @@ class EmployerController extends Controller
         $shortListed = EmployeeShortListed::where('job_id', $request->id)->count();
         
         return response()->json([
-            'selectedJob' => $selectedJob,
+            'selectedJob' => getJob($selectedJob, user()->id),
             'total_applied' => $applied,
             'total_short_listed' => $shortListed,
         ], 200);

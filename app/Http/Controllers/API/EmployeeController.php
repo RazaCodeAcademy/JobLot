@@ -13,6 +13,7 @@ use App\Models\User;
 
 // use facades
 use Auth;
+use DB;
 
 class EmployeeController extends Controller
 {
@@ -114,6 +115,13 @@ class EmployeeController extends Controller
     }
 
     public function search_job(Request $request){
+        $latitude = user()->latitude;
+        $longitude = user()->longitude;
+        $distance = $request->distance;
+        $city = $request->city;
+        
+        $jobs_array = [];
+        
         $jobs = Job::where(function ($query) use($request){
             return $query->where('title', 'LIKE', '%'.$request->search.'%')
             ->orWhere('comp_name', 'LIKE', '%'.$request->search.'%')
@@ -121,9 +129,35 @@ class EmployeeController extends Controller
             ->orWhere('job_qualification', 'LIKE', '%'.$request->search.'%');
         })->get();
 
+        if(!empty($distance)){
+            foreach($jobs as $job){
+                $user = User::find($job->employer_id);
+                $user = $user->select("*", DB::raw("3959 * acos(cos(radians(" . $latitude . "))
+                        * cos(radians(latitude)) * cos(radians(longitude) - radians(" . $longitude . "))
+                        + sin(radians(" .$latitude. ")) * sin(radians(latitude)) <= ".$distance.") AS distance"));
+                $user = $user->first();
+    
+                if(!empty($user)){
+                    array_push($jobs_array, $job);
+                }
+            }
+        }
+
+        if(!empty($city)){
+            foreach($jobs as $job){
+                $user = User::where(function ($query) use($city){
+                    return $query->where('city_name', 'LIKE', '%'.$city.'%');
+                })->where('id', $job->employer_id)->first();
+                
+                if(!empty($user)){
+                    array_push($jobs_array, $job);
+                }
+            }
+        }
+
         return response()->json([
-            'count' => count($jobs),
-            'jobs' => $jobs,
+            'count' => count($jobs_array),
+            'jobs' => $jobs_array,
         ], 200);
     }
 

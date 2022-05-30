@@ -87,11 +87,18 @@ if(!function_exists('getJob'))
 {
     function getJob($jobs, $id)
     {
-        foreach ($jobs as $job) {
-            $job->saved = $job->isSavedListed($id);
-            $job->shortListed = $job->isShortListed($id);
-            $job->applied = $job->isAppliedListed($id);
+        if(is_countable($jobs)){
+            foreach ($jobs as $job) {
+                $job->saved = $job->isSavedListed($id);
+                $job->shortListed = $job->isShortListed($id);
+                $job->applied = $job->isAppliedListed($id);
+            }
+            return $jobs;
+        }else{
+            $jobs->saved = $jobs->isSavedListed($id);
+            $jobs->shortListed = $jobs->isShortListed($id);
+            $jobs->applied = $jobs->isAppliedListed($id);
+            return $jobs;
         }
-        return $jobs;
     }
 }

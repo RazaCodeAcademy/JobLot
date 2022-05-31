@@ -38,6 +38,9 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function(){
         Route::post('/send-message', 'ConversationController@sendMessage')->name('sendMessage');
         Route::post('/list', 'ConversationController@getConversationList')->name('getConversationList');
         Route::post('/get-chat', 'ConversationController@getConversationChat')->name('getConversationChat');
+        Route::post('/is_read', 'ConversationController@checkreadMessage')->name('checkReadMessage');
+        Route::post('/read_message', 'ConversationController@readMessage')->name('ReadMessage');
+        Route::post('/delete', 'ConversationController@delete_conversation')->name('DeleteConversation');
     }); 
     
     // Employer Controller routes
@@ -72,6 +75,8 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function(){
     Route::post('/employee-remove-experience', 'EmployeeController@remove_experience');
     Route::post('/employee-get-experience', 'EmployeeController@get_experience');
     Route::post('/employee-search-job', 'EmployeeController@search_job');
+    Route::post('/employee-delete-savedjob', 'EmployeeController@delete_saved_jobs');
+    Route::post('/employee-delete-applied-job', 'EmployeeController@delete_applied_jobs');
 
     // JobController 
     Route::post('/all-job', 'JobController@all_job');

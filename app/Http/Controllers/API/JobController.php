@@ -89,10 +89,10 @@ class JobController extends Controller
         $user = user();
         $jobs = Job::orderBy('id', 'DESC')->get();
 
-        $appliedJob = EmployeeAppliedJob::where('user_id', $user->id)
+        $appliedJob = EmployeeAppliedJob::orderBy('created_at', 'DESC')->where('user_id', $user->id)
         ->pluck('job_id');
 
-        $savedJob = SavedJob::orderBy('created_at')
+        $savedJob = SavedJob::orderBy('created_at', 'DESC')
         ->where('user_id', $user->id)
         ->pluck('job_id');
 
@@ -120,11 +120,15 @@ class JobController extends Controller
     // get employee saved job list
     public function employee_get_saved_job(Request $request){
         $user = Auth::user();
-        $jobs = getJob($user->saved_jobs, $user->id);
+
+        $saved_jobs = SavedJob::orderBy('id', 'DESC')->where('user_id', $user->id)->pluck('job_id');
+        
+        $jobs = formatJob($saved_jobs);
+        $jobs = getJob($jobs, $user->id);
         
         return response()->json([
-            'count' => count($user->saved_jobs),
-            'saved_jobs' => $user->saved_jobs,
+            'count' => count($jobs),
+            'saved_jobs' => $jobs,
         ], 200);
         
     }

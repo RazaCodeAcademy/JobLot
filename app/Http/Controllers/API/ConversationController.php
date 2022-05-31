@@ -83,6 +83,7 @@ class ConversationController extends Controller
 
     public function searchUser(Request $request){
         $users = [];
+        $total_unread = 0;
         if($request->search != ''){
             $user = Auth::user();
             $conversation_ids = Participant::select('conversation_id')->where([
@@ -112,6 +113,13 @@ class ConversationController extends Controller
                 if (!empty($recipient)) {
                     $conversation->recipient = $recipient;
                     $conversation->message = $conversation->getLastMessage();
+                    $message_unread = Message::where([['conversation_id', $conversation->id],
+                    ['user_id', '!=', Auth::user()->id]])
+                    ->where('is_read',0)
+                    ->get();
+                    $message_unread = count($message_unread);
+                    $total_unread += $message_unread;
+                    $conversation->unread_counts = $message_unread;
                     array_push($users, $conversation);
                 }
             }
@@ -119,6 +127,7 @@ class ConversationController extends Controller
 
         return [
             'count' => count($users),
+            'total_unread' => $total_unread,
             'conversations' => $users,
         ];
 
@@ -131,6 +140,7 @@ class ConversationController extends Controller
 
     public function getConversationList(Request $request){
         $user = Auth::user();
+        $total_unread = 0;
         $conversation_ids = Participant::select('conversation_id')->where([
             ['user_id', $user->id]
         ])->get();
@@ -144,11 +154,19 @@ class ConversationController extends Controller
                     $conversation->recipient = User::find($conversation->moderator_id);
                 }
                 $conversation->message = $conversation->getLastMessage();
+                $message_unread = Message::where([['conversation_id', $conversation->id],
+                ['user_id', '!=', Auth::user()->id]])
+                ->where('is_read',0)
+                ->get();
+                $message_unread = count($message_unread);
+                $total_unread += $message_unread;
+                $conversation->unread_counts = $message_unread;
             }
         }
 
         return [
             'count' => count($conversations),
+            'total_unread' => $total_unread,
             'conversations' => $conversations,
         ];
     }
@@ -172,4 +190,80 @@ class ConversationController extends Controller
         ]);
             }
     }
+
+    public function checkreadMessage(Request $request)
+    {
+        // $check = Message::where([['id', $request->id],['conversation_id', $request->conversation_id]])->where('is_read',0)->first();
+        // $total_unread = Message::where('user_id',Auth::user()->id)->where('is_read',0)->get();
+        $total_unread = Message::where([['conversation_id', $request->conversation_id],
+        ['user_id','!=',Auth::user()->id]])
+        ->where('is_read',0)
+        ->get();
+
+        if($total_unread){
+            return response()->json([
+                'Total Unread_Message' => count($total_unread),
+                'success' => true,
+                'message' => 'These messages are unRead'
+            ], 200);
+  
+        }
+        else{
+            return response()->json([
+                'success' => false,
+                'message' => 'This message is Read'
+            ], 200);
+        }
+        
+    }
+
+    public function readMessage(Request $request)
+    {
+        $unread_messages = Message::where('conversation_id', $request->conversation_id)
+        ->where('user_id', "!=", Auth::user()->id)
+        ->where('is_read',0)
+        ->get();
+
+        foreach ($unread_messages as $key => $message) {
+            $message->update(['is_read' => 1]);
+        }
+
+
+        if($unread_messages){
+            return response()->json([
+                'success' => true,
+                'message' => 'These messages are Read'
+            ], 200);
+  
+        }
+        else{
+            return response()->json([
+                'success' => false,
+                'message' => 'This message is unread'
+            ], 200);
+        }
+
+    }
+
+    public function delete_conversation(Request $request){
+        $conversation = Conversation::where([['id', $request->id]])->first();
+        $messages =Message::where('conversation_id',$request->id)
+        ->where('user_id', '!=' ,Auth::user()->id)->get();
+        foreach ($messages as $key => $value) {
+           $value->delete();
+        }
+        if($conversation->delete()){
+            return response()->json([
+                'success' => true,
+                'message' => 'Conversation has been deleted successfuly!'
+            ], 200);
+        }
+        else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong please try again!'
+            ], 400);
+        }
+    }
+    
 }

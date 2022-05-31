@@ -18,6 +18,7 @@ class CreateMessagesTable extends Migration
             $table->string('user_id');
             $table->string('conversation_id');
             $table->text('text');
+            $table->string('is_read')->default(0)->comment('1 means read 0 means unread');
             $table->timestamps();
         });
     }

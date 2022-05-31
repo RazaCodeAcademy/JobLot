@@ -10,6 +10,7 @@ use App\Models\Job;
 use App\Models\EmployeeAppliedJob;
 use App\Models\EmployeeExperience;
 use App\Models\User;
+use App\Models\SavedJob;
 
 // use facades
 use Auth;
@@ -44,8 +45,8 @@ class EmployeeController extends Controller
     public function applied_jobs_list()
     {
         $user = Auth::user();
-        $appliedJob = EmployeeAppliedJob::where('user_id', $user->id)->pluck('job_id');
-        $jobs = Job::orderBy('id', 'DESC')->whereIn('id', $appliedJob->toArray())->get();
+        $appliedJob = EmployeeAppliedJob::orderBy('created_at', 'DESC')->where('user_id', $user->id)->pluck('job_id');
+        $jobs = formatJob($appliedJob);
         $jobs = getJob($jobs, $user->id);
         return response()->json([
             'applied_jobs_list' => $jobs,
@@ -159,6 +160,33 @@ class EmployeeController extends Controller
             'count' => count($jobs_array),
             'jobs' => $jobs_array,
         ], 200);
+    }
+    public function delete_saved_jobs(Request $request){
+        $saved_job = SavedJob::where([['job_id', $request->job_id], ['user_id', user()->id]])->first();
+        if($saved_job->delete()){
+            return response()->json([
+                'success' => true,
+                'message' => 'Saved Job has been deleted successfuly!'
+            ], 200);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Something went wrong please try again!'
+        ], 400);
+    }
+
+    public function delete_applied_jobs(Request $request){
+        $applied_job = EmployeeAppliedJob::where([['job_id', $request->job_id], ['user_id', user()->id]])->first();
+        if($applied_job->delete()){
+            return response()->json([
+                'success' => true,
+                'message' => 'Applied Job has been deleted successfuly!'
+            ], 200);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Something went wrong please try again!'
+        ], 400);
     }
 
 } 

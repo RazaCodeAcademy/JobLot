@@ -3,6 +3,7 @@
 // use facades
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\Job;
 use Illuminate\Support\Facades\Auth;
 
 // send notifications
@@ -100,5 +101,22 @@ if(!function_exists('getJob'))
             $jobs->applied = $jobs->isAppliedListed($id);
             return $jobs;
         }
+    }
+}
+
+// get current url name
+if(!function_exists('formatJob'))
+{
+    function formatJob($jobs)
+    {
+        $jobs_array = [];
+        foreach ($jobs as $key => $value) {
+            $job = Job::find($value);
+            if($job){
+                array_push($jobs_array, $job);
+            }
+        }
+
+        return $jobs_array;
     }
 }

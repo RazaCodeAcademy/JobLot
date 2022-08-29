@@ -24,8 +24,13 @@ class UserController extends Controller
         // return $request;
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
+            $user->fcm_token = $request->fcm_token;
+            $user->update();
             $success['token'] =  $user->createToken('MyApp')-> accessToken;
-            return response()->json(['success' => $success], $this->successStatus);
+            return response()->json([
+                'success' => $success,
+                'role' => $user->roles->first()->name,
+            ], $this->successStatus);
         }
         else{
             return response()->json(['error' => 'Unauthorised'], 401);
@@ -91,6 +96,7 @@ class UserController extends Controller
             'city_name' => $request->city_name,
             'state_id' => $request->state_id,
             'zip_code' => $request->zip_code,
+            'fcm_token' => $request->fcm_token,
             'terms_and_conditions' => $request->terms_and_conditions,
             'email' => $request->email,
             'phone_number' => $request->phone_number,
@@ -260,6 +266,7 @@ class UserController extends Controller
             'city_name' => $request->city_name,
             'state_id' => $request->state_id,
             'zip_code' => $request->zip_code,
+            'fcm_token' => $request->fcm_token,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'terms_and_conditions' => $request->terms_and_conditions,

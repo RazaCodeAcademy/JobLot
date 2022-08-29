@@ -123,8 +123,8 @@ class JobController extends Controller
         $jobs = getJob($user->saved_jobs, $user->id);
         
         return response()->json([
-            'count' => count($user->saved_jobs),
-            'saved_jobs' => $user->saved_jobs,
+            'count' => count($jobs),
+            'saved_jobs' => $jobs,
         ], 200);
         
     }

@@ -136,19 +136,30 @@ class ConversationController extends Controller
         ])->get();
 
         $conversations = Conversation::whereIn('id',$conversation_ids)->orderBy('updated_at', 'desc')->get();
+        $totalUnread = 0;
         if($conversations){
             foreach($conversations as $conversation){
+                $unread_counts = 0;
                 if($conversation->moderator_id == $user->id){
                     $conversation->recipient = User::find($conversation->participant_id);
                 }else{
                     $conversation->recipient = User::find($conversation->moderator_id);
                 }
                 $conversation->message = $conversation->getLastMessage();
+                foreach ($conversation->messages as $key => $message) {
+                    if($message->is_read != 1 && $user->id != $message->user_id){
+                        $totalUnread++;
+                        $unread_counts++;
+                    }
+                }
+                $conversation->unread_counts = $unread_counts;
             }
+
         }
 
         return [
             'count' => count($conversations),
+            'totalUnread' => $totalUnread,
             'conversations' => $conversations,
         ];
     }
@@ -171,5 +182,29 @@ class ConversationController extends Controller
             'messages' => [],
         ]);
             }
+    }
+
+    public function readMessage(Request $request)
+    {
+        $messages = Message::where('conversation_id', $request->conversation_id)
+        ->where('user_id', '!=', Auth::id())
+        ->get();
+
+        if(count($messages) < 1){
+            return response()->json([
+                'success' => true,
+                'message' => 'There is no meesage to read against your request!',
+            ]);
+        }
+
+        foreach ($messages as $message) {
+            $message->is_read = 1;
+            $message->update();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Messages read successfuly!',
+        ]);
     }
 }

@@ -53,8 +53,8 @@ class EmployerController extends Controller
     public function latestJobs(Request $request ){
 
         $job = Job::where('employer_id', Auth::id())->orderBy('id', 'DESC')->first();
-        $applied = EmployeeAppliedJob::where('job_id', $request->id)->count();
-        $shortListed = EmployeeShortListed::where('job_id', $request->id)->count();
+        $applied = EmployeeAppliedJob::where('job_id', $job->id)->count();
+        $shortListed = EmployeeShortListed::where('job_id', $job->id)->count();
         
 
         return response()->json([
@@ -88,13 +88,14 @@ class EmployerController extends Controller
    
     public function singleJobAplicantList(Request $request)
     {
-        // return $request->job_id;
-        $singleJobAplicantList = EmployeeAppliedJob::where('job_id', $request->job_id)
+        $singleJobAplicantList = [];
+        $ids = EmployeeAppliedJob::where('job_id', $request->job_id)
+        ->orderBy('id', 'desc')
         ->pluck('user_id');
 
-        $singleJobAplicantList = User::orderBy('created_at', 'desc')
-        ->whereIn('id', $singleJobAplicantList->toArray())
-        ->get();
+        foreach($ids->toArray() as $id){
+            array_push($singleJobAplicantList, User::find($id));
+        }
 
         // get user is applied on job shortlisted and savedlisted
         $singleJobAplicantList = getUser($singleJobAplicantList, $request->job_id);
@@ -284,11 +285,11 @@ class EmployerController extends Controller
     {
         $user = Auth::user();
 
-        $shortListed = EmployeeShortListed::where('job_id', $request->job_id)
+        $shortListed = EmployeeShortListed::orderBy('created_at', 'desc')
+        ->where('job_id', $request->job_id)
         ->pluck('user_id');
 
-        $shortListed = User::orderBy('created_at', 'desc')
-        ->whereIn('id', $shortListed)
+        $shortListed = User::whereIn('id', $shortListed)
         ->get();
 
         // get user is applied on job shortlisted and savedlisted

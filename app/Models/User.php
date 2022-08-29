@@ -28,6 +28,7 @@ class User extends Authenticatable
         'city_name', 
         'state_id', 
         'zip_code', 
+        'fcm_token',
         'terms_and_conditions', 
         'email', 
         'password', 
@@ -65,7 +66,7 @@ class User extends Authenticatable
     // protected $appends = ['saved', 'shortListed', 'applied'];
 
     // public function getSavedAttribute(){
-    //     return $this->isSavedListed()
+    //     return $this->isSavedListed();
     // }
 
     public function get_name(){

@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function(){
         Route::post('/send-message', 'ConversationController@sendMessage')->name('sendMessage');
         Route::post('/list', 'ConversationController@getConversationList')->name('getConversationList');
         Route::post('/get-chat', 'ConversationController@getConversationChat')->name('getConversationChat');
+        Route::post('/read_message', 'ConversationController@readMessage')->name('ReadMessage');
     }); 
     
     // Employer Controller routes

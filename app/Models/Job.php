@@ -24,6 +24,17 @@ class Job extends Model
         'job_schedual_from',
         'job_schedual_to'
     ];
+
+    // append keys with object
+    protected $appends = array('fcm_token');
+
+    // generate key
+    public function getFcmTokenAttribute()
+    {
+        $fcm_token = $this->user ? $this->user->fcm_token : '';
+        unset($this->user);
+        return $fcm_token;  
+    }
     
     public function saved_jobs()
     {

@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('city_name');
             $table->string('state_id');
             $table->string('zip_code');
+            $table->string('fcm_token')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('email')->unique();

@@ -150,9 +150,9 @@ class ConversationController extends Controller
         $revceiver_id = $request->revceiver_id;
         $send_by = $request->send_by;
         if($send_by == 1){
-            $conversation = Conversation::where('user_id', $revceiver_id)->first();
-        }else{
             $conversation = Conversation::where('job_id', $revceiver_id)->first();
+        }else{
+            $conversation = Conversation::where('user_id', $revceiver_id)->first();
         }
         
         if($conversation){

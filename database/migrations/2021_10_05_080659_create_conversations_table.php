@@ -15,8 +15,11 @@ class CreateConversationsTable extends Migration
     {
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
-            $table->string('moderator_id');
-            $table->string('participant_id');
+            $table->string('job_id');
+            $table->string('user_id');
+            $table->string('name');
+            $table->boolean('deleted_by_employer')->default(0);
+            $table->boolean('deleted_by_employer')->default(0);
             $table->timestamps();
         });
     }

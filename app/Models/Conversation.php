@@ -11,9 +11,18 @@ class Conversation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'moderator_id',
-        'participant_id',
+        'name',
+        'job_id',
+        'user_id',
+        'deleted_by_employee',
+        'deleted_by_employer',
     ];
+
+    protected $appends = ['image'];
+
+    public function getImageAttribute(){
+        return User::find($this->user_id)->get_image();
+    }
 
     public function messages()
     {

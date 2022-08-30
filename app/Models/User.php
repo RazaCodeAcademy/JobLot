@@ -63,12 +63,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // protected $appends = ['saved', 'shortListed', 'applied'];
-
-    // public function getSavedAttribute(){
-    //     return $this->isSavedListed();
-    // }
-
     public function get_name(){
         if(!empty($this->first_name) && !empty($this->last_name)){
             return $this->first_name.' '.$this->last_name;

@@ -15,6 +15,8 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->string('send_by')->comment('1:Employee 2:Employer');
+            $table->string('job_id');
             $table->string('user_id');
             $table->string('conversation_id');
             $table->text('text');

@@ -34,11 +34,10 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function(){
 
     // conversation routes here.
     Route::prefix('conversation')->group(function () {
-        Route::post('/search-user', 'ConversationController@searchUser')->name('searchUser');
+        Route::post('/search-conversation', 'ConversationController@searchConversation')->name('searchConversation');
         Route::post('/send-message', 'ConversationController@sendMessage')->name('sendMessage');
         Route::post('/list', 'ConversationController@getConversationList')->name('getConversationList');
         Route::post('/get-chat', 'ConversationController@getConversationChat')->name('getConversationChat');
-        Route::post('/is_read', 'ConversationController@checkreadMessage')->name('checkReadMessage');
         Route::post('/read_message', 'ConversationController@readMessage')->name('ReadMessage');
         Route::post('/delete', 'ConversationController@delete_conversation')->name('DeleteConversation');
     }); 

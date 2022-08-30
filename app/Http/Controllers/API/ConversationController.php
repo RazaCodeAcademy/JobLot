@@ -8,20 +8,18 @@ use Illuminate\Http\Request;
 
 // use model class here
 use App\Models\User;
+use App\Models\Job;
 use App\Models\Message;
 use App\Models\Conversation;
 use App\Models\Participant;
 
 class ConversationController extends Controller
 {
-    public function checkConversationExist($participantId){
+    public function checkConversationExist($job_id, $user_id){
         $user = Auth::user();
         $conversation = Conversation::where([
-                ['moderator_id', $user->id],
-                ['participant_id', $participantId],
-            ])->orWhere([
-                ['moderator_id', $participantId],
-                ['participant_id', $user->id],
+                ['job_id', $job_id],
+                ['user_id', $user_id],
             ])->first();
 
         if($conversation){
@@ -31,25 +29,36 @@ class ConversationController extends Controller
         }
     }
 
+    public function getName($job_id, $user_id){
+        $job_title = Job::find($job_id)->title;
+        $user_name = User::find($user_id)->first_name;
+        return $user_name. ',' .$job_title;
+    }
+
     public function sendMessage(Request $request){
-        $user = Auth::user();
-        $participantId = $request->participant_id;
+        $user_id = $request->user_id;
+        $job_id = $request->job_id;
+        $send_by = $request->send_by;
         $message = $request->message;
 
-        $conversation = $this->checkConversationExist($participantId);
+        $conversation = $this->checkConversationExist($job_id, $user_id);
         
         if($conversation){
             $message = [
-                'user_id' => $user->id,
+                'user_id' => $user_id,
+                'job_id' => $job_id,
+                'send_by' => $send_by,
                 'conversation_id' => $conversation->id,
                 'text' => $message,
             ];
 
             $msg = Message::create($message);
-
+            $conversation->user_id = $user_id;
+            $conversation->update();
+            
             notifications(
                 null,
-                $participantId, 
+                $send_by == 1 ? $user_id : $job_id,
                 Conversation::class, 
                 "sends message to you at: (". date('d-M-y') .")"
             );
@@ -57,22 +66,23 @@ class ConversationController extends Controller
             return $msg;
         }else{
             $conversation = Conversation::create([
-                'moderator_id' => $user->id,
-                'participant_id' => $participantId,
+                'user_id' => $user_id,
+                'job_id' => $job_id,
+                'name' => $this->getName($job_id, $user_id),
             ]);
             $message = [
-                'user_id' => $user->id,
+                'user_id' => $user_id,
+                'job_id' => $job_id,
+                'send_by' => $send_by,
                 'conversation_id' => $conversation->id,
                 'text' => $message,
             ];
-
-            $conversation->recipient()->attach([$participantId, $user->id]);
 
             $msg = Message::create($message);
 
             notifications(
                 null,
-                $participantId, 
+                $send_by == 1 ? $user_id : $job_id, 
                 Conversation::class, 
                 "sends message to you at: (". date('d-M-y') .")"
             );
@@ -81,77 +91,32 @@ class ConversationController extends Controller
         }
     }
 
-    public function searchUser(Request $request){
-        $users = [];
+    public function searchConversation(Request $request){
+        $send_by = $request->send_by;
         if($request->search != ''){
-            $user = Auth::user();
-            $conversation_ids = Participant::select('conversation_id')->where([
-                ['user_id', $user->id]
-            ])->get();
-
-        $conversations = Conversation::whereIn('id',$conversation_ids)->orderBy('updated_at', 'desc')->get();
-        if($conversations){
-            foreach($conversations as $conversation){
-                $recipient = '';
-                if($conversation->moderator_id == $user->id){
-                    $recipient = User::where('id', $conversation->participant_id)
-                    ->where(function ($query) use($request){
-                        return $query->where('first_name','LIKE',"%{$request->search}%")
-                        ->orWhere('last_name','LIKE',"%{$request->search}%")
-                        ->orWhere('email','LIKE',"%{$request->search}%");
-                    })->first();
-                }else{
-                    $recipient = User::where('id', $conversation->moderator_id)
-                    ->where(function ($query) use($request){
-                        return $query->where('first_name','LIKE',"%{$request->search}%")
-                        ->orWhere('last_name','LIKE',"%{$request->search}%")
-                        ->orWhere('email','LIKE',"%{$request->search}%");
-                    })->first();
-                }
-                
-                if (!empty($recipient)) {
-                    $conversation->recipient = $recipient;
-                    $conversation->message = $conversation->getLastMessage();
-                    array_push($users, $conversation);
-                }
-            }
-        }
-
-        return [
-            'count' => count($users),
-            'conversations' => $users,
-        ];
-
+            $conversations = Conversation::where('name','LIKE',"%{$request->search}%")->get();
+            return $this->get_list($conversations, $send_by);
         }else{
-            return response()->json([
-                'error' => 'query required'
-            ]);
+            return [
+                'success' => false,
+                'message' => 'You must have to enter something! '
+            ];
         }
     }
 
-    public function getConversationList(Request $request){
-        $user = Auth::user();
-        $conversation_ids = Participant::select('conversation_id')->where([
-            ['user_id', $user->id]
-        ])->get();
-
-        $conversations = Conversation::whereIn('id',$conversation_ids)->orderBy('updated_at', 'desc')->get();
+    public function get_list($conversations, $send_by){
         $totalUnread = 0;
         if($conversations){
             foreach($conversations as $conversation){
                 $unread_counts = 0;
-                if($conversation->moderator_id == $user->id){
-                    $conversation->recipient = User::find($conversation->participant_id);
-                }else{
-                    $conversation->recipient = User::find($conversation->moderator_id);
-                }
-                $conversation->message = $conversation->getLastMessage();
+                $conversation->last_message = $conversation->getLastMessage();
                 foreach ($conversation->messages as $key => $message) {
-                    if($message->is_read != 1 && $user->id != $message->user_id){
+                    if($message->is_read != 1 && $message->send_by != $send_by){
                         $totalUnread++;
                         $unread_counts++;
                     }
                 }
+                unset($conversation->messages);
                 $conversation->unread_counts = $unread_counts;
             }
 
@@ -164,15 +129,33 @@ class ConversationController extends Controller
         ];
     }
 
+    public function getConversationList(Request $request){
+        $sender_id = $request->sender_id;
+        $send_by = $request->send_by;
+        if($send_by == 1){
+            $conversations = Conversation::where('user_id', $sender_id)
+            ->where('deleted_by_employee', 0)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+        }else{
+            $conversations = Conversation::where('job_id', $sender_id)
+            ->where('deleted_by_employer', 0)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+        }
+        return $this->get_list($conversations, $send_by);
+    }
+
     public function getConversationChat(Request $request){
-        $conversation = Conversation::where([
-            ['participant_id', $request->participant_id],
-            ['moderator_id', Auth::Id()],
-        ])->orWhere([
-            ['participant_id', Auth::Id()],
-            ['moderator_id', $request->participant_id],
-        ])->first();
-            if($conversation){
+        $revceiver_id = $request->revceiver_id;
+        $send_by = $request->send_by;
+        if($send_by == 1){
+            $conversation = Conversation::where('user_id', $revceiver_id)->first();
+        }else{
+            $conversation = Conversation::where('job_id', $revceiver_id)->first();
+        }
+        
+        if($conversation){
                  return response()->json([
             'messages' => $conversation->messages,
         ]);
@@ -205,6 +188,29 @@ class ConversationController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Messages read successfuly!',
+        ]);
+    }
+    
+    public function delete_conversation(Request $request)
+    {
+        $conversation = Conversation::find($request->id);
+
+        if($conversation){
+            if ($request->send_by == 1) {
+                $conversation->deleted_by_employee = true;
+            }else{
+                $conversation->deleted_by_employer = true;
+            }
+            $conversation->update();
+            return response()->json([
+                'success' => false,
+                'message' => 'Conversation deleted successfuly!',
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'There is no conversation against your query!',
         ]);
     }
 }
